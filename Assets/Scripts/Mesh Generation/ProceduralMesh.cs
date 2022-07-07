@@ -68,16 +68,18 @@ namespace QuinnMeshes
             {
                 foreach (Vertex vertex in item.vertices)
                 {
-                    //if (!vertices.Contains(vertex.position))
-                    //{
-                    //    vertices.Add(vertex.position);
-                    //    uvs.Add(vertex.uv);
-                    //}
-                    //tris.Add(vertices.IndexOf(vertex.position));
+                    // *- UNIQUE VERTEX VERSION -*
+                    if (!vertices.Contains(vertex.position))
+                    {
+                        vertices.Add(vertex.position);
+                        uvs.Add(vertex.uv);
+                    }
+                    tris.Add(vertices.IndexOf(vertex.position));
 
-                    vertices.Add(vertex.position);
-                    uvs.Add(vertex.uv);
-                    tris.Add(vertices.Count - 1);
+                    // *- BASIC VERSION -*
+                    //vertices.Add(vertex.position);
+                    //uvs.Add(vertex.uv);
+                    //tris.Add(vertices.Count - 1);
                 }
             }
 

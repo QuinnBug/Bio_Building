@@ -28,7 +28,6 @@ namespace QuinnMeshes
                 mRenderer = gameObject.AddComponent<MeshRenderer>();
             }
 
-            mRenderer.material = Resources.Load<Material>("Floor");
         }
 
         public void SetMesh(QMesh newMesh) 
