@@ -6,7 +6,7 @@ namespace QuinnMeshes
 {
     public class QMeshComponent : MonoBehaviour
     {
-        QMesh qMesh;
+        public QMesh qMesh;
         MeshFilter mFilter;
         MeshRenderer mRenderer;
         MeshCollider mCollider;

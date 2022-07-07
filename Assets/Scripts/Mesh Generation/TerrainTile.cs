@@ -56,7 +56,7 @@ public class TerrainTile : MonoBehaviour
                 Triangle tri = new Triangle(points[x][z], points[x][z + 1], points[x + 1][z + 1]);
                 qMesh.triangles.Add(tri);
 
-                // bottom left, top right, bottom left
+                // bottom left, top right, bottom right
                 Triangle tri1 = new Triangle(points[x + 1][z + 1], points[x + 1][z], points[x][z]);
                 qMesh.triangles.Add(tri1);
             }

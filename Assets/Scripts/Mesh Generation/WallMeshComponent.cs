@@ -38,23 +38,160 @@ public class WallMeshComponent : MonoBehaviour
 
         // calculate how many sections of wall there needs to be - x and y
 
-        Vector2 sectionCount = new Vector2();
+        Vector2 sectionData = new Vector2();
+        Vector2Int sectionCount = new Vector2Int();
         Vector2 overflow = new Vector2();
 
         // fullDistance / baseSectionSize.x = sectionCount.x and overFlow.x
-        sectionCount.x = fullDistance / baseSectionSize.x;
-        overflow.x = sectionCount.x % 1;
-        sectionCount.x -= overflow.x;
+        sectionData.x = fullDistance / baseSectionSize.x;
+        overflow.x = sectionData.x % 1;
+        sectionCount.x = (int)(sectionData.x - overflow.x);
 
         // height / baseSectionSize.y = sectionCount.y and overFlow.y
-        sectionCount.y = height / baseSectionSize.y;
-        overflow.y = sectionCount.y % 1;
-        sectionCount.y -= overflow.y;
+        sectionData.y = height / baseSectionSize.y;
+        overflow.y = sectionData.y % 1;
+        sectionCount.y = (int)(sectionData.y - overflow.y);
 
-        Vector3 sectionSize = new Vector3();
-        sectionSize.x = baseSectionSize.x + ((overflow.x / sectionCount.x) * baseSectionSize.x);
-        sectionSize.y = baseSectionSize.y + ((overflow.y / sectionCount.y) * baseSectionSize.y);
+        Vector3 sectionSize = baseSectionSize;
+        sectionSize.x += ((overflow.x / sectionData.x) * baseSectionSize.x);
+        sectionSize.y += ((overflow.y / sectionData.y) * baseSectionSize.y);
 
-        // for each section set vertices and type (basically wall or window?)
+        // bottom left vertex to top right vertex - front
+        List<Vertex> frontVertices = new List<Vertex>();
+        for (int y = 0 ; y <= sectionData.y; y++)
+        {
+            for (int x = 0; x <= sectionData.x; x++)
+            {
+                Vertex v = new Vertex(
+                    localStart + new Vector3(x * sectionSize.x, y * sectionSize.y, sectionSize.z/2),
+                    new Vector2(x / sectionCount.x, y / sectionCount.y));
+                frontVertices.Add(v);
+            }
+        }
+
+        // bottom left vertex to top right vertex - back (the x is inverted because it's 180 degrees)
+        List<Vertex> backVertices = new List<Vertex>();
+        for (int y = 0; y <= sectionData.y; y++)
+        {
+            for (int x = (int)sectionData.x; x >= 0; x--)
+            {
+                Vertex v = new Vertex(
+                    new Vector3(x * sectionSize.x, y * sectionSize.y, -sectionSize.z/2),
+                    new Vector2(x / sectionData.x, y / sectionData.y));
+                backVertices.Add(v);
+            }
+        }
+
+        #region Triangles
+        //triangles come in pairs to form quads
+        // tri = bottom left, top left, top right
+        // tri1 = bottom left, top right, bottom right
+
+        int maxX = sectionCount.x - 1;
+        int maxY = sectionCount.y - 1;
+
+        //front
+        for (int y = 0; y < sectionData.y; y++)
+        {
+            for (int x = 0; x < sectionData.x; x++)
+            {
+                Triangle tri = new Triangle(
+                    frontVertices[x + (y * sectionCount.x)],
+                    frontVertices[x + ((y + 1) * sectionCount.x)],
+                    frontVertices[(x + 1) + ((y + 1) * sectionCount.x)]);
+                qMeshComp.qMesh.triangles.Add(tri);
+
+                Triangle tri1 = new Triangle(
+                    frontVertices[x + (y * sectionCount.x)],
+                    frontVertices[(x + 1) + ((y + 1) * sectionCount.x)],
+                    frontVertices[(x + 1) + (y * sectionCount.x)]);
+                qMeshComp.qMesh.triangles.Add(tri1);
+            }
+        }
+
+        //left
+        for (int y = 0; y < sectionData.y; y++)
+        {
+            Triangle tri = new Triangle(
+                backVertices[maxX + (y * sectionCount.x)],
+                backVertices[maxX + ((y + 1) * sectionCount.x)],
+                frontVertices[0 + ((y + 1) * sectionCount.x)]);
+            qMeshComp.qMesh.triangles.Add(tri);
+
+            Triangle tri1 = new Triangle(
+                backVertices[maxX + (y * sectionCount.x)],
+                frontVertices[0 + ((y + 1) * sectionCount.x)],
+                frontVertices[0 + (y * sectionCount.x)]);
+            qMeshComp.qMesh.triangles.Add(tri1);
+        }
+
+        //back
+        for (int y = 0; y < sectionData.y; y++)
+        {
+            for (int x = 0; x < sectionData.x; x++)
+            {
+                Triangle tri = new Triangle(
+                    backVertices[x + (y * sectionCount.x)],
+                    backVertices[x + ((y + 1) * sectionCount.x)],
+                    backVertices[(x + 1) + ((y + 1) * sectionCount.x)]);
+                qMeshComp.qMesh.triangles.Add(tri);
+
+                Triangle tri1 = new Triangle(
+                    backVertices[x + (y * sectionCount.x)],
+                    backVertices[(x + 1) + ((y + 1) * sectionCount.x)],
+                    backVertices[(x + 1) + (y * sectionCount.x)]);
+                qMeshComp.qMesh.triangles.Add(tri1);
+            }
+        }
+
+        //right
+        for (int y = 0; y < sectionData.y; y++)
+        {
+            Triangle tri = new Triangle(
+                    frontVertices[maxX + (y * sectionCount.x)],
+                    frontVertices[maxX + ((y + 1) * sectionCount.x)],
+                    backVertices[0 + ((y + 1) * sectionCount.x)]);
+            qMeshComp.qMesh.triangles.Add(tri);
+
+            Triangle tri1 = new Triangle(
+                frontVertices[maxX + (y * sectionCount.x)],
+                backVertices[0 + ((y + 1) * sectionCount.x)],
+                backVertices[0 + (y * sectionCount.x)]);
+            qMeshComp.qMesh.triangles.Add(tri1);
+        }
+
+        //top
+        for (int x = 0; x < sectionData.x; x++)
+        {
+            Triangle tri = new Triangle(
+                    frontVertices[(maxX - x) + (sectionCount.y * sectionCount.x)],
+                    frontVertices[(maxX - (x+1)) + (sectionCount.y * sectionCount.x)],
+                    backVertices[(x+1) + (sectionCount.y * sectionCount.x)]); 
+            qMeshComp.qMesh.triangles.Add(tri);
+
+            Triangle tri1 = new Triangle(
+                frontVertices[(maxX - x) + (sectionCount.y * sectionCount.x)],
+                backVertices[(x + 1) + (sectionCount.y * sectionCount.x)],
+                backVertices[x + (sectionCount.y * sectionCount.x)]);
+            qMeshComp.qMesh.triangles.Add(tri1);
+        }
+
+        //bottom
+        for (int x = 0; x < sectionData.x; x++)
+        {
+            Triangle tri = new Triangle(
+                    frontVertices[x + 0],
+                    frontVertices[x+1 + 0],
+                    backVertices[(maxX - (x+1)) + 0]);
+            qMeshComp.qMesh.triangles.Add(tri);
+
+            Triangle tri1 = new Triangle(
+                frontVertices[(maxX - x) + 0],
+                backVertices[(maxX - (x + 1)) + 0],
+                backVertices[(maxX - x) + 0]);
+            qMeshComp.qMesh.triangles.Add(tri1);
+        }
+
+        #endregion
     }
 }
