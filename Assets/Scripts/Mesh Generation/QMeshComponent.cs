@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,9 +8,9 @@ namespace QuinnMeshes
     public class QMeshComponent : MonoBehaviour
     {
         public QMesh qMesh;
-        MeshFilter mFilter;
-        MeshRenderer mRenderer;
-        MeshCollider mCollider;
+        internal MeshFilter mFilter;
+        internal MeshRenderer mRenderer;
+        internal MeshCollider mCollider;
 
         public void Init()
         {
@@ -28,6 +29,7 @@ namespace QuinnMeshes
                 mRenderer = gameObject.AddComponent<MeshRenderer>();
             }
 
+            qMesh = new QMesh();
         }
 
         public void SetMesh(QMesh newMesh) 
@@ -36,6 +38,15 @@ namespace QuinnMeshes
 
             mFilter.sharedMesh = qMesh.ConvertToMesh();
             mCollider.sharedMesh = mFilter.sharedMesh;
+        }
+
+        internal void GenerateMeshFromQ()
+        {
+            Mesh mesh = qMesh.ConvertToMesh();
+            mFilter.sharedMesh = mesh;
+            mCollider.sharedMesh = mFilter.sharedMesh;
+            mCollider.convex = true;
+            mRenderer.material = (Material)Resources.Load("Wall_Base");
         }
     }
 }

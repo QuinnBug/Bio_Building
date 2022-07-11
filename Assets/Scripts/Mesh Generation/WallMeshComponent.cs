@@ -1,11 +1,12 @@
 using QuinnMeshes;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class WallMeshComponent : MonoBehaviour
 {
-    public static Vector3 baseSectionSize = new Vector3(1.0f, 1.0f, 0.2f);
+    public static Vector3 baseSectionSize = new Vector3(0.25f, 0.25f, 0.05f);
     [Space]
     public Vector3 startPoint;
     public Vector3 endPoint;
@@ -17,8 +18,21 @@ public class WallMeshComponent : MonoBehaviour
 
     internal QMeshComponent qMeshComp;
 
-    MeshFilter meshFilter;
-    MeshCollider meshCollider;
+    public void SetValues(Vector3 firstPoint, Vector3 secondPoint, float _height) 
+    {
+        if (firstPoint.x > secondPoint.x)
+        {
+            startPoint = secondPoint;
+            endPoint = firstPoint;
+        }
+        else
+        {
+            startPoint = firstPoint;
+            endPoint = secondPoint;
+        }
+
+        height = _height;
+    }
 
     public void Init()
     {
@@ -29,8 +43,10 @@ public class WallMeshComponent : MonoBehaviour
 
         qMeshComp.Init();
 
-        // set position to the center of start/end
-        transform.position = Vector3.Lerp(startPoint, endPoint, 0.5f);
+        //set position to the center of start/end
+        transform.position = startPoint;
+        //transform.position = Vector3.Lerp(startPoint, endPoint, 0.5f);
+
         // convert start/end to local positions
         localStart = transform.InverseTransformPoint(startPoint);
         localEnd = transform.InverseTransformPoint(endPoint);
@@ -47,23 +63,35 @@ public class WallMeshComponent : MonoBehaviour
         overflow.x = sectionData.x % 1;
         sectionCount.x = (int)(sectionData.x - overflow.x);
 
+        //set something up here to shrink the section size to fit the single small section that we should have
+        if (sectionCount.x < 1)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         // height / baseSectionSize.y = sectionCount.y and overFlow.y
         sectionData.y = height / baseSectionSize.y;
         overflow.y = sectionData.y % 1;
         sectionCount.y = (int)(sectionData.y - overflow.y);
+        if (sectionCount.y < 1)
+        {
+            sectionCount.y = 1;
+        }
 
         Vector3 sectionSize = baseSectionSize;
         sectionSize.x += ((overflow.x / sectionData.x) * baseSectionSize.x);
         sectionSize.y += ((overflow.y / sectionData.y) * baseSectionSize.y);
 
+        //create vertices from start point to end point
         // bottom left vertex to top right vertex - front
         List<Vertex> frontVertices = new List<Vertex>();
-        for (int y = 0 ; y <= sectionData.y; y++)
+        for (int y = 0 ; y <= sectionCount.y; y++)
         {
-            for (int x = 0; x <= sectionData.x; x++)
+            for (int x = 0; x <= sectionCount.x; x++)
             {
                 Vertex v = new Vertex(
-                    localStart + new Vector3(x * sectionSize.x, y * sectionSize.y, sectionSize.z/2),
+                    localStart + new Vector3(x * sectionSize.x, y * sectionSize.y, -sectionSize.z/2),
                     new Vector2(x / sectionCount.x, y / sectionCount.y));
                 frontVertices.Add(v);
             }
@@ -71,12 +99,12 @@ public class WallMeshComponent : MonoBehaviour
 
         // bottom left vertex to top right vertex - back (the x is inverted because it's 180 degrees)
         List<Vertex> backVertices = new List<Vertex>();
-        for (int y = 0; y <= sectionData.y; y++)
+        for (int y = 0; y <= sectionCount.y; y++)
         {
-            for (int x = (int)sectionData.x; x >= 0; x--)
+            for (int x = sectionCount.x; x >= 0; x--)
             {
                 Vertex v = new Vertex(
-                    new Vector3(x * sectionSize.x, y * sectionSize.y, -sectionSize.z/2),
+                    localStart + new Vector3(x * sectionSize.x, y * sectionSize.y, sectionSize.z/2),
                     new Vector2(x / sectionData.x, y / sectionData.y));
                 backVertices.Add(v);
             }
@@ -87,111 +115,148 @@ public class WallMeshComponent : MonoBehaviour
         // tri = bottom left, top left, top right
         // tri1 = bottom left, top right, bottom right
 
-        int maxX = sectionCount.x - 1;
-        int maxY = sectionCount.y - 1;
+        int xVerticesCount = sectionCount.x + 1;
+
+        //Debug.Log(sectionCount +" ~ "+ frontVertices.Count + " ~ " + backVertices.Count);
 
         //front
-        for (int y = 0; y < sectionData.y; y++)
+        for (int y = 0; y < sectionCount.y; y++)
         {
-            for (int x = 0; x < sectionData.x; x++)
+            for (int x = 0; x < sectionCount.x; x++)
             {
                 Triangle tri = new Triangle(
-                    frontVertices[x + (y * sectionCount.x)],
-                    frontVertices[x + ((y + 1) * sectionCount.x)],
-                    frontVertices[(x + 1) + ((y + 1) * sectionCount.x)]);
+                    frontVertices[x + (y * xVerticesCount)],
+                    frontVertices[x + ((y + 1) * xVerticesCount)],
+                    frontVertices[(x + 1) + ((y + 1) * xVerticesCount)]);
                 qMeshComp.qMesh.triangles.Add(tri);
 
                 Triangle tri1 = new Triangle(
-                    frontVertices[x + (y * sectionCount.x)],
-                    frontVertices[(x + 1) + ((y + 1) * sectionCount.x)],
-                    frontVertices[(x + 1) + (y * sectionCount.x)]);
+                    frontVertices[x + (y * xVerticesCount)],
+                    frontVertices[(x + 1) + ((y + 1) * xVerticesCount)],
+                    frontVertices[(x + 1) + (y * xVerticesCount)]);
                 qMeshComp.qMesh.triangles.Add(tri1);
             }
         }
 
         //left
-        for (int y = 0; y < sectionData.y; y++)
+        for (int y = 0; y < sectionCount.y; y++)
         {
             Triangle tri = new Triangle(
-                backVertices[maxX + (y * sectionCount.x)],
-                backVertices[maxX + ((y + 1) * sectionCount.x)],
-                frontVertices[0 + ((y + 1) * sectionCount.x)]);
+                backVertices[sectionCount.x + (y * xVerticesCount)],
+                backVertices[sectionCount.x + ((y + 1) * xVerticesCount)],
+                frontVertices[0 + ((y + 1) * xVerticesCount)]);
             qMeshComp.qMesh.triangles.Add(tri);
 
             Triangle tri1 = new Triangle(
-                backVertices[maxX + (y * sectionCount.x)],
-                frontVertices[0 + ((y + 1) * sectionCount.x)],
-                frontVertices[0 + (y * sectionCount.x)]);
+                backVertices[sectionCount.x + (y * xVerticesCount)],
+                frontVertices[0 + ((y + 1) * xVerticesCount)],
+                frontVertices[0 + (y * xVerticesCount)]);
             qMeshComp.qMesh.triangles.Add(tri1);
         }
 
         //back
-        for (int y = 0; y < sectionData.y; y++)
+        for (int y = 0; y < sectionCount.y; y++)
         {
-            for (int x = 0; x < sectionData.x; x++)
+            for (int x = 0; x < sectionCount.x; x++)
             {
                 Triangle tri = new Triangle(
-                    backVertices[x + (y * sectionCount.x)],
-                    backVertices[x + ((y + 1) * sectionCount.x)],
-                    backVertices[(x + 1) + ((y + 1) * sectionCount.x)]);
+                    backVertices[x + (y * xVerticesCount)],
+                    backVertices[x + ((y + 1) * xVerticesCount)],
+                    backVertices[(x + 1) + ((y + 1) * xVerticesCount)]);
                 qMeshComp.qMesh.triangles.Add(tri);
 
                 Triangle tri1 = new Triangle(
-                    backVertices[x + (y * sectionCount.x)],
-                    backVertices[(x + 1) + ((y + 1) * sectionCount.x)],
-                    backVertices[(x + 1) + (y * sectionCount.x)]);
+                    backVertices[x + (y * xVerticesCount)],
+                    backVertices[(x + 1) + ((y + 1) * xVerticesCount)],
+                    backVertices[(x + 1) + (y * xVerticesCount)]);
                 qMeshComp.qMesh.triangles.Add(tri1);
             }
         }
 
         //right
-        for (int y = 0; y < sectionData.y; y++)
+        for (int y = 0; y < sectionCount.y; y++)
         {
             Triangle tri = new Triangle(
-                    frontVertices[maxX + (y * sectionCount.x)],
-                    frontVertices[maxX + ((y + 1) * sectionCount.x)],
-                    backVertices[0 + ((y + 1) * sectionCount.x)]);
+                    frontVertices[sectionCount.x + (y * xVerticesCount)],
+                    frontVertices[sectionCount.x + ((y + 1) * xVerticesCount)],
+                    backVertices[0 + ((y + 1) * xVerticesCount)]);
             qMeshComp.qMesh.triangles.Add(tri);
 
             Triangle tri1 = new Triangle(
-                frontVertices[maxX + (y * sectionCount.x)],
-                backVertices[0 + ((y + 1) * sectionCount.x)],
-                backVertices[0 + (y * sectionCount.x)]);
+                frontVertices[sectionCount.x + (y * xVerticesCount)],
+                backVertices[0 + ((y + 1) * xVerticesCount)],
+                backVertices[0 + (y * xVerticesCount)]);
             qMeshComp.qMesh.triangles.Add(tri1);
         }
 
         //top
-        for (int x = 0; x < sectionData.x; x++)
+        for (int x = 0; x < sectionCount.x; x++)
         {
             Triangle tri = new Triangle(
-                    frontVertices[(maxX - x) + (sectionCount.y * sectionCount.x)],
-                    frontVertices[(maxX - (x+1)) + (sectionCount.y * sectionCount.x)],
-                    backVertices[(x+1) + (sectionCount.y * sectionCount.x)]); 
+                    frontVertices[(sectionCount.x - x) + (sectionCount.y * xVerticesCount)],
+                    frontVertices[(sectionCount.x - (x + 1)) + (sectionCount.y * xVerticesCount)],
+                    backVertices[(x + 1) + (sectionCount.y * xVerticesCount)]);
             qMeshComp.qMesh.triangles.Add(tri);
 
             Triangle tri1 = new Triangle(
-                frontVertices[(maxX - x) + (sectionCount.y * sectionCount.x)],
-                backVertices[(x + 1) + (sectionCount.y * sectionCount.x)],
-                backVertices[x + (sectionCount.y * sectionCount.x)]);
+                frontVertices[(sectionCount.x - x) + (sectionCount.y * xVerticesCount)],
+                backVertices[(x + 1) + (sectionCount.y * xVerticesCount)],
+                backVertices[x + (sectionCount.y * xVerticesCount)]);
             qMeshComp.qMesh.triangles.Add(tri1);
         }
 
         //bottom
-        for (int x = 0; x < sectionData.x; x++)
+        for (int x = 0; x < sectionCount.x; x++)
         {
             Triangle tri = new Triangle(
-                    frontVertices[x + 0],
-                    frontVertices[x+1 + 0],
-                    backVertices[(maxX - (x+1)) + 0]);
+                    frontVertices[x],
+                    frontVertices[x + 1],
+                    backVertices[(sectionCount.x - (x + 1))]);
             qMeshComp.qMesh.triangles.Add(tri);
 
             Triangle tri1 = new Triangle(
-                frontVertices[(maxX - x) + 0],
-                backVertices[(maxX - (x + 1)) + 0],
-                backVertices[(maxX - x) + 0]);
+                frontVertices[x],
+                backVertices[(sectionCount.x - (x + 1))],
+                backVertices[(sectionCount.x - x)]);
             qMeshComp.qMesh.triangles.Add(tri1);
         }
 
         #endregion
+
+        qMeshComp.GenerateMeshFromQ();
+
+        //setRotation
+        Vector3 desiredEuler = (startPoint - endPoint).normalized;
+        desiredEuler = Quaternion.LookRotation(desiredEuler, Vector3.up).eulerAngles;
+        desiredEuler.y += 90;
+        transform.rotation = Quaternion.Euler(desiredEuler);
+    }
+
+    internal Vector3 GetClosestVertexWorldPos(Vector3 secondPos)
+    {
+        float shortestDistance = float.PositiveInfinity;
+        Vector3 closestVertex = Vector3.positiveInfinity;
+
+        foreach (Vector3 v in qMeshComp.mFilter.sharedMesh.vertices) 
+        {
+            Vector3 worldVertex = transform.TransformPoint(v);
+            if (Vector3.Distance(worldVertex, secondPos) < shortestDistance)
+            {
+                closestVertex = worldVertex;
+                shortestDistance = Vector3.Distance(worldVertex, secondPos);
+            }
+        }
+
+        return closestVertex;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(startPoint, 1f);
+
+        Gizmos.color = Color.blue;
+        Gizmos.DrawSphere(endPoint, 1f);
+
     }
 }
