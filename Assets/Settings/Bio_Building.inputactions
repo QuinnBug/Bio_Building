@@ -46,9 +46,25 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Crouch",
+                    "name": "CamChange",
                     "type": "Button",
                     "id": "2ae2cba2-52cb-4c57-aeb2-5f6fbf17a082",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Cancel",
+                    "type": "Button",
+                    "id": "d27546eb-47e9-4e4a-bff3-ae98bd3886cc",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "ShiftSelect",
+                    "type": "Button",
+                    "id": "bf484722-bca5-4410-b02b-c7f7e7e7c3b6",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -344,13 +360,57 @@
                 {
                     "name": "",
                     "id": "dec6846a-5312-455d-abd9-eab7efeb43b2",
+                    "path": "<Keyboard>/t",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "CamChange",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "745ed3d2-d9b3-44e6-a9d1-54098378ba26",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Cancel",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "Button With One Modifier",
+                    "id": "b786d365-196a-4f2a-8299-d95d3c119463",
+                    "path": "ButtonWithOneModifier",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ShiftSelect",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "modifier",
+                    "id": "1e8364ea-065d-4575-a279-6b32553a9a73",
                     "path": "<Keyboard>/ctrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Crouch",
+                    "action": "ShiftSelect",
                     "isComposite": false,
-                    "isPartOfComposite": false
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "button",
+                    "id": "1152334c-8a49-4b6b-8fde-1041f650f2e8",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "ShiftSelect",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

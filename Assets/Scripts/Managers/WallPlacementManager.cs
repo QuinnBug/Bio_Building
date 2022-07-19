@@ -3,17 +3,24 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class PlacementManager : Singleton<PlacementManager>
+public class WallPlacementManager : Singleton<WallPlacementManager>
 {
-    public bool validCurrent;
+    public bool active = false;
+    public bool editing = false;
     [Space]
     public bool lockToAngle = true;
     public float angleSnap = 45.0f;
     [Space]
     public bool snapToWall = true;
     public float snapDistance = 0.5f;
+    [Space]
+    public bool snapToGrid = true;
+    public float gridSpacing = 0.25f;
+    [Space]
+    public bool continuousPlacement;
     [Space]
     public LineRenderer drawingLine;
     public SpriteRenderer placementCursor;
@@ -22,22 +29,29 @@ public class PlacementManager : Singleton<PlacementManager>
     public float currentHeight;
     public float maxHeight;
 
+    internal bool validCurrent;
     private bool placingSecond;
-    private Vector3 currentPos;
-    private Vector3 prevCurrentPos;
+    private int nextId = 0;
+    private Vector3 currentPos = Vector3.zero;
+    private Vector3 prevCurrentPos = Vector3.zero;
     private Vector3 firstPos = Vector3.zero;
     private Vector3 secondPos = Vector3.zero;
 
+    private WallMeshComponent wallInEdit;
 
     void Update()
     {
+        placementCursor.enabled = active;
+        drawingLine.enabled = active;
+        if (!active) return;
+
         UpdateCurrentPos();
         UpdateDisplayElements();
     }
 
     private void UpdateDisplayElements()
     {
-        placementCursor.color = validCurrent ? placementColours[0] : placementColours[1];
+        placementCursor.color = validCurrent ? (editing ? placementColours[2] : placementColours[1]) :  placementColours[0];
         placementCursor.transform.position = currentPos + (Vector3.up * 0.001f);
 
         Vector3 wallHeight = Vector3.up * currentHeight;
@@ -71,12 +85,14 @@ public class PlacementManager : Singleton<PlacementManager>
 
         LayerMask layerMask = 1 << LayerMask.NameToLayer("Floor");
 
-        if (Physics.Raycast(ray, out hit, 10, layerMask))
+        if (Physics.Raycast(ray, out hit, 25, layerMask) && !EventSystem.current.IsPointerOverGameObject())
         {
             currentPos = hit.point;
+            validCurrent = true;
         }
         else 
         {
+            validCurrent = false;
             return;
         }
 
@@ -94,7 +110,6 @@ public class PlacementManager : Singleton<PlacementManager>
 
                     if (Vector3.Distance(wallClosestPoint, currentPos) < closestDistance)
                     {
-                        Debug.Log("Successful Snap attempt - " + wallClosestPoint);
                         closestDistance = Vector3.Distance(wallClosestPoint, currentPos);
                         closestPoint = wallClosestPoint;
                     }
@@ -103,7 +118,6 @@ public class PlacementManager : Singleton<PlacementManager>
 
             if (closestDistance < snapDistance)
             {
-                Debug.Log("Snap successful");
                 currentPos = closestPoint;
             }
         }
@@ -116,14 +130,31 @@ public class PlacementManager : Singleton<PlacementManager>
 
             float targetAngle = Mathf.Round(angle/angleSnap) * angleSnap;
             targetAngle += 90;
-            Debug.Log(angle + " % " + excessAngle + " == " + targetAngle);
             targetAngle *= Mathf.Deg2Rad;
 
             currentPos.x = firstPos.x + (Mathf.Cos(targetAngle) * distance * -1);
             currentPos.z = firstPos.z + (Mathf.Sin(targetAngle) * distance);
         }
 
-        validCurrent = currentPos != Vector3.up * -1;
+        if (snapToGrid)
+        {
+            if (currentPos.x % gridSpacing != 0)
+            {
+                currentPos.x = Mathf.Round(currentPos.x / gridSpacing) * gridSpacing;
+            }
+
+            if (currentPos.z % gridSpacing != 0)
+            {
+                currentPos.z = Mathf.Round(currentPos.z / gridSpacing) * gridSpacing;
+            }
+        }
+    }
+
+    internal void ClearPlacement()
+    {
+        placingSecond = false;
+        firstPos = Vector3.zero;
+        secondPos = Vector3.zero;
     }
 
     internal void PlacePoint()
@@ -134,10 +165,31 @@ public class PlacementManager : Singleton<PlacementManager>
         {
             secondPos = currentPos;
 
-            
+            GameObject wall = CreateWall(firstPos, secondPos, currentHeight);
 
-            CreateWall(firstPos, secondPos, currentHeight);
-            placingSecond = false;
+            if (wall == null)
+            {
+                ClearPlacement();
+                return;
+            }
+
+            if (editing)
+            {
+                EndEdit();
+                SelectionManager.Instance.hoveredObject = wall.GetComponent<WallMeshComponent>();
+                SelectionManager.Instance.SelectHovered(); 
+                Destroy(wallInEdit.gameObject);
+                return;
+            }
+
+            if (continuousPlacement)
+            {
+                firstPos = secondPos;
+            }
+            else
+            {
+                ClearPlacement();
+            }
         }
         else
         {
@@ -151,11 +203,36 @@ public class PlacementManager : Singleton<PlacementManager>
         currentHeight = Mathf.Clamp(currentHeight + change, 1, maxHeight);
     }
 
-    private void CreateWall(Vector3 firstPos, Vector3 secondPos, float height)
+    public GameObject CreateWall(Vector3 firstPos, Vector3 secondPos, float height, bool canUndo = true)
     {
         GameObject wall = new GameObject("Wall");
+        wall.layer = LayerMask.NameToLayer("Wall");
         WallMeshComponent wmc = wall.AddComponent<WallMeshComponent>();
-        wmc.SetValues(firstPos, secondPos, height);
-        wmc.Init();
+        wmc.SetValues(firstPos, secondPos, height, nextId);
+
+        if (wmc.Init() && canUndo) 
+        {
+            nextId++;
+            ActionManager.Instance.actionEvent.Invoke(ActionType.PLACE_WALL, wall);
+            return wall;
+        }
+
+        return null;
+    }
+
+    public void BeginEditing(Vector3 startPoint, WallMeshComponent wmc) 
+    {
+        active = true;
+        editing = true;
+        firstPos = startPoint;
+        placingSecond = true;
+        wallInEdit = wmc;
+    }
+
+    public void EndEdit() 
+    {
+        active = false;
+        editing = false;
+        ClearPlacement();
     }
 }

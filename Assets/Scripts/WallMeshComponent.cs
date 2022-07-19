@@ -4,38 +4,71 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WallMeshComponent : MonoBehaviour
+[System.Serializable]
+public class WallMeshData 
 {
-    public static Vector3 baseSectionSize = new Vector3(0.25f, 0.25f, 0.05f);
+    public int id;
     [Space]
     public Vector3 startPoint;
     public Vector3 endPoint;
     [Space]
     public float height;
     [Space]
-    public Vector3 localStart;
-    public Vector3 localEnd;
+    internal Vector3 localStart;
+    internal Vector3 localEnd;
+    [Space]
+    public List<WindowData> windows = new List<WindowData>();
 
+}
+
+public class WallMeshComponent : BaseSelectable
+{
+    public static Vector3 baseSectionSize = new Vector3(0.25f, 0.25f, 0.05f);
+
+    public WallMeshData data = new WallMeshData();
     internal QMeshComponent qMeshComp;
+    internal Outline outline;
 
-    public void SetValues(Vector3 firstPoint, Vector3 secondPoint, float _height) 
+
+    public void SetValues(Vector3 firstPoint, Vector3 secondPoint, float _height, int id) 
     {
         if (firstPoint.x > secondPoint.x)
         {
-            startPoint = secondPoint;
-            endPoint = firstPoint;
+            data.startPoint = secondPoint;
+            data.endPoint = firstPoint;
         }
         else
         {
-            startPoint = firstPoint;
-            endPoint = secondPoint;
+            data.startPoint = firstPoint;
+            data.endPoint = secondPoint;
         }
 
-        height = _height;
+        data.height = _height;
+        data.id = id;
     }
 
-    public void Init()
+    public Vector3 GetVertexPos(int x, int y, Vector3 sectionSize) 
     {
+        Vector3 vPos = data.localStart + new Vector3(x * sectionSize.x, y * sectionSize.y, 0);
+
+        foreach (WindowData window in data.windows)
+        {
+            Bounds bounds = new Bounds(window.pos, window.size);
+            if (bounds.Contains(vPos))
+            {
+                vPos.x = window.pos.x + (vPos.x > window.pos.x ? -window.size.x : window.size.x);
+                //vPos.y = window.pos.y + (vPos.y > window.pos.y ? -window.size.y : window.size.y);
+                break;
+            }
+        }
+
+        return vPos;
+    }
+
+    public bool Init()
+    {
+        type = SelectedType.WALL;
+
         if (!TryGetComponent(out qMeshComp))
         {
             qMeshComp = gameObject.AddComponent<QMeshComponent>();
@@ -43,14 +76,19 @@ public class WallMeshComponent : MonoBehaviour
 
         qMeshComp.Init();
 
+        return GenerateMesh();
+    }
+
+    bool GenerateMesh() 
+    {
         //set position to the center of start/end
-        transform.position = startPoint;
+        transform.position = data.startPoint;
         //transform.position = Vector3.Lerp(startPoint, endPoint, 0.5f);
 
         // convert start/end to local positions
-        localStart = transform.InverseTransformPoint(startPoint);
-        localEnd = transform.InverseTransformPoint(endPoint);
-        float fullDistance = Vector3.Distance(localStart, localEnd);
+        data.localStart = transform.InverseTransformPoint(data.startPoint);
+        data.localEnd = transform.InverseTransformPoint(data.endPoint);
+        float fullDistance = Vector3.Distance(data.localStart, data.localEnd);
 
         // calculate how many sections of wall there needs to be - x and y
 
@@ -67,31 +105,36 @@ public class WallMeshComponent : MonoBehaviour
         if (sectionCount.x < 1)
         {
             Destroy(gameObject);
-            return;
+            return false;
         }
 
         // height / baseSectionSize.y = sectionCount.y and overFlow.y
-        sectionData.y = height / baseSectionSize.y;
+        sectionData.y = data.height / baseSectionSize.y;
         overflow.y = sectionData.y % 1;
         sectionCount.y = (int)(sectionData.y - overflow.y);
         if (sectionCount.y < 1)
         {
             sectionCount.y = 1;
+            overflow.y = 0;
         }
 
         Vector3 sectionSize = baseSectionSize;
         sectionSize.x += ((overflow.x / sectionData.x) * baseSectionSize.x);
         sectionSize.y += ((overflow.y / sectionData.y) * baseSectionSize.y);
 
+        #region Vertices
         //create vertices from start point to end point
         // bottom left vertex to top right vertex - front
         List<Vertex> frontVertices = new List<Vertex>();
-        for (int y = 0 ; y <= sectionCount.y; y++)
+        for (int y = 0; y <= sectionCount.y; y++)
         {
             for (int x = 0; x <= sectionCount.x; x++)
             {
-                Vertex v = new Vertex(
-                    localStart + new Vector3(x * sectionSize.x, y * sectionSize.y, -sectionSize.z/2),
+                Vector3 vPos = GetVertexPos(x, y, sectionSize);
+
+                vPos.z = -sectionSize.z / 2;
+
+                Vertex v = new Vertex(vPos,
                     new Vector2(x / sectionCount.x, y / sectionCount.y));
                 frontVertices.Add(v);
             }
@@ -103,12 +146,16 @@ public class WallMeshComponent : MonoBehaviour
         {
             for (int x = sectionCount.x; x >= 0; x--)
             {
-                Vertex v = new Vertex(
-                    localStart + new Vector3(x * sectionSize.x, y * sectionSize.y, sectionSize.z/2),
-                    new Vector2(x / sectionData.x, y / sectionData.y));
+                Vector3 vPos = GetVertexPos(x, y, sectionSize);
+
+                vPos.z = sectionSize.z / 2;
+
+                Vertex v = new Vertex(vPos,
+                    new Vector2((sectionCount.x - x) / sectionData.x, y / sectionData.y));
                 backVertices.Add(v);
             }
         }
+        #endregion
 
         #region Triangles
         //triangles come in pairs to form quads
@@ -226,10 +273,12 @@ public class WallMeshComponent : MonoBehaviour
         qMeshComp.GenerateMeshFromQ();
 
         //setRotation
-        Vector3 desiredEuler = (startPoint - endPoint).normalized;
+        Vector3 desiredEuler = (data.startPoint - data.endPoint).normalized;
         desiredEuler = Quaternion.LookRotation(desiredEuler, Vector3.up).eulerAngles;
         desiredEuler.y += 90;
         transform.rotation = Quaternion.Euler(desiredEuler);
+
+        return true;
     }
 
     internal Vector3 GetClosestVertexWorldPos(Vector3 secondPos)
@@ -252,11 +301,17 @@ public class WallMeshComponent : MonoBehaviour
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(startPoint, 1f);
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(data.startPoint, 0.15f);
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawSphere(endPoint, 1f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawSphere(data.endPoint, 0.15f);
 
     }
+}
+
+public struct WindowData 
+{
+    public Vector2 pos;
+    public Vector2 size;
 }
