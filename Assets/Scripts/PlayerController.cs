@@ -4,6 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+
+public enum Command 
+{
+    NONE,
+    SELECT,
+    MULTI_SELECT,
+    CANCEL
+}
 public class PlayerController : Singleton<PlayerController>
 {
     public Camera cam;
@@ -12,10 +20,8 @@ public class PlayerController : Singleton<PlayerController>
     public float heightChangeStep;
 
     Vector3 moveInput;
-    bool controlInput;
-    bool selectInput;
-    bool shiftSelectInput;
-    bool cancelInput;
+    public Command latestCommand = Command.NONE;
+    bool processInput;
 
     Vector3 perspCamRot;
 
@@ -29,68 +35,80 @@ public class PlayerController : Singleton<PlayerController>
     void Update()
     {
         MovementUpdate();
+        if (processInput) InputProcessing();
     }
 
-    private void InputCheck()
+    private void InputProcessing()
     {
-        if (cancelInput)
+        switch (latestCommand)
         {
-            switch (StateManager.Instance.currentState)
-            {
-                case State.ROOM_BUILD:
-                    WallPlacementManager.Instance.ClearPlacement();
-                    break;
-                case State.FURNITURE_BUILD:
-                    break;
-                default:
-                    if (WallPlacementManager.Instance.editing) WallPlacementManager.Instance.EndEdit();
-                    break;
-            }
-        }
-
-        if (shiftSelectInput)
-        {
-            switch (StateManager.Instance.currentState)
-            {
-                case State.ROOM_BUILD:
-
-                    break;
-
-                case State.FURNITURE_BUILD:
-
-                    break;
-
-                default:
-                    SelectionManager.Instance.SelectHovered(false);
-                    break;
-            }
-        }
-        else if (selectInput)
-        {
-            switch (StateManager.Instance.currentState)
-            {
-                case State.ROOM_BUILD:
-                    WallPlacementManager.Instance.PlacePoint();
-                    break;
-
-                case State.FURNITURE_BUILD:
-                    //place furniture
-                    break;
-
-                default:
-                    if (WallPlacementManager.Instance.editing) 
-                    {
+            case Command.SELECT:
+                switch (StateManager.Instance.currentState)
+                {
+                    case State.ROOM_BUILD:
                         WallPlacementManager.Instance.PlacePoint();
-                    }
-                    else
-                    {
-                        if (!CheckEditNodeHit()) SelectionManager.Instance.SelectHovered();
-                    }
-                    break;
-            }
+                        break;
+
+                    case State.FURNITURE_BUILD:
+                        //place furniture
+                        break;
+
+                    default:
+                        if (WallPlacementManager.Instance.editing)
+                        {
+                            WallPlacementManager.Instance.PlacePoint();
+                        }
+                        else
+                        {
+                            if (!CheckEditNodeHit()) SelectionManager.Instance.SelectHovered();
+                        }
+                        break;
+                }
+                break;
+
+            case Command.MULTI_SELECT:
+                switch (StateManager.Instance.currentState)
+                {
+                    case State.ROOM_BUILD:
+
+                        break;
+
+                    case State.FURNITURE_BUILD:
+
+                        break;
+
+                    default:
+                        if (WallPlacementManager.Instance.editing)
+                        {
+                            WallPlacementManager.Instance.PlacePoint();
+                        }
+                        else
+                        {
+                            SelectionManager.Instance.SelectHovered(false);
+                        }
+                        break;
+                }
+                break;
+
+            case Command.CANCEL:
+                switch (StateManager.Instance.currentState)
+                {
+                    case State.ROOM_BUILD:
+                        WallPlacementManager.Instance.ClearPlacement();
+                        break;
+                    case State.FURNITURE_BUILD:
+                        break;
+                    default:
+                        if (WallPlacementManager.Instance.editing) WallPlacementManager.Instance.EndEdit();
+                        else SelectionManager.Instance.Deselect(true);
+                        break;
+                }
+                break;
+            default:
+                break;
         }
 
-        
+        latestCommand = Command.NONE;
     }
 
     private bool CheckEditNodeHit()
@@ -166,20 +184,29 @@ public class PlayerController : Singleton<PlayerController>
 
     public void MultiSelectInput(InputAction.CallbackContext context)
     {
-        shiftSelectInput = (context.phase == InputActionPhase.Started);
-        InputCheck();
+        if(context.phase == InputActionPhase.Started) 
+        {
+            latestCommand = Command.MULTI_SELECT;
+            processInput = true;
+        }
     }
 
     public void SelectInput(InputAction.CallbackContext context)
     {
-        selectInput = (context.phase == InputActionPhase.Started);
-        InputCheck();
+        if (context.phase == InputActionPhase.Started && latestCommand != Command.MULTI_SELECT)
+        {
+            latestCommand = Command.SELECT;
+            processInput = true;
+        }
     }
 
     public void CancelInput(InputAction.CallbackContext context) 
     {
-        cancelInput = (context.phase == InputActionPhase.Started);
-        InputCheck();
+        if (context.phase == InputActionPhase.Started)
+        {
+            latestCommand = Command.CANCEL;
+            processInput = true;
+        }
     }
 
     public void HeightInput(InputAction.CallbackContext context) 

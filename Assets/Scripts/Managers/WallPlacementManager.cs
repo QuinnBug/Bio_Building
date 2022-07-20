@@ -205,15 +205,17 @@ public class WallPlacementManager : Singleton<WallPlacementManager>
 
     public GameObject CreateWall(Vector3 firstPos, Vector3 secondPos, float height, bool canUndo = true)
     {
-        GameObject wall = new GameObject("Wall");
+        GameObject wall = new GameObject();
         wall.layer = LayerMask.NameToLayer("Wall");
         WallMeshComponent wmc = wall.AddComponent<WallMeshComponent>();
-        wmc.SetValues(firstPos, secondPos, height, nextId);
 
-        if (wmc.Init() && canUndo) 
+        wmc.SetValues(firstPos, secondPos, height, !editing ? nextId : wallInEdit.id);
+        wall.name = "Wall " + wmc.id;
+
+        if (wmc.Init()) 
         {
-            nextId++;
-            ActionManager.Instance.actionEvent.Invoke(ActionType.PLACE_WALL, wall);
+            if (!editing) nextId++;
+            if (canUndo) ActionManager.Instance.actionEvent.Invoke(ActionType.PLACE_WALL, wall);
             return wall;
         }
 

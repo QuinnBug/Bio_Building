@@ -78,18 +78,18 @@ public class SelectionManager : Singleton<SelectionManager>
     {
         if (hoveredObject == null) return;
 
-        Debug.Log("Starting Selection");
+        Debug.Log("Starting Selection " + clearSelection);
 
         if (clearSelection) Deselect(true);
 
         if (selectedObjects.Contains(hoveredObject))
         {
-            Debug.Log("Deselection");
+            Debug.Log("Deselection " + hoveredObject.name);
             Deselect(false, hoveredObject);
         }
         else if (hoveredObject.type == SelectedType || SelectedType == SelectedType.NONE)
         {
-            Debug.Log("Add Selectiong");
+            Debug.Log("Add Selection " + hoveredObject.name);
             selectedObjects.Add(hoveredObject);
         }
         else return;
@@ -107,11 +107,12 @@ public class SelectionManager : Singleton<SelectionManager>
         }
 
         selectionDisplayMesh.gameObject.SetActive(true);
-        selectionDisplayMesh.transform.position = selectedObjects[0].transform.position;
-        selectionDisplayMesh.transform.rotation = selectedObjects[0].transform.rotation;
 
         if (selectedObjects.Count > 1)
         {
+            selectionDisplayMesh.transform.position = Vector3.zero;
+            selectionDisplayMesh.transform.rotation = Quaternion.Euler(0,0,0);
+
             List<CombineInstance> combine = new List<CombineInstance>();
             CombineInstance c = new CombineInstance();
 
@@ -134,6 +135,8 @@ public class SelectionManager : Singleton<SelectionManager>
         else
         {
             if(selectedObjects[0].TryGetComponent(out MeshFilter _mFilter)) selectionDisplayMesh.sharedMesh = _mFilter.sharedMesh;
+            selectionDisplayMesh.transform.position = selectedObjects[0].transform.position;
+            selectionDisplayMesh.transform.rotation = selectedObjects[0].transform.rotation;
         }
 
         selectionDisplayMesh.transform.localScale = selectedObjects[0].transform.localScale;
@@ -175,7 +178,7 @@ public class SelectionManager : Singleton<SelectionManager>
         }
     }
 
-    private void Deselect(bool all = false, BaseSelectable item = null)
+    internal void Deselect(bool all = false, BaseSelectable item = null)
     {
         if (all)
         {
@@ -188,6 +191,7 @@ public class SelectionManager : Singleton<SelectionManager>
             selectedObjects.Remove(item);
         }
 
+        UpdateEditNodes();
         UpdateSelectDisplay();
     }
 
@@ -255,12 +259,6 @@ public class SelectionManager : Singleton<SelectionManager>
         {
             Gizmos.color = Color.yellow;
             Gizmos.DrawCube(hoveredObject.transform.position, Vector3.one * 0.25f);
-        }
-
-        if (selectedObjects[0] != null)
-        {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawCube(selectedObjects[0].transform.position + Vector3.up, Vector3.one * 0.25f);
         }
     }
 }

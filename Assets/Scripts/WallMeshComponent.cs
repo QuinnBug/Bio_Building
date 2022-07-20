@@ -30,7 +30,7 @@ public class WallMeshComponent : BaseSelectable
     internal Outline outline;
 
 
-    public void SetValues(Vector3 firstPoint, Vector3 secondPoint, float _height, int id) 
+    public void SetValues(Vector3 firstPoint, Vector3 secondPoint, float _height, int _id) 
     {
         if (firstPoint.x > secondPoint.x)
         {
@@ -44,7 +44,7 @@ public class WallMeshComponent : BaseSelectable
         }
 
         data.height = _height;
-        data.id = id;
+        id = _id;
     }
 
     public Vector3 GetVertexPos(int x, int y, Vector3 sectionSize) 

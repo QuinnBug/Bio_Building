@@ -8,8 +8,6 @@ public class EditNode : MonoBehaviour
 
     public void OnClick()
     {
-        Debug.Log("Clicked");
-
         if (moveNode)
         {
             SelectionManager.Instance.MoveSelectable();
