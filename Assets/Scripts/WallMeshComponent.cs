@@ -125,23 +125,20 @@ public class WallMeshComponent : BaseSelectable
         #region Vertices
         //create vertices from start point to end point
         // bottom left vertex to top right vertex - front
-        List<Vertex> frontVertices = new List<Vertex>();
+        List<Vector3> frontVertices = new List<Vector3>();
         for (int y = 0; y <= sectionCount.y; y++)
         {
             for (int x = 0; x <= sectionCount.x; x++)
             {
                 Vector3 vPos = GetVertexPos(x, y, sectionSize);
-
                 vPos.z = -sectionSize.z / 2;
 
-                Vertex v = new Vertex(vPos,
-                    new Vector2(x / sectionCount.x, y / sectionCount.y));
-                frontVertices.Add(v);
+                frontVertices.Add(vPos);
             }
         }
 
         // bottom left vertex to top right vertex - back (the x is inverted because it's 180 degrees)
-        List<Vertex> backVertices = new List<Vertex>();
+        List<Vector3> backVertices = new List<Vector3>();
         for (int y = 0; y <= sectionCount.y; y++)
         {
             for (int x = sectionCount.x; x >= 0; x--)
@@ -150,9 +147,7 @@ public class WallMeshComponent : BaseSelectable
 
                 vPos.z = sectionSize.z / 2;
 
-                Vertex v = new Vertex(vPos,
-                    new Vector2((sectionCount.x - x) / sectionData.x, y / sectionData.y));
-                backVertices.Add(v);
+                backVertices.Add(vPos);
             }
         }
         #endregion
@@ -172,15 +167,17 @@ public class WallMeshComponent : BaseSelectable
             for (int x = 0; x < sectionCount.x; x++)
             {
                 Triangle tri = new Triangle(
-                    frontVertices[x + (y * xVerticesCount)],
-                    frontVertices[x + ((y + 1) * xVerticesCount)],
-                    frontVertices[(x + 1) + ((y + 1) * xVerticesCount)]);
+                    new Vertex(frontVertices[x + (y * xVerticesCount)], new Vector2(0,0)),
+                    new Vertex(frontVertices[x + ((y + 1) * xVerticesCount)],new Vector2(0,1)),
+                    new Vertex(frontVertices[(x + 1) + ((y + 1) * xVerticesCount)], new Vector2(1,1))
+                    );
                 qMeshComp.qMesh.triangles.Add(tri);
 
                 Triangle tri1 = new Triangle(
-                    frontVertices[x + (y * xVerticesCount)],
-                    frontVertices[(x + 1) + ((y + 1) * xVerticesCount)],
-                    frontVertices[(x + 1) + (y * xVerticesCount)]);
+                    new Vertex(frontVertices[x + (y * xVerticesCount)], new Vector2(0,0)),
+                    new Vertex(frontVertices[(x + 1) + ((y + 1) * xVerticesCount)],new Vector2(1,1)),
+                    new Vertex(frontVertices[(x + 1) + (y * xVerticesCount)],new Vector2(1,0))
+                    );
                 qMeshComp.qMesh.triangles.Add(tri1);
             }
         }
@@ -189,15 +186,17 @@ public class WallMeshComponent : BaseSelectable
         for (int y = 0; y < sectionCount.y; y++)
         {
             Triangle tri = new Triangle(
-                backVertices[sectionCount.x + (y * xVerticesCount)],
-                backVertices[sectionCount.x + ((y + 1) * xVerticesCount)],
-                frontVertices[0 + ((y + 1) * xVerticesCount)]);
+                new Vertex(backVertices[sectionCount.x + (y * xVerticesCount)], new Vector2(0,0)),
+                new Vertex(backVertices[sectionCount.x + ((y + 1) * xVerticesCount)], new Vector2(0, 1)),
+                new Vertex(frontVertices[0 + ((y + 1) * xVerticesCount)], new Vector2(1, 1))
+                );
             qMeshComp.qMesh.triangles.Add(tri);
 
             Triangle tri1 = new Triangle(
-                backVertices[sectionCount.x + (y * xVerticesCount)],
-                frontVertices[0 + ((y + 1) * xVerticesCount)],
-                frontVertices[0 + (y * xVerticesCount)]);
+                new Vertex(backVertices[sectionCount.x + (y * xVerticesCount)], new Vector2(0, 0)),
+                new Vertex(frontVertices[0 + ((y + 1) * xVerticesCount)], new Vector2(1, 1)),
+                new Vertex(frontVertices[0 + (y * xVerticesCount)], new Vector2(1, 0))
+                );
             qMeshComp.qMesh.triangles.Add(tri1);
         }
 
@@ -207,15 +206,17 @@ public class WallMeshComponent : BaseSelectable
             for (int x = 0; x < sectionCount.x; x++)
             {
                 Triangle tri = new Triangle(
-                    backVertices[x + (y * xVerticesCount)],
-                    backVertices[x + ((y + 1) * xVerticesCount)],
-                    backVertices[(x + 1) + ((y + 1) * xVerticesCount)]);
+                    new Vertex(backVertices[x + (y * xVerticesCount)], new Vector2(0, 0)),
+                    new Vertex(backVertices[x + ((y + 1) * xVerticesCount)], new Vector2(0, 1)),
+                    new Vertex(backVertices[(x + 1) + ((y + 1) * xVerticesCount)], new Vector2(1, 1))
+                    );
                 qMeshComp.qMesh.triangles.Add(tri);
 
                 Triangle tri1 = new Triangle(
-                    backVertices[x + (y * xVerticesCount)],
-                    backVertices[(x + 1) + ((y + 1) * xVerticesCount)],
-                    backVertices[(x + 1) + (y * xVerticesCount)]);
+                    new Vertex(backVertices[x + (y * xVerticesCount)], new Vector2(0, 0)),
+                    new Vertex(backVertices[(x + 1) + ((y + 1) * xVerticesCount)], new Vector2(1, 1)),
+                    new Vertex(backVertices[(x + 1) + (y * xVerticesCount)], new Vector2(1, 0))
+                    );
                 qMeshComp.qMesh.triangles.Add(tri1);
             }
         }
@@ -224,15 +225,17 @@ public class WallMeshComponent : BaseSelectable
         for (int y = 0; y < sectionCount.y; y++)
         {
             Triangle tri = new Triangle(
-                    frontVertices[sectionCount.x + (y * xVerticesCount)],
-                    frontVertices[sectionCount.x + ((y + 1) * xVerticesCount)],
-                    backVertices[0 + ((y + 1) * xVerticesCount)]);
+                    new Vertex(frontVertices[sectionCount.x + (y * xVerticesCount)], new Vector2(0, 0)),
+                    new Vertex(frontVertices[sectionCount.x + ((y + 1) * xVerticesCount)], new Vector2(0, 1)),
+                    new Vertex(backVertices[0 + ((y + 1) * xVerticesCount)], new Vector2(1, 1))
+                    );
             qMeshComp.qMesh.triangles.Add(tri);
 
             Triangle tri1 = new Triangle(
-                frontVertices[sectionCount.x + (y * xVerticesCount)],
-                backVertices[0 + ((y + 1) * xVerticesCount)],
-                backVertices[0 + (y * xVerticesCount)]);
+                new Vertex(frontVertices[sectionCount.x + (y * xVerticesCount)], new Vector2(0, 0)),
+                new Vertex(backVertices[0 + ((y + 1) * xVerticesCount)], new Vector2(1, 1)),
+                new Vertex(backVertices[0 + (y * xVerticesCount)], new Vector2(1, 0))
+                );
             qMeshComp.qMesh.triangles.Add(tri1);
         }
 
@@ -240,15 +243,17 @@ public class WallMeshComponent : BaseSelectable
         for (int x = 0; x < sectionCount.x; x++)
         {
             Triangle tri = new Triangle(
-                    frontVertices[(sectionCount.x - x) + (sectionCount.y * xVerticesCount)],
-                    frontVertices[(sectionCount.x - (x + 1)) + (sectionCount.y * xVerticesCount)],
-                    backVertices[(x + 1) + (sectionCount.y * xVerticesCount)]);
+                    new Vertex(frontVertices[(sectionCount.x - x) + (sectionCount.y * xVerticesCount)], new Vector2(0, 0)),
+                    new Vertex(frontVertices[(sectionCount.x - (x + 1)) + (sectionCount.y * xVerticesCount)], new Vector2(0, 1)),
+                    new Vertex(backVertices[(x + 1) + (sectionCount.y * xVerticesCount)], new Vector2(1, 1))
+                    );
             qMeshComp.qMesh.triangles.Add(tri);
 
             Triangle tri1 = new Triangle(
-                frontVertices[(sectionCount.x - x) + (sectionCount.y * xVerticesCount)],
-                backVertices[(x + 1) + (sectionCount.y * xVerticesCount)],
-                backVertices[x + (sectionCount.y * xVerticesCount)]);
+                new Vertex(frontVertices[(sectionCount.x - x) + (sectionCount.y * xVerticesCount)], new Vector2(0, 0)),
+                new Vertex(backVertices[(x + 1) + (sectionCount.y * xVerticesCount)], new Vector2(1, 1)),
+                new Vertex(backVertices[x + (sectionCount.y * xVerticesCount)], new Vector2(1, 0))
+                );
             qMeshComp.qMesh.triangles.Add(tri1);
         }
 
@@ -256,15 +261,17 @@ public class WallMeshComponent : BaseSelectable
         for (int x = 0; x < sectionCount.x; x++)
         {
             Triangle tri = new Triangle(
-                    frontVertices[x],
-                    frontVertices[x + 1],
-                    backVertices[(sectionCount.x - (x + 1))]);
+                    new Vertex(frontVertices[x], new Vector2(0, 0)),
+                    new Vertex(frontVertices[x + 1], new Vector2(0, 1)),
+                    new Vertex(backVertices[(sectionCount.x - (x + 1))], new Vector2(1, 1))
+                    );
             qMeshComp.qMesh.triangles.Add(tri);
 
             Triangle tri1 = new Triangle(
-                frontVertices[x],
-                backVertices[(sectionCount.x - (x + 1))],
-                backVertices[(sectionCount.x - x)]);
+                new Vertex(frontVertices[x], new Vector2(0, 0)),
+                new Vertex(backVertices[(sectionCount.x - (x + 1))], new Vector2(1, 1)),
+                new Vertex(backVertices[(sectionCount.x - x)], new Vector2(1, 0))
+                );
             qMeshComp.qMesh.triangles.Add(tri1);
         }
 
