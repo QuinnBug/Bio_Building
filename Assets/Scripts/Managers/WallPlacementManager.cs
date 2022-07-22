@@ -8,6 +8,9 @@ using UnityEngine.InputSystem;
 
 public class WallPlacementManager : Singleton<WallPlacementManager>
 {
+    public bool showGrids;
+    public bool allowHitWall;
+    [Space]
     public bool active = false;
     public bool editing = false;
     [Space]
@@ -21,6 +24,9 @@ public class WallPlacementManager : Singleton<WallPlacementManager>
     public float gridSpacing = 0.25f;
     [Space]
     public bool continuousPlacement;
+
+    
+
     [Space]
     public LineRenderer drawingLine;
     public SpriteRenderer placementCursor;
@@ -84,6 +90,7 @@ public class WallPlacementManager : Singleton<WallPlacementManager>
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
         LayerMask layerMask = 1 << LayerMask.NameToLayer("Floor");
+        if(allowHitWall) layerMask |= 1 << LayerMask.NameToLayer("Wall");
 
         if (Physics.Raycast(ray, out hit, 25, layerMask) && !EventSystem.current.IsPointerOverGameObject())
         {
@@ -148,6 +155,8 @@ public class WallPlacementManager : Singleton<WallPlacementManager>
                 currentPos.z = Mathf.Round(currentPos.z / gridSpacing) * gridSpacing;
             }
         }
+
+        if (allowHitWall && placingSecond) currentPos.y = firstPos.y; 
     }
 
     internal void ClearPlacement()
@@ -165,7 +174,7 @@ public class WallPlacementManager : Singleton<WallPlacementManager>
         {
             secondPos = currentPos;
 
-            GameObject wall = CreateWall(firstPos, secondPos, currentHeight);
+            GameObject wall = CreateWall(firstPos, secondPos, !editing ? currentHeight : wallInEdit.data.height);
 
             if (wall == null)
             {
@@ -209,17 +218,34 @@ public class WallPlacementManager : Singleton<WallPlacementManager>
         wall.layer = LayerMask.NameToLayer("Wall");
         WallMeshComponent wmc = wall.AddComponent<WallMeshComponent>();
 
-        wmc.SetValues(firstPos, secondPos, height, !editing ? nextId : wallInEdit.id);
-        wall.name = "Wall " + wmc.id;
+        wmc.SetValues(firstPos, secondPos, height, !editing ? nextId : wallInEdit.data.id);
+        wall.name = "Wall " + wmc.data.id;
 
         if (wmc.Init()) 
         {
             if (!editing) nextId++;
+            else wmc.OverrideExtraData(wallInEdit.data);
+
             if (canUndo) ActionManager.Instance.actionEvent.Invoke(ActionType.PLACE_WALL, wall);
             return wall;
         }
 
         return null;
+    }
+
+    internal bool RecreateWall(WallMeshData data)
+    {
+        GameObject wall = new GameObject();
+        wall.layer = LayerMask.NameToLayer("Wall");
+        WallMeshComponent wmc = wall.AddComponent<WallMeshComponent>();
+
+        wmc.data = data;
+        wall.name = "Wall " + wmc.data.id;
+
+        bool success = wmc.Init();
+        wmc.UpdateMaterial();
+
+        return success;
     }
 
     public void BeginEditing(Vector3 startPoint, WallMeshComponent wmc) 

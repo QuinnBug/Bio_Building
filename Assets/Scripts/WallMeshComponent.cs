@@ -4,23 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class WallMeshData 
-{
-    public int id;
-    [Space]
-    public Vector3 startPoint;
-    public Vector3 endPoint;
-    [Space]
-    public float height;
-    [Space]
-    internal Vector3 localStart;
-    internal Vector3 localEnd;
-    [Space]
-    public List<WindowData> windows = new List<WindowData>();
-
-}
-
 public class WallMeshComponent : BaseSelectable
 {
     public static Vector3 baseSectionSize = new Vector3(0.25f, 0.25f, 0.05f);
@@ -29,6 +12,10 @@ public class WallMeshComponent : BaseSelectable
     internal QMeshComponent qMeshComp;
     internal Outline outline;
 
+    public void UpdateMaterial() 
+    {
+        if (qMeshComp != null) qMeshComp.mRenderer.material = ThumbnailGenerator.Instance.GetMaterial(data.matName);
+    }
 
     public void SetValues(Vector3 firstPoint, Vector3 secondPoint, float _height, int _id) 
     {
@@ -44,7 +31,7 @@ public class WallMeshComponent : BaseSelectable
         }
 
         data.height = _height;
-        id = _id;
+        data.id = _id;
     }
 
     public Vector3 GetVertexPos(int x, int y, Vector3 sectionSize) 
@@ -288,6 +275,13 @@ public class WallMeshComponent : BaseSelectable
         return true;
     }
 
+    internal void OverrideExtraData(WallMeshData _data)
+    {
+        data.windows = _data.windows;
+        data.matName = _data.matName;
+        UpdateMaterial();
+    }
+
     internal Vector3 GetClosestVertexWorldPos(Vector3 secondPos)
     {
         float shortestDistance = float.PositiveInfinity;
@@ -306,6 +300,13 @@ public class WallMeshComponent : BaseSelectable
         return closestVertex;
     }
 
+    void AddWindow(Vector2 position, Vector2 extents) 
+    {
+        WindowData windowData = new WindowData(position, extents);
+
+        data.windows.Add(windowData);
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.green;
@@ -317,8 +318,32 @@ public class WallMeshComponent : BaseSelectable
     }
 }
 
+[System.Serializable]
+public class WallMeshData
+{
+    public int id;
+    [Space]
+    public Vector3 startPoint;
+    public Vector3 endPoint;
+    [Space]
+    public float height;
+    [Space]
+    internal Vector3 localStart;
+    internal Vector3 localEnd;
+    [Space]
+    public List<WindowData> windows = new List<WindowData>();
+    public string matName;
+}
+
+[System.Serializable]
 public struct WindowData 
 {
     public Vector2 pos;
     public Vector2 size;
+
+    public WindowData(Vector2 position, Vector2 extents) 
+    {
+        pos = position;
+        size = extents;
+    }
 }

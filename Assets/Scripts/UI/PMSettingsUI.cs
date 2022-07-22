@@ -17,6 +17,30 @@ public class PMSettingsUI : MonoBehaviour
     public Toggle angleSnap;
     public Slider angleSlider;
     public TMP_InputField angleNumField;
+    [Space]
+    public Toggle contPlacement;
+    [Space]
+    public Toggle showGrid;
+
+
+    private void Start()
+    {
+        gridSnap.isOn = WallPlacementManager.Instance.snapToGrid;
+        gridSlider.value = WallPlacementManager.Instance.gridSpacing;
+        gridNumField.text = gridSlider.value.ToString();
+
+        wallSnap.isOn = WallPlacementManager.Instance.snapToWall;
+        wallSlider.value = WallPlacementManager.Instance.snapDistance;
+        wallNumField.text = wallSlider.value.ToString();
+
+        angleSnap.isOn = WallPlacementManager.Instance.lockToAngle;
+        angleSlider.value = WallPlacementManager.Instance.angleSnap;
+        angleNumField.text = angleSlider.value.ToString();
+
+        contPlacement.isOn = WallPlacementManager.Instance.continuousPlacement;
+
+        showGrid.isOn = WallPlacementManager.Instance.showGrids;
+    }
 
     private void Update()
     {
@@ -31,6 +55,11 @@ public class PMSettingsUI : MonoBehaviour
         WallPlacementManager.Instance.lockToAngle = angleSnap.isOn;
         WallPlacementManager.Instance.angleSnap = angleSlider.value;
         if (!angleNumField.isFocused) angleNumField.text = angleSlider.value.ToString();
+
+        WallPlacementManager.Instance.continuousPlacement = contPlacement.isOn;
+
+        WallPlacementManager.Instance.showGrids = showGrid.isOn;
+
     }
 
     public void UpdateSlidersViaFields(string value) 

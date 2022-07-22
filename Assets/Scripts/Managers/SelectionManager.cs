@@ -59,26 +59,25 @@ public class SelectionManager : Singleton<SelectionManager>
         Deselect(true);
     }
 
-    public void SelectHovered_Old() 
+    internal void DestroySelected()
     {
-        //if(selectedObject == hoveredObject) return;
+        if (selectedObjects.Count <= 0) return;
 
-        //Deselect(true);
+        foreach (BaseSelectable item in selectedObjects)
+        {
+            Destroy(item.gameObject);
+        }
 
-        //if (hoveredObject != null) 
-        //{
-        //    selectedObject = hoveredObject;
-        //}
+        selectedObjects.Clear();
 
-        //UpdateEditNodes();
-        //UpdateSelectDisplay();
+        Deselect(true);
     }
 
     public void SelectHovered(bool clearSelection = true) 
     {
-        if (hoveredObject == null) return;
-
         Debug.Log("Starting Selection " + clearSelection);
+
+        if(hoveredObject == null) return;
 
         if (clearSelection) Deselect(true);
 

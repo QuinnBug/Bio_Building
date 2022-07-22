@@ -25,15 +25,31 @@ public class ThumbnailGenerator : Singleton<ThumbnailGenerator>
 
     public void Start()
     {
+        materials = Resources.LoadAll<Material>("Q_Materials/");
+        meshes = Resources.LoadAll<Mesh>("Q_Meshes/");
+
         CreateThumbnails();
         thumbCam.enabled = false;
+    }
+
+    public Material GetMaterial(string matName) 
+    {
+        foreach (Material material in materials)
+        {
+            if (material.name == matName)
+            {
+                return material; 
+            }
+        }
+
+        Debug.Log("Material not found");
+        return materials[0];
     }
 
     public void CreateThumbnails() 
     {
         bool needReload = false;
-        materials = Resources.LoadAll<Material>("Q_Materials/");
-        meshes = Resources.LoadAll<Mesh>("Q_Meshes/");
+        
         thumbnails = LoadThumbnails(); //"Q_Thumbnails"
 
         List<string> thumbNames = new List<string>();

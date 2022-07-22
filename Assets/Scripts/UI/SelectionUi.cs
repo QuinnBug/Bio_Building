@@ -22,6 +22,8 @@ public class SelectionUi : MonoBehaviour
     {
         materials = Resources.LoadAll<Material>("Q_Materials");
         thumbnails = Resources.LoadAll<Sprite>("Q_Thumbnails");
+        LoadMaterialChoices();
+        LoadFurnitureChoices();
     }
 
     private void Update()
@@ -35,20 +37,6 @@ public class SelectionUi : MonoBehaviour
 
             wallSelectionUi.SetMenu(true);
             furnitureSelectionUi.SetMenu(true);
-
-            switch (currentOpenUi)
-            {
-                case SelectedType.WALL:
-                    LoadMaterialChoices();
-                    break;
-
-                case SelectedType.FURNITURE:
-                    LoadFurnitureChoices();
-                    break;
-
-                default:
-                    break;
-            }
         }
     }
 
@@ -63,9 +51,13 @@ public class SelectionUi : MonoBehaviour
         {
             GameObject matGo = Instantiate(materialBtnPrefab, materialBtnHolder);
             MaterialBtnScript mbs = matGo.GetComponent<MaterialBtnScript>();
-
             mbs.mat = material;
             mbs.thumbnail = ThumbnailGenerator.Instance.GetThumbnail(material);
         }
+    }
+
+    public void DestroySelected() 
+    {
+        SelectionManager.Instance.DestroySelected();
     }
 }

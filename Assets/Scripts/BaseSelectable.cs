@@ -5,5 +5,4 @@ using UnityEngine;
 public class BaseSelectable : MonoBehaviour
 {
     public SelectedType type;
-    public int id;
 }

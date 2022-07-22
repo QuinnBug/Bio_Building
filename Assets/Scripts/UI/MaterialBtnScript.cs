@@ -22,6 +22,21 @@ public class MaterialBtnScript : MonoBehaviour
     {
         foreach (BaseSelectable selectable in SelectionManager.Instance.selectedObjects)
         {
+            switch (SelectionManager.Instance.SelectedType)
+            {
+                case SelectedType.NONE:
+                    break;
+                case SelectedType.WALL:
+                    WallMeshComponent wmc = (WallMeshComponent)selectable;
+                    wmc.data.matName = mat.name;
+                    wmc.UpdateMaterial();
+                    break;
+                case SelectedType.FURNITURE:
+                    break;
+                default:
+                    break;
+            }
+
             MeshRenderer mr = selectable.GetComponent<MeshRenderer>();
             mr.material = mat;
         }
