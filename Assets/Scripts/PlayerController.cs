@@ -27,6 +27,11 @@ public class PlayerController : Singleton<PlayerController>
 
     bool orthographicMode = false;
 
+    Vector3 camLookAtPosition;
+    Vector3 camTargetPosition;
+
+    bool transitioning = false;
+
     private void Start()
     {
         perspCamRot = cam.transform.rotation.eulerAngles;
@@ -34,6 +39,22 @@ public class PlayerController : Singleton<PlayerController>
 
     void Update()
     {
+        if (transitioning) 
+        {
+            cam.transform.position = Vector3.Lerp(cam.transform.position, camTargetPosition, 5 * Time.deltaTime);
+
+            Quaternion targetRot = Quaternion.LookRotation(camLookAtPosition - camTargetPosition, Vector3.up);
+            cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, targetRot,speed * 2 * Time.deltaTime);
+
+            if(Quaternion.Angle(cam.transform.rotation, targetRot) < 0.1f  && Vector3.Distance(cam.transform.position, camTargetPosition) < 0.1f)
+            {
+                cam.orthographic = orthographicMode;
+                transitioning = false;
+            }
+
+            return;
+        }
+
         MovementUpdate();
         if (processInput) InputProcessing();
     }
@@ -146,19 +167,24 @@ public class PlayerController : Singleton<PlayerController>
     void OrthoToggle() 
     {
         orthographicMode = !orthographicMode;
-
-        cam.orthographic = orthographicMode;
+        transitioning = true;
 
         //change to be -> set cam TARGET pos and setup a Cam update that moves it towards it's target local pos & rot
 
-        cam.transform.rotation = orthographicMode ? Quaternion.Euler(90, 0, 0) : Quaternion.Euler(perspCamRot);
+        camLookAtPosition = cam.transform.position + (cam.transform.forward * 10);
+
+        //cam.transform.rotation = orthographicMode ? Quaternion.Euler(90, 0, 0) : Quaternion.Euler(perspCamRot);
 
         if (orthographicMode)
         {
-            Vector3 pos = cam.transform.position;
-            pos.y = 8;
-            cam.transform.position = pos;
+            camTargetPosition = camLookAtPosition + (Vector3.up * 10);
         }
+        else
+        {
+            //from y10 move back and down by ~~ sqrrt(10^2 / 2) 
+            camTargetPosition = camLookAtPosition + (cam.transform.up * -3.5f) + (cam.transform.forward * -5f);
+        }
+
     }
 
     #region Input Functions
