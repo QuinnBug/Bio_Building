@@ -52,7 +52,7 @@ public class SelectionUi : MonoBehaviour
             GameObject matGo = Instantiate(materialBtnPrefab, materialBtnHolder);
             MaterialBtnScript mbs = matGo.GetComponent<MaterialBtnScript>();
             mbs.mat = material;
-            mbs.thumbnail = ThumbnailGenerator.Instance.GetThumbnail(material);
+            mbs.thumbnail = ResourceManager.Instance.GetThumbnail(material);
         }
     }
 

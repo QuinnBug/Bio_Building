@@ -14,7 +14,7 @@ public class WallMeshComponent : BaseSelectable
 
     public void UpdateMaterial() 
     {
-        if (qMeshComp != null) qMeshComp.mRenderer.material = ThumbnailGenerator.Instance.GetMaterial(data.matName);
+        if (qMeshComp != null) qMeshComp.mRenderer.material = ResourceManager.Instance.GetMaterial(data.matName);
     }
 
     public void SetValues(Vector3 firstPoint, Vector3 secondPoint, float _height, int _id) 

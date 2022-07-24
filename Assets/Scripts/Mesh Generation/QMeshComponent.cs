@@ -46,7 +46,7 @@ namespace QuinnMeshes
             mFilter.sharedMesh = mesh;
             mCollider.sharedMesh = mFilter.sharedMesh;
             mCollider.convex = true;
-            mRenderer.material = ThumbnailGenerator.Instance.materials[0];
+            mRenderer.material = ResourceManager.Instance.materials[0];
         }
     }
 }

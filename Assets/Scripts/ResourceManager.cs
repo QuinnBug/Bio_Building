@@ -6,7 +6,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class ThumbnailGenerator : Singleton<ThumbnailGenerator>
+public class ResourceManager : Singleton<ResourceManager>
 {
     public string thumbnailFilepath;
     public string thumbnailFileExtension;
@@ -36,14 +36,22 @@ public class ThumbnailGenerator : Singleton<ThumbnailGenerator>
     {
         foreach (Material material in materials)
         {
-            if (material.name == matName)
-            {
-                return material; 
-            }
+            if (material.name == matName) return material;
         }
 
-        Debug.Log("Material not found");
+        Debug.Log(matName + " Material not found");
         return materials[0];
+    }
+
+    public Mesh GetMesh(string meshName)
+    {
+        foreach (Mesh mesh in meshes)
+        {
+            if (mesh.name == meshName) return mesh;
+        }
+
+        Debug.Log(meshName + " Mesh not found");
+        return meshes[0];
     }
 
     public void CreateThumbnails() 
@@ -63,12 +71,12 @@ public class ThumbnailGenerator : Singleton<ThumbnailGenerator>
             needReload = true;
         }
 
-        //foreach (Mesh mesh in meshes)
-        //{
-        //    if (thumbNames.Contains(mesh.name + thumbnailFileExtension)) continue;
+        foreach (Mesh mesh in meshes)
+        {
+            if (thumbNames.Contains(mesh.name + thumbnailFileExtension)) continue;
 
-        //    GenerateThumbnail(materials[0], mesh, mesh.name);
-        //}
+            GenerateThumbnail(materials[0], mesh, mesh.name);
+        }
 
         if (needReload) Debug.LogWarning("RELOAD TO LOAD ALL THUMBNAILS");
     }

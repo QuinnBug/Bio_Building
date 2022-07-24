@@ -266,5 +266,6 @@ public enum SelectedType
 {
     NONE,
     WALL,
+    COLUMN,
     FURNITURE
 }

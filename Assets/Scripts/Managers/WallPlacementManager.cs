@@ -152,6 +152,11 @@ public class WallPlacementManager : Singleton<WallPlacementManager>
 
             if (currentPos.z % gridSpacing != 0)
             {
+                currentPos.y = Mathf.Round(currentPos.y / gridSpacing) * gridSpacing;
+            }
+
+            if (currentPos.z % gridSpacing != 0)
+            {
                 currentPos.z = Mathf.Round(currentPos.z / gridSpacing) * gridSpacing;
             }
         }
