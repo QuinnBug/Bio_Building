@@ -22,6 +22,7 @@ public class PlacementManager : Singleton<PlacementManager>
     public bool continuousPlacement;
     [Space]
     public MeshRenderer placementCursor;
+    private MeshFilter placementCursorFilter;
     public Material[] placementColours = new Material[2];
 
     internal bool validCurrent;
@@ -32,6 +33,11 @@ public class PlacementManager : Singleton<PlacementManager>
 
     internal Mesh selectedMesh;
     internal Material selectedMaterial;
+
+    private void Start()
+    {
+        placementCursorFilter = placementCursor.GetComponent<MeshFilter>();
+    }
 
     void Update()
     {
@@ -44,6 +50,8 @@ public class PlacementManager : Singleton<PlacementManager>
 
     private void UpdateDisplayElements()
     {
+        if(selectedMesh != null) placementCursorFilter.sharedMesh = selectedMesh;
+
         placementCursor.material = validCurrent ? (editing ? placementColours[2] : placementColours[1]) :  placementColours[0];
         placementCursor.transform.position = currentPos;
     }

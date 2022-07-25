@@ -23,7 +23,8 @@ public class Selectable : BaseSelectable
         data.meshName = mesh.name;
         data.materialName = mat.name;
 
-        mFilter.mesh = mesh;
+        mFilter.sharedMesh = mesh;
+        mCollider.sharedMesh = mesh;
         mRenderer.material = mat;
 
         return true;
