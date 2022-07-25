@@ -67,7 +67,7 @@ public class PlayerController : Singleton<PlayerController>
                 switch (StateManager.Instance.currentState)
                 {
                     case State.ROOM_BUILD:
-                        WallPlacementManager.Instance.PlacePoint();
+                        PlacementManager.Instance.PlacePoint();
                         break;
 
                     case State.FURNITURE_BUILD:
@@ -75,9 +75,9 @@ public class PlayerController : Singleton<PlayerController>
                         break;
 
                     default:
-                        if (WallPlacementManager.Instance.editing)
+                        if (PlacementManager.Instance.editing)
                         {
-                            WallPlacementManager.Instance.PlacePoint();
+                            PlacementManager.Instance.PlacePoint();
                         }
                         else
                         {
@@ -99,9 +99,9 @@ public class PlayerController : Singleton<PlayerController>
                         break;
 
                     default:
-                        if (WallPlacementManager.Instance.editing)
+                        if (PlacementManager.Instance.editing)
                         {
-                            WallPlacementManager.Instance.PlacePoint();
+                            PlacementManager.Instance.PlacePoint();
                         }
                         else
                         {
@@ -115,12 +115,12 @@ public class PlayerController : Singleton<PlayerController>
                 switch (StateManager.Instance.currentState)
                 {
                     case State.ROOM_BUILD:
-                        WallPlacementManager.Instance.ClearPlacement();
+                        PlacementManager.Instance.ClearPlacement();
                         break;
                     case State.FURNITURE_BUILD:
                         break;
                     default:
-                        if (WallPlacementManager.Instance.editing) WallPlacementManager.Instance.EndEdit();
+                        if (PlacementManager.Instance.editing) PlacementManager.Instance.EndEdit();
                         else SelectionManager.Instance.Deselect(true);
                         break;
                 }
@@ -240,7 +240,7 @@ public class PlayerController : Singleton<PlayerController>
         if (context.phase == InputActionPhase.Started)
         {
             int change = (int)context.ReadValue<float>();
-            WallPlacementManager.Instance.ChangeHeight(change * heightChangeStep);
+            //PlacementManager.Instance.ChangeHeight(change * heightChangeStep);
         }
     }
     #endregion

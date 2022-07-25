@@ -46,10 +46,10 @@ public class GridOverlay : MonoBehaviour
 
     private void Update()
     {
-        showMain = showSub = WallPlacementManager.Instance.showGrids;
+        showMain = showSub = PlacementManager.Instance.showGrids;
 
-        smallStep = WallPlacementManager.Instance.gridSpacing;
-        largeStep = smallStep * 5;
+        smallStep = PlacementManager.Instance.gridSpacing;
+        largeStep = smallStep * 4;
     }
 
     void OnRenderObject()

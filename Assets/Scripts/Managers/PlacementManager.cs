@@ -29,7 +29,9 @@ public class PlacementManager : Singleton<PlacementManager>
     private Vector3 currentPos = Vector3.zero;
 
     private Selectable editTarget;
-    private Mesh selectedMesh;
+
+    internal Mesh selectedMesh;
+    internal Material selectedMaterial;
 
     void Update()
     {
@@ -53,7 +55,7 @@ public class PlacementManager : Singleton<PlacementManager>
 
         LayerMask layerMask = 1 << LayerMask.NameToLayer("Floor");
 
-        if (Physics.Raycast(ray, out hit, 25, layerMask) && !EventSystem.current.IsPointerOverGameObject())
+        if (Physics.Raycast(ray, out hit, 25, layerMask) && !EventSystem.current.IsPointerOverGameObject() && selectedMesh != null)
         {
             currentPos = hit.point;
             validCurrent = true;
@@ -92,9 +94,9 @@ public class PlacementManager : Singleton<PlacementManager>
     {
         if (!validCurrent) return;
 
-        GameObject wall = CreateObject();
+        GameObject obj = CreateObject();
 
-        if (wall == null)
+        if (obj == null)
         {
             ClearPlacement();
             return;
@@ -103,7 +105,7 @@ public class PlacementManager : Singleton<PlacementManager>
         if (editing)
         {
             EndEdit();
-            SelectionManager.Instance.hoveredObject = wall.GetComponent<WallMeshComponent>();
+            SelectionManager.Instance.hoveredObject = obj.GetComponent<Selectable>();
             SelectionManager.Instance.SelectHovered();
             Destroy(editTarget);
             return;
@@ -122,32 +124,25 @@ public class PlacementManager : Singleton<PlacementManager>
         obj.transform.position = currentPos;
 
         Selectable objSelect = obj.AddComponent<Selectable>();
-        objSelect.Init(selectedMesh, ResourceManager.Instance.materials[0]);
-
+        objSelect.Init(selectedMesh, selectedMaterial != null ? selectedMaterial : ResourceManager.Instance.materials[0]);
 
         return obj;
     }
 
-    public GameObject CreateWall(Vector3 firstPos, Vector3 secondPos, float height, bool canUndo = true)
+    internal bool RecreateObject(SelectableData data)
     {
-        GameObject wall = new GameObject("Wall " + nextId++);
-        wall.layer = LayerMask.NameToLayer("Wall");
+        GameObject obj = new GameObject();
+        obj.layer = LayerMask.NameToLayer("Selectable");
+        Selectable selectable = obj.AddComponent<Selectable>();
 
-        return wall;
-    }
+        selectable.data = data;
+        obj.name = selectable.data.meshName + "_" + selectable.data.id.ToString();
 
-    internal bool RecreateWall(WallMeshData data)
-    {
-        GameObject wall = new GameObject();
-        wall.layer = LayerMask.NameToLayer("Wall");
-        WallMeshComponent wmc = wall.AddComponent<WallMeshComponent>();
+        Mesh mesh = ResourceManager.Instance.GetMesh(selectable.data.meshName);
+        Material mat = ResourceManager.Instance.GetMaterial(selectable.data.materialName);
 
-        wmc.data = data;
-        wall.name = "Wall " + wmc.data.id;
-
-        bool success = wmc.Init();
-        wmc.UpdateMaterial();
-
+        bool success = selectable.Init(mesh, mat);
+        //selectable.UpdateMaterial();
         return success;
     }
 

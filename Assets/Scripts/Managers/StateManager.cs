@@ -29,7 +29,7 @@ public class StateManager : Singleton<StateManager>
 
         currentState = newState;
 
-        WallPlacementManager.Instance.active = currentState == State.ROOM_BUILD;
+        PlacementManager.Instance.active = currentState == State.ROOM_BUILD;
         SelectionManager.Instance.active = currentState == State.DEFAULT;
 
         stateChanged.Invoke(newState);

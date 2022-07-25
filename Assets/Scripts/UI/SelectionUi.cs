@@ -5,54 +5,67 @@ using UnityEngine;
 
 public class SelectionUi : MonoBehaviour
 {
-    [Header("Walls")]
-    public ToggleableMenu wallSelectionUi;
+    public ToggleableMenu[] selectionUiList = new ToggleableMenu[4];
+    [Space]
+    public GameObject btnPrefab;
     public Transform materialBtnHolder;
-    public GameObject materialBtnPrefab;
-
-    [Header("Furniture")]
-    public ToggleableMenu furnitureSelectionUi;
-
+    public Transform meshBtnHolder;
+    [Space]
     public SelectedType currentOpenUi;
+    
+
 
     Material[] materials;
+    Mesh[] meshes;
     Sprite[] thumbnails;
 
     private void Start()
     {
         materials = Resources.LoadAll<Material>("Q_Materials");
+        meshes = Resources.LoadAll<Mesh>("Q_Meshes");
         thumbnails = Resources.LoadAll<Sprite>("Q_Thumbnails");
         LoadMaterialChoices();
-        LoadFurnitureChoices();
+        LoadMeshChoices();
     }
 
     private void Update()
     {
+        //when the selection type has changed update the correct ui
         if (currentOpenUi != SelectionManager.Instance.SelectedType)
         {
             currentOpenUi = SelectionManager.Instance.SelectedType;
 
-            wallSelectionUi.gameObject.SetActive(currentOpenUi == SelectedType.WALL);
-            furnitureSelectionUi.gameObject.SetActive(currentOpenUi == SelectedType.FURNITURE);
-
-            wallSelectionUi.SetMenu(true);
-            furnitureSelectionUi.SetMenu(true);
+            int i = 0;
+            foreach (ToggleableMenu ui in selectionUiList)
+            {
+                ui.gameObject.SetActive(currentOpenUi == (SelectedType)i);
+                ui.SetMenu(true);
+                i++;
+            }
         }
-    }
-
-    private void LoadFurnitureChoices()
-    {
-        
     }
 
     private void LoadMaterialChoices()
     {
         foreach (Material material in materials)
         {
-            GameObject matGo = Instantiate(materialBtnPrefab, materialBtnHolder);
-            MaterialBtnScript mbs = matGo.GetComponent<MaterialBtnScript>();
-            mbs.mat = material;
-            mbs.thumbnail = ResourceManager.Instance.GetThumbnail(material);
+            GameObject btnGo = Instantiate(btnPrefab, materialBtnHolder);
+            ComponentBtnScript btn = btnGo.GetComponent<ComponentBtnScript>();
+            btn.type = AssignType.MATERIAL;
+            btn.mat = material;
+            btn.thumbnail = ResourceManager.Instance.GetThumbnail(material.name);
+        }
+    }
+
+    private void LoadMeshChoices()
+    {
+        foreach (Mesh mesh in meshes)
+        {
+            GameObject btnGo = Instantiate(btnPrefab, meshBtnHolder);
+            ComponentBtnScript btn = btnGo.GetComponent<ComponentBtnScript>();
+            btn.type = AssignType.MESH;
+            btn.mesh = mesh;
+            btn.thumbnail = ResourceManager.Instance.GetThumbnail(mesh.name);
         }
     }
 

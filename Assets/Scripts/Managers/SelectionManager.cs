@@ -75,9 +75,9 @@ public class SelectionManager : Singleton<SelectionManager>
 
     public void SelectHovered(bool clearSelection = true) 
     {
-        Debug.Log("Starting Selection " + clearSelection);
 
         if(hoveredObject == null) return;
+        Debug.Log("Starting Selection " + clearSelection);
 
         if (clearSelection) Deselect(true);
 
@@ -139,34 +139,22 @@ public class SelectionManager : Singleton<SelectionManager>
         }
 
         selectionDisplayMesh.transform.localScale = selectedObjects[0].transform.localScale;
-
-
     }
 
     private void UpdateEditNodes()
     {
         foreach (EditNode node in editNodes)
         {
-            node.gameObject.SetActive(SelectedType == SelectedType.WALL && selectedObjects.Count == 1);
+            node.gameObject.SetActive(false);
         }
 
         if (selectedObjects.Count != 1) return;
 
         switch (SelectedType)
         {
+
             case SelectedType.WALL:
-                //need all the nodes in the right places
-                WallMeshComponent wmc = (WallMeshComponent)selectedObjects[0];
-
-                editNodes[0].transform.position = Vector3.Lerp(wmc.data.startPoint, wmc.data.endPoint, 0.5f);
-                editNodes[0].moveNode = true;
-
-                editNodes[1].transform.position = wmc.data.startPoint;
-                editNodes[2].transform.position = wmc.data.endPoint;
-                editNodes[1].moveNode = editNodes[2].moveNode = false;
-                break;
-
-            case SelectedType.FURNITURE:
+            case SelectedType.COLUMN:
                 //just need the move node in the center of the object
                 editNodes[0].gameObject.SetActive(true);
                 editNodes[0].transform.position = selectedObjects[0].transform.position;
@@ -203,9 +191,7 @@ public class SelectionManager : Singleton<SelectionManager>
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
 
-        LayerMask layerMask = new LayerMask();
-        if (!ignoreWalls) layerMask |= 1 << LayerMask.NameToLayer("Wall");
-        if (!ignoreFurniture) layerMask |= 1 << LayerMask.NameToLayer("Furniture");
+        LayerMask layerMask = 1 << LayerMask.NameToLayer("Selectable");
 
         if (Physics.Raycast(ray, out hit, 25, layerMask))
         {
@@ -224,8 +210,7 @@ public class SelectionManager : Singleton<SelectionManager>
         switch (SelectedType)
         {
             case SelectedType.WALL:
-                break;
-            case SelectedType.FURNITURE:
+            case SelectedType.COLUMN:
                 break;
             default:
                 break;
@@ -237,14 +222,7 @@ public class SelectionManager : Singleton<SelectionManager>
         switch (SelectedType)
         {
             case SelectedType.WALL:
-                //edit the wall keeping the other node in the same place
-                WallMeshComponent wmc = (WallMeshComponent)selectedObjects[0];
-                Vector3 otherPos = Vector3.Distance(position, wmc.data.startPoint) < Vector3.Distance(position, wmc.data.endPoint) ? wmc.data.endPoint : wmc.data.startPoint;
-                WallPlacementManager.Instance.BeginEditing(otherPos, wmc);
-                break;
-
-            case SelectedType.FURNITURE:
-                //Start Rotating the furniture
+                //used to be able to change length, in the new system not sure if this function matters anymore
                 break;
 
             default:
@@ -262,10 +240,4 @@ public class SelectionManager : Singleton<SelectionManager>
     }
 }
 
-public enum SelectedType 
-{
-    NONE,
-    WALL,
-    COLUMN,
-    FURNITURE
-}
+

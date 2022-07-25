@@ -6,3 +6,14 @@ public class BaseSelectable : MonoBehaviour
 {
     public SelectedType type;
 }
+
+
+
+public enum SelectedType
+{
+    NONE,
+    WALL,
+    FLOOR,
+    ROOF,
+    COLUMN,
+}

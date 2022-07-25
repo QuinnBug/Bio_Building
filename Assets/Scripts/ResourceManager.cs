@@ -8,6 +8,8 @@ using UnityEngine.UI;
 
 public class ResourceManager : Singleton<ResourceManager>
 {
+    public GameObject environment;
+    [Space]
     public string thumbnailFilepath;
     public string thumbnailFileExtension;
     public Camera thumbCam;
@@ -56,6 +58,8 @@ public class ResourceManager : Singleton<ResourceManager>
 
     public void CreateThumbnails() 
     {
+        environment.SetActive(false);
+
         bool needReload = false;
         
         thumbnails = LoadThumbnails(); //"Q_Thumbnails"
@@ -76,18 +80,22 @@ public class ResourceManager : Singleton<ResourceManager>
             if (thumbNames.Contains(mesh.name + thumbnailFileExtension)) continue;
 
             GenerateThumbnail(materials[0], mesh, mesh.name);
+            needReload = true;
         }
 
         if (needReload) Debug.LogWarning("RELOAD TO LOAD ALL THUMBNAILS");
+
+        environment.SetActive(true);
     }
 
     private Sprite[] LoadThumbnails()
     {
         List<Sprite> sprites = new List<Sprite>();
 
-        foreach (Material mat in materials)
+        foreach (var thumbnail in Resources.LoadAll("Q_Thumbnails"))
         {
-            sprites.Add(LoadNewSprite(mat.name + thumbnailFileExtension));
+            Debug.Log(thumbnail.name);
+            sprites.Add(LoadNewSprite(thumbnail.name));
         }
 
         return sprites.ToArray();
@@ -95,8 +103,11 @@ public class ResourceManager : Singleton<ResourceManager>
 
     private void GenerateThumbnail(Material material, Mesh mesh, string name)
     {
+        
         //this needs access to the resources folder for saving, so it can only be done in editor
 #if UNITY_EDITOR
+        
+
         if(material != null) exampleObject.material = material;
 
         if (mesh != null) exampleObject.GetComponent<MeshFilter>().sharedMesh = mesh;
@@ -168,16 +179,15 @@ public class ResourceManager : Singleton<ResourceManager>
         return null;                     
     }
 
-    public Sprite GetThumbnail(Material mat) 
+    public Sprite GetThumbnail(string valueName) 
     {
         Sprite sprite = null;
 
         foreach (Sprite tn in thumbnails)
         {
-            if (tn.name == mat.name + thumbnailFileExtension)
+            if (tn.name == valueName + thumbnailFileExtension)
             {
-                sprite = tn;
-                break;
+                return tn;
             }
         }
 

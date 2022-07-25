@@ -16,7 +16,8 @@ public class ToggleableMenu : MonoBehaviour
     [Header("Options")]
     public float lerpSpeed = 1;
     public bool asLerp = true;
-    private bool isOpen;
+    [Space]
+    public bool isOpen;
 
     private void Start()
     {

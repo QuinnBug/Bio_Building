@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,7 @@ public class Selectable : BaseSelectable
 
     public SelectableData data;
 
-    public void Init(Mesh mesh, Material mat)
+    public bool Init(Mesh mesh, Material mat)
     {
         if (!TryGetComponent(out mFilter)) mFilter = gameObject.AddComponent<MeshFilter>();
 
@@ -18,17 +19,31 @@ public class Selectable : BaseSelectable
 
         if (!TryGetComponent(out mRenderer)) mRenderer = gameObject.AddComponent<MeshRenderer>();
 
+        data = new SelectableData();
         data.meshName = mesh.name;
         data.materialName = mat.name;
 
         mFilter.mesh = mesh;
         mRenderer.material = mat;
+
+        return true;
+    }
+
+    internal void UpdateMesh()
+    {
+        mFilter.sharedMesh = ResourceManager.Instance.GetMesh(data.meshName);
+    }
+
+    public void UpdateMaterial()
+    {
+        mRenderer.material = ResourceManager.Instance.GetMaterial(data.materialName);
     }
 }
 
 [System.Serializable]
 public class SelectableData 
 {
+    public int id;
     public string meshName;
     public string materialName;
     public float yRotation;
