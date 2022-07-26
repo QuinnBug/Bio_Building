@@ -5,7 +5,7 @@ using FirebaseWebGL.Scripts.FirebaseBridge;
 using TMPro;
 using UnityEngine.SceneManagement;
 
-public class LoginController : MonoBehaviour
+public class SignUpController : MonoBehaviour
 {
     private FirebaseController firebaseController;
 
@@ -27,14 +27,13 @@ public class LoginController : MonoBehaviour
 
     public void loginButtonPress()
     {
-        Debug.Log("Checking email '" + emailaddress.text + "' and password '" + password.text+"'");
         checkLoginDetails(emailaddress.text, password.text);
     }
 
     private void checkLoginDetails(string _emailAddress, string _password)
     {
 
-        FirebaseAuth.SignInWithEmailAndPassword(_emailAddress, _password, gameObject.name, callback: "OnRequestSuccess", fallback: "OnRequestFailed");
+        FirebaseAuth.CreateUserWithEmailAndPassword(_emailAddress, _password, gameObject.name, callback: "OnRequestSuccess", fallback: "OnRequestFailed");
 
     }
 
