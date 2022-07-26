@@ -5,25 +5,18 @@ using UnityEngine;
 
 public class SelectionUi : MonoBehaviour
 {
-    public ToggleableMenu[] selectionUiList = new ToggleableMenu[4];
+    public List<ObjectList> selectionUiList = new List<ObjectList>();
     [Space]
     public GameObject btnPrefab;
     public Transform materialBtnHolder;
     public Transform meshBtnHolder;
     [Space]
-    public SelectedType currentOpenUi;
-    
-
-
-    Material[] materials;
-    Mesh[] meshes;
-    Sprite[] thumbnails;
+    public SelectedType currentSelectedType = SelectedType.COLUMN;
 
     private void Start()
     {
-        materials = Resources.LoadAll<Material>("Q_Materials");
-        meshes = Resources.LoadAll<Mesh>("Q_Meshes");
-        thumbnails = Resources.LoadAll<Sprite>("Q_Thumbnails");
+        if (!ResourceManager.Instance.setupComplete) ResourceManager.Instance.Start();
+
         LoadMaterialChoices();
         LoadMeshChoices();
     }
@@ -31,23 +24,28 @@ public class SelectionUi : MonoBehaviour
     private void Update()
     {
         //when the selection type has changed update the correct ui
-        if (currentOpenUi != SelectionManager.Instance.SelectedType)
+        if (currentSelectedType != SelectionManager.Instance.SelectedType)
         {
-            currentOpenUi = SelectionManager.Instance.SelectedType;
+            currentSelectedType = SelectionManager.Instance.SelectedType;
 
-            int i = 0;
-            foreach (ToggleableMenu ui in selectionUiList)
+            foreach (ObjectList uiObjects in selectionUiList)
             {
-                ui.gameObject.SetActive(currentOpenUi == (SelectedType)i);
-                ui.SetMenu(true);
-                i++;
+                foreach (GameObject obj in uiObjects.objects)
+                {
+                    obj.SetActive(false);
+                }
+            }
+
+            foreach (GameObject obj in selectionUiList[(int)currentSelectedType].objects)
+            {
+                obj.SetActive(true);
             }
         }
     }
 
     private void LoadMaterialChoices()
     {
-        foreach (Material material in materials)
+        foreach (Material material in ResourceManager.Instance.materials)
         {
             GameObject btnGo = Instantiate(btnPrefab, materialBtnHolder);
             ComponentBtnScript btn = btnGo.GetComponent<ComponentBtnScript>();
@@ -59,7 +57,7 @@ public class SelectionUi : MonoBehaviour
 
     private void LoadMeshChoices()
     {
-        foreach (Mesh mesh in meshes)
+        foreach (Mesh mesh in ResourceManager.Instance.meshes)
         {
             GameObject btnGo = Instantiate(btnPrefab, meshBtnHolder);
             ComponentBtnScript btn = btnGo.GetComponent<ComponentBtnScript>();
@@ -73,4 +71,10 @@ public class SelectionUi : MonoBehaviour
     {
         SelectionManager.Instance.DestroySelected();
     }
+}
+
+[System.Serializable]
+public class ObjectList 
+{
+    public List<GameObject> objects = new List<GameObject>();
 }

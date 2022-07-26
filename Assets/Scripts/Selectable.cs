@@ -19,11 +19,19 @@ public class Selectable : BaseSelectable
 
         if (!TryGetComponent(out mRenderer)) mRenderer = gameObject.AddComponent<MeshRenderer>();
 
-        data = new SelectableData();
-        data.meshName = mesh.name;
-        data.materialName = mat.name;
+        if (data == null)
+        {
+            data = new SelectableData();
+            data.meshName = mesh.name;
+            data.materialName = mat.name;
+            data.position = transform.position;
+            data.yRotation = transform.rotation.eulerAngles.y;
+        }
 
-        mFilter.mesh = mesh;
+        mFilter.sharedMesh = mesh;
+        mCollider.sharedMesh = mesh;
+        mCollider.convex = true;
+
         mRenderer.material = mat;
 
         return true;
@@ -32,6 +40,7 @@ public class Selectable : BaseSelectable
     internal void UpdateMesh()
     {
         mFilter.sharedMesh = ResourceManager.Instance.GetMesh(data.meshName);
+        UpdateMaterial();
     }
 
     public void UpdateMaterial()

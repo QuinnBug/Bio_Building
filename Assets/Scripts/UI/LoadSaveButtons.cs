@@ -11,13 +11,14 @@ public class LoadSaveButtons : MonoBehaviour
     {
         if (input.text.Length <= 0) return;
 
-        SaveManager.Instance.SaveIntoJson(input.text);
+        SaveManager.Instance.SaveRoomData(input.text);
+        input.text = "";
     }
 
     public void Load()
     {
         if (input.text.Length <= 0) return;
 
-        SaveManager.Instance.LoadFromJson(input.text);
+        SaveManager.Instance.CreateFromSave(input.text);
     }
 }

@@ -5,62 +5,91 @@ using UnityEngine;
 
 public class SaveManager : Singleton<SaveManager>
 {
-    public string folderPath = "/SavedRooms/";
+    public string filePath = "/SavedRooms/";
+    public List<RoomData> allRoomData = new List<RoomData>();
 
-    public void SaveIntoJson(string roomName)
+    public void Start()
+    {
+        LoadJson();
+    }
+
+    public void SaveRoomData(string roomName) 
     {
         RoomData roomData = new RoomData();
 
-        foreach (WallMeshComponent wmc in FindObjectsOfType<WallMeshComponent>())
+        roomData.name = roomName;
+
+        foreach (Selectable select in FindObjectsOfType<Selectable>())
         {
-            roomData.walls.Add(wmc.data);
+            roomData.selectables.Add(select.data);
         }
 
-        foreach (FurnitureComponent fc in FindObjectsOfType<FurnitureComponent>())
-        {
-            roomData.furnitures.Add(fc.data);
-        }
+        allRoomData.Add(roomData);
+        UpdateJson();
+    }
 
-        string roomDataStr = JsonUtility.ToJson(roomData);
+    public void UpdateJson()
+    {
+        SaveFileData sfd = new SaveFileData();
+        sfd.rooms = allRoomData;
 
-        if(System.IO.File.Exists(Application.dataPath + folderPath + roomName + ".json")) 
+        string saveStr = JsonUtility.ToJson(sfd);
+
+        if(System.IO.File.Exists(Application.dataPath + filePath + ".json")) 
         {
             //overwriting file
         }
         else 
         {
-            System.IO.File.Create(Application.dataPath + folderPath + roomName + ".json").Close();
+            //create and close the file, ready to be written to.
+            System.IO.File.Create(Application.dataPath + filePath + ".json").Close();
         }
 
-        System.IO.File.WriteAllText(Application.dataPath + folderPath + roomName + ".json", roomDataStr);
+        System.IO.File.WriteAllText(Application.dataPath + filePath + ".json", saveStr);
     }
 
-    public void LoadFromJson(string roomName) 
+    public void CreateFromSave(string roomName)
     {
-        if (!System.IO.File.Exists(Application.dataPath + folderPath + roomName + ".json")) return;
-
-        string json = System.IO.File.ReadAllText(Application.dataPath + folderPath + roomName + ".json");
-
-        RoomData room = JsonUtility.FromJson<RoomData>(json);
-
-        if (room == null) { Debug.Log("FAILED TO LOAD " + roomName); return; }
-
-        //create walls from each of the walls in roomdata
-        foreach (WallMeshData data in room.walls)
+        //Clear all existing objects?
+        RoomData data = null;
+        foreach (RoomData roomData in allRoomData)
         {
-            if (!WallPlacementManager.Instance.RecreateWall(data)) Debug.Log("FAILED TO CREATE WALL " + data.id);
+            if (roomData.name == roomName) { data = roomData; break; }
         }
 
-        //create furniture... you get it
-        foreach (FurnitureData data in room.furnitures)
+        if (data == null) return;
+
+        foreach (SelectableData itemData in data.selectables)
         {
-            Debug.Log("SET UP FURNITURE LOADING");
+            PlacementManager.Instance.RecreateObject(itemData);
         }
+    }
+
+    public void LoadJson() 
+    {
+        if (!System.IO.File.Exists(Application.dataPath + filePath + ".json")) return;
+
+        string json = System.IO.File.ReadAllText(Application.dataPath + filePath + ".json");
+
+        SaveFileData sfd = JsonUtility.FromJson<SaveFileData>(json);
+
+        if (sfd == null) { Debug.Log("FAILED TO LOAD " + filePath); return; }
+
+        allRoomData = sfd.rooms;
     }
 }
 
+[Serializable]
 public class RoomData
 {
-    public List<WallMeshData> walls = new List<WallMeshData>();
-    public List<FurnitureData> furnitures = new List<FurnitureData>();
+    //public List<WallMeshData> walls = new List<WallMeshData>();
+    //public List<FurnitureData> furnitures = new List<FurnitureData>();
+    public string name;
+    public List<SelectableData> selectables = new List<SelectableData>();
+}
+
+[Serializable]
+public class SaveFileData 
+{
+    public List<RoomData> rooms = new List<RoomData>();
 }

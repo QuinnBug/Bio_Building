@@ -25,13 +25,18 @@ public class ResourceManager : Singleton<ResourceManager>
     private RenderTexture renderTexture;
     private Texture2D screenShot;
 
+    internal bool setupComplete = false;
+
     public void Start()
     {
+        if (setupComplete) return;
+
         materials = Resources.LoadAll<Material>("Q_Materials/");
         meshes = Resources.LoadAll<Mesh>("Q_Meshes/");
 
         CreateThumbnails();
         thumbCam.enabled = false;
+        setupComplete = true;
     }
 
     public Material GetMaterial(string matName) 
@@ -94,7 +99,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
         foreach (var thumbnail in Resources.LoadAll("Q_Thumbnails"))
         {
-            Debug.Log(thumbnail.name);
+            //Debug.Log(thumbnail.name);
             sprites.Add(LoadNewSprite(thumbnail.name));
         }
 

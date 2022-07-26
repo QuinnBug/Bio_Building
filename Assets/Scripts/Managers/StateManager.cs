@@ -5,22 +5,40 @@ using UnityEngine.Events;
 
 public enum State 
 {
-    DEFAULT = 0,
-    ROOM_BUILD = 1,
-    FURNITURE_BUILD = 2
+    SELECT = 0,
+    BUILD = 1,
+    DECORATE = 2
 }
 
 public class StateManager : Singleton<StateManager>
 {
-    public GameObject[] uiObjects = new GameObject[0];
+    public List<ObjectList> uiList = new List<ObjectList>();
     [Space]
-    public State currentState = State.DEFAULT;
+    public State currentState = State.SELECT;
 
     internal StateEvent stateChanged = new StateEvent();
 
     private void Start()
     {
-        ChangeState(State.DEFAULT);
+        ChangeState(currentState);
+        stateChanged.AddListener(UpdateUI);
+    }
+
+    public void UpdateUI(State newState)
+    {
+        //do this in 2 loops so that one object can be in multiple ui states, but gets set correctly without having to track each dupe
+        foreach (ObjectList ol in uiList)
+        {
+            foreach (GameObject obj in ol.objects)
+            {
+                obj.SetActive(false);
+            }
+        }
+
+        foreach (GameObject obj in uiList[(int)currentState].objects) 
+        {
+            obj.SetActive(true);
+        }
     }
 
     public void ChangeState(State newState) 
@@ -29,8 +47,8 @@ public class StateManager : Singleton<StateManager>
 
         currentState = newState;
 
-        PlacementManager.Instance.active = currentState == State.ROOM_BUILD;
-        SelectionManager.Instance.active = currentState == State.DEFAULT;
+        PlacementManager.Instance.active = currentState == State.BUILD;
+        SelectionManager.Instance.active = currentState == State.SELECT;
 
         stateChanged.Invoke(newState);
     }
