@@ -38,10 +38,9 @@ public class SignUpController : MonoBehaviour
     }
 
     private void OnRequestSuccess(string data)
-    {           
-        invalidDetails.gameObject.SetActive(false);     
-        firebaseController.SetUsername(data);
-        SceneManager.LoadScene(1);
+    {               
+        //firebaseController.SetUsername(data);
+        SceneManager.LoadScene(0);
     }
 
     private void OnRequestFailed(string error)

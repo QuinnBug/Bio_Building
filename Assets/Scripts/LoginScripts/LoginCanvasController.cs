@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LoginCanvasController : MonoBehaviour
 {
@@ -38,5 +39,10 @@ public class LoginCanvasController : MonoBehaviour
         allScreens[newState].SetActive(true);
 
         currentMenuState = (MenuState) newState;
+    }
+
+    public void changeToBuildScene()
+    {
+        SceneManager.LoadScene(1);
     }
 }
