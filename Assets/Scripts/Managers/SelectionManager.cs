@@ -44,7 +44,6 @@ public class SelectionManager : Singleton<SelectionManager>
     {
         if (!active)
         {
-            hoveredObject = null;
             selectedObjects.Clear();
             return;
         }
@@ -53,7 +52,7 @@ public class SelectionManager : Singleton<SelectionManager>
     }
 
     //Called when the state changes to clear the selected item - the state change event needs a state output.
-    public void ClearSelection(State state = State.DEFAULT) 
+    public void ClearSelection(State state = State.SELECT) 
     {
         hoveredObject = null;
         Deselect(true);
@@ -77,18 +76,18 @@ public class SelectionManager : Singleton<SelectionManager>
     {
 
         if(hoveredObject == null) return;
-        Debug.Log("Starting Selection " + clearSelection);
+        //Debug.Log("Starting Selection " + clearSelection);
 
         if (clearSelection) Deselect(true);
 
         if (selectedObjects.Contains(hoveredObject))
         {
-            Debug.Log("Deselection " + hoveredObject.name);
+            //Debug.Log("Deselection " + hoveredObject.name);
             Deselect(false, hoveredObject);
         }
         else if (hoveredObject.type == SelectedType || SelectedType == SelectedType.NONE)
         {
-            Debug.Log("Add Selection " + hoveredObject.name);
+            //Debug.Log("Add Selection " + hoveredObject.name);
             selectedObjects.Add(hoveredObject);
         }
         else return;

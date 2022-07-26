@@ -10,14 +10,19 @@ public enum Command
     NONE,
     SELECT,
     MULTI_SELECT,
-    CANCEL
+    CANCEL,
+    DELETE,
 }
 public class PlayerController : Singleton<PlayerController>
 {
     public Camera cam;
     public float speed;
-    public float sprintMod;
-    public float heightChangeStep;
+    public float rotSpeed;
+    public float lookSpeed;
+    [Space]
+    public Vector2 nonOrthoOffset;
+    public float orthoOffset;
+    public float camChangeDistance;
 
     Vector3 moveInput;
     public Command latestCommand = Command.NONE;
@@ -41,14 +46,15 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (transitioning) 
         {
-            cam.transform.position = Vector3.Lerp(cam.transform.position, camTargetPosition, 5 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, camTargetPosition, rotSpeed * Time.deltaTime);
 
             Quaternion targetRot = Quaternion.LookRotation(camLookAtPosition - camTargetPosition, Vector3.up);
-            cam.transform.rotation = Quaternion.Lerp(cam.transform.rotation, targetRot,speed * 2 * Time.deltaTime);
+            cam.transform.rotation = Quaternion.RotateTowards(cam.transform.rotation, targetRot, lookSpeed * Time.deltaTime);
+            //cam.transform.rotation = targetRot;
 
-            if(Quaternion.Angle(cam.transform.rotation, targetRot) < 0.1f  && Vector3.Distance(cam.transform.position, camTargetPosition) < 0.1f)
+            if(Quaternion.Angle(cam.transform.rotation, targetRot) < 0.1f  && Vector3.Distance(transform.position, camTargetPosition) < 0.1f)
             {
-                cam.orthographic = orthographicMode;
+                //cam.orthographic = orthographicMode;
                 transitioning = false;
             }
 
@@ -66,11 +72,11 @@ public class PlayerController : Singleton<PlayerController>
             case Command.SELECT:
                 switch (StateManager.Instance.currentState)
                 {
-                    case State.ROOM_BUILD:
+                    case State.BUILD:
                         PlacementManager.Instance.PlacePoint();
                         break;
 
-                    case State.FURNITURE_BUILD:
+                    case State.DECORATE:
                         //place furniture
                         break;
 
@@ -90,11 +96,11 @@ public class PlayerController : Singleton<PlayerController>
             case Command.MULTI_SELECT:
                 switch (StateManager.Instance.currentState)
                 {
-                    case State.ROOM_BUILD:
+                    case State.BUILD:
 
                         break;
 
-                    case State.FURNITURE_BUILD:
+                    case State.DECORATE:
 
                         break;
 
@@ -114,14 +120,32 @@ public class PlayerController : Singleton<PlayerController>
             case Command.CANCEL:
                 switch (StateManager.Instance.currentState)
                 {
-                    case State.ROOM_BUILD:
+                    case State.BUILD:
                         PlacementManager.Instance.ClearPlacement();
                         break;
-                    case State.FURNITURE_BUILD:
+                    case State.DECORATE:
                         break;
                     default:
                         if (PlacementManager.Instance.editing) PlacementManager.Instance.EndEdit();
                         else SelectionManager.Instance.Deselect(true);
+                        break;
+                }
+                break;
+
+            case Command.DELETE:
+                switch (StateManager.Instance.currentState)
+                {
+                    case State.BUILD:
+                        SelectionManager.Instance.HoverUpdate();
+                        if (SelectionManager.Instance.hoveredObject != null) Destroy(SelectionManager.Instance.hoveredObject.gameObject);
+                        break;
+
+                    case State.DECORATE:
+                        break;
+
+                    case State.SELECT:
+                    default:
+                        
                         break;
                 }
                 break;
@@ -154,7 +178,7 @@ public class PlayerController : Singleton<PlayerController>
     {
         Vector3 movement = moveInput;
 
-        if (orthographicMode)
+        if (cam.orthographic)
         {
             cam.orthographicSize += movement.y * Time.deltaTime;
             cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, 1, 20);
@@ -171,18 +195,18 @@ public class PlayerController : Singleton<PlayerController>
 
         //change to be -> set cam TARGET pos and setup a Cam update that moves it towards it's target local pos & rot
 
-        camLookAtPosition = cam.transform.position + (cam.transform.forward * 10);
+        camLookAtPosition = cam.transform.position + (cam.transform.forward * camChangeDistance);
+        camLookAtPosition.y = 0;
 
         //cam.transform.rotation = orthographicMode ? Quaternion.Euler(90, 0, 0) : Quaternion.Euler(perspCamRot);
 
         if (orthographicMode)
         {
-            camTargetPosition = camLookAtPosition + (Vector3.up * 10);
+            camTargetPosition = camLookAtPosition + (Vector3.up * orthoOffset);
         }
         else
         {
-            //from y10 move back and down by ~~ sqrrt(10^2 / 2) 
-            camTargetPosition = camLookAtPosition + (cam.transform.up * -3.5f) + (cam.transform.forward * -5f);
+            camTargetPosition = camLookAtPosition + (Vector3.up * nonOrthoOffset.y) + (transform.forward * nonOrthoOffset.x);
         }
 
     }
@@ -235,12 +259,21 @@ public class PlayerController : Singleton<PlayerController>
         }
     }
 
-    public void HeightInput(InputAction.CallbackContext context) 
+    public void DeleteInput(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            latestCommand = Command.DELETE;
+            processInput = true;
+        }
+    }
+
+    public void RotationInput(InputAction.CallbackContext context) 
     {
         if (context.phase == InputActionPhase.Started)
         {
             int change = (int)context.ReadValue<float>();
-            //PlacementManager.Instance.ChangeHeight(change * heightChangeStep);
+            PlacementManager.Instance.RotatePlacement(change);
         }
     }
     #endregion
