@@ -97,10 +97,14 @@ public class ResourceManager : Singleton<ResourceManager>
     {
         List<Sprite> sprites = new List<Sprite>();
 
-        foreach (var thumbnail in Resources.LoadAll("Q_Thumbnails"))
+        foreach (Texture2D thumbnail in Resources.LoadAll<Texture2D>("Q_Thumbnails"))
         {
             //Debug.Log(thumbnail.name);
-            sprites.Add(LoadNewSprite(thumbnail.name));
+            //sprites.Add(LoadNewSprite(thumbnail.name));
+
+            Sprite NewSprite = Sprite.Create(thumbnail, new Rect(0, 0, thumbnail.width, thumbnail.height), new Vector2(0, 0), 100.0f);
+            NewSprite.name = thumbnail.name;
+            sprites.Add(NewSprite);
         }
 
         return sprites.ToArray();
@@ -110,7 +114,7 @@ public class ResourceManager : Singleton<ResourceManager>
     {
         
         //this needs access to the resources folder for saving, so it can only be done in editor
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         
 
         if(material != null) exampleObject.material = material;
@@ -157,7 +161,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
         //}).Start();
         #endregion
-#endif
+//#endif
     }
 
     public Sprite LoadNewSprite(string fileName, float PixelsPerUnit = 100.0f)

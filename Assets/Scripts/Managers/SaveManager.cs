@@ -10,7 +10,7 @@ public class SaveManager : Singleton<SaveManager>
 
     public void Start()
     {
-        LoadJson();
+        //LoadJson();
     }
 
     public void SaveRoomData(string roomName) 
