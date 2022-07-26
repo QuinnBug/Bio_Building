@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "627846071495",
+    "project_id": "bio-construction",
+    "storage_bucket": "bio-construction.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:627846071495:android:90c3988b2260ad64a7eae2",
+        "android_client_info": {
+          "package_name": "com.TidyGames.BioConstruction"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "627846071495-0m38rkia9ig5vqdhgc2851dsfm8b52nd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAY9ZBnEgQe8zM-VvxCSP9Zw7JXofjTBWg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "627846071495-0m38rkia9ig5vqdhgc2851dsfm8b52nd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
