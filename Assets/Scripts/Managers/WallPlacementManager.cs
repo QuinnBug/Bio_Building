@@ -190,8 +190,8 @@ public class WallPlacementManager : Singleton<WallPlacementManager>
             if (editing)
             {
                 EndEdit();
-                SelectionManager.Instance.hoveredObject = wall.GetComponent<WallMeshComponent>();
-                SelectionManager.Instance.SelectHovered(); 
+                //SelectionManager.Instance.hoveredObject = wall.GetComponent<WallMeshComponent>();
+                //SelectionManager.Instance.SelectHovered(); 
                 Destroy(wallInEdit.gameObject);
                 return;
             }

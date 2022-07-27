@@ -10,9 +10,9 @@ public class SelectionManager : Singleton<SelectionManager>
     public bool active;
 
     [Space]
-    public List<BaseSelectable> selectedObjects;
+    public List<Selectable> selectedObjects;
     [Space]
-    public BaseSelectable hoveredObject;
+    public Selectable hoveredObject;
     [Space]
     public MeshFilter selectionDisplayMesh;
     public EditNode[] editNodes = new EditNode[3];
@@ -164,7 +164,7 @@ public class SelectionManager : Singleton<SelectionManager>
         }
     }
 
-    internal void Deselect(bool all = false, BaseSelectable item = null)
+    internal void Deselect(bool all = false, Selectable item = null)
     {
         if (all)
         {
@@ -185,7 +185,7 @@ public class SelectionManager : Singleton<SelectionManager>
     {
         if (EventSystem.current.IsPointerOverGameObject()) return;
 
-        BaseSelectable newHoveredObj = null;
+        Selectable newHoveredObj = null;
 
         RaycastHit hit;
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
@@ -202,6 +202,7 @@ public class SelectionManager : Singleton<SelectionManager>
             //update the hovered ui, update the outline, etc
             hoveredObject = newHoveredObj;
         }
+
     }
 
     internal void MoveSelectable()
