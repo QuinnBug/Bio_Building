@@ -7,45 +7,88 @@ using UnityEngine.SceneManagement;
 
 public class LoginController : MonoBehaviour
 {
-    private FirebaseController firebaseController;
-
-    [Header("Text Holders")]
-    [SerializeField] TMP_InputField emailaddress;
-    [SerializeField] TMP_InputField password;
+    public static LoginController Instance;
 
     [Header("Login Status")]
-    [SerializeField] TextMeshProUGUI invalidDetails;
+    [SerializeField] TextMeshProUGUI warningText;
 
-    // Start is called before the first frame update
+    private void Start()
+    {
+        Instance = this;        
+    }
     void OnEnable()
     {
-        firebaseController = FirebaseController.Instance;
-        invalidDetails.gameObject.SetActive(false);
-        emailaddress.text = "";
-        password.text = "";
+        EnableWarningText(false);
     }
 
-    public void loginButtonPress()
+    /// <summary>
+    /// Checks the users email and password for if an account is already created and if the login data is correct
+    /// </summary>
+    public void checkLoginDetails(string _emailAddress, string _password)
     {
-        Debug.Log("Checking email '" + emailaddress.text + "' and password '" + password.text+"'");
-        checkLoginDetails(emailaddress.text, password.text);
+        FirebaseAuth.SignInWithEmailAndPassword(_emailAddress, _password, gameObject.name, callback: "OnLoginSuccess", fallback: "OnLoginFailed");
     }
-
-    private void checkLoginDetails(string _emailAddress, string _password)
+    /// <summary>
+    /// Checks the users email and password for if an account is already created and creates one if there isn't already
+    /// </summary>
+    public void checkSignUpDetails(string _emailAddress, string _password)
     {
-
-        FirebaseAuth.SignInWithEmailAndPassword(_emailAddress, _password, gameObject.name, callback: "OnRequestSuccess", fallback: "OnRequestFailed");
-
+        FirebaseAuth.CreateUserWithEmailAndPassword(_emailAddress, _password, gameObject.name, callback: "OnLoginSuccess", fallback: "OnLoginFailed");
     }
-
-    private void OnRequestSuccess(string data)
-    {               
-        //firebaseController.SetUsername(data);
-        SceneManager.LoadScene(0);
-    }
-
-    private void OnRequestFailed(string error)
+    /// <summary>
+    /// Allows a user to build without having to login in; however they won't have the ability to save
+    /// </summary>
+    public void anonymousSignin()
     {
-        invalidDetails.gameObject.SetActive(true);
+        if(!Application.isEditor)
+            FirebaseAuth.SignInAnonymously(gameObject.name, callback: "OnLoginSuccess", fallback: "OnLoginFailed");
+        else
+            SceneManager.LoadScene(1);
     }
+    /// <summary>
+    /// Sets the current users data in the FirebaseController if login is successful along with changes the scene
+    /// </summary>
+    private void OnLoginSuccess(string _data)
+    {
+        FirebaseController.Instance.SignInOrSignOutUser();
+        SceneManager.LoadScene(1);
+    }
+    /// <summary>
+    /// Outputs a warning message for if a users login/signup was unsuccessful
+    /// </summary>
+    private void OnLoginFailed(string _error)
+    {
+        ChangeWarningText(_error);
+    }
+    /// <summary>
+    /// Changes the display warning message above the login details
+    /// </summary>
+    public void ChangeWarningText(string _warning)
+    {        
+        warningText.text = _warning;        
+        EnableWarningText(true);
+    }
+    /// <summary>
+    /// Enables or Disables The warning message
+    /// </summary>
+    public void EnableWarningText(bool _enabled)
+    {
+        warningText.gameObject.SetActive(_enabled);
+    }
+
+    #region LegacyCode
+    //private void OnSignUpSuccess(string _data)
+    //{
+    //    firebaseController.SignInOrSignOutUser();
+    //    SceneManager.LoadScene(1);
+    //}
+
+    //private void OnSignUpFailed(string _error)
+    //{
+    //    warningText.text = "Email Already In Use";
+    //    warningText.gameObject.SetActive(true);
+    //    FirebaseController.Instance.UpdateText(_error, Color.red);
+    //}
+    #endregion
 }
+
