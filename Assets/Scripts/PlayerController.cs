@@ -77,7 +77,7 @@ public class PlayerController : Singleton<PlayerController>
                         break;
 
                     case State.DECORATE:
-                        //place furniture
+                        PaintingManager.Instance.PaintTargets();
                         break;
 
                     default:
