@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class LoginCanvasController : MonoBehaviour
 {
+    public static LoginCanvasController Instance;
     public enum MenuState { STARTSCREEN, LOGIN, SIGNUP}
     private MenuState currentMenuState;
 
@@ -16,32 +17,46 @@ public class LoginCanvasController : MonoBehaviour
     [SerializeField] GameObject signupScreen;
 
     private List<GameObject> allScreens = new List<GameObject>();
-    // Start is called before the first frame update
+
     void Start()
     {
+        Instance = this;
         currentMenuState = MenuState.STARTSCREEN;
         allScreens = new List<GameObject> { startScreen, loginScreen, signupScreen};
-        updateActiveScreen(0);
+        UpdateActiveScreen((MenuState)0);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    public void updateActiveScreen(int newState)
+    public void UpdateActiveScreen(MenuState _newState)
     {
         foreach (var item in allScreens)
         {
             item.SetActive(false);
         }
-        allScreens[newState].SetActive(true);
 
-        currentMenuState = (MenuState) newState;
+        switch (_newState)
+        {
+            case MenuState.STARTSCREEN:
+                startScreen.SetActive(true);
+                break;
+            case MenuState.LOGIN:
+                loginScreen.SetActive(true);
+                break;
+            case MenuState.SIGNUP:
+                signupScreen.SetActive(true);
+                break;
+            default:
+                break;
+        }
+
+        currentMenuState = _newState;
     }
 
-    public void changeToBuildScene()
+    public void UpdateActiveScreen(int _stateNumber)
+    {
+        UpdateActiveScreen((MenuState)_stateNumber);
+    }
+
+    public void ChangeToBuildScene()
     {
         SceneManager.LoadScene(1);
     }

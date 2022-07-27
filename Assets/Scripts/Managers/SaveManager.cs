@@ -2,15 +2,20 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FirebaseWebGL.Scripts.FirebaseBridge;
 
 public class SaveManager : Singleton<SaveManager>
 {
     public string filePath = "/SavedRooms/";
     public List<RoomData> allRoomData = new List<RoomData>();
-
+    private bool firebaseSaveExists = false;
     public void Start()
     {
-        //LoadJson();
+        if (!Application.isEditor)
+            LoadJSONFromFirebase();
+        else
+            LoadJson();
+
     }
 
     public void SaveRoomData(string roomName) 
@@ -34,18 +39,48 @@ public class SaveManager : Singleton<SaveManager>
         sfd.rooms = allRoomData;
 
         string saveStr = JsonUtility.ToJson(sfd);
-
-        if(System.IO.File.Exists(Application.dataPath + filePath + ".json")) 
+        if (!Application.isEditor)
         {
-            //overwriting file
-        }
-        else 
-        {
-            //create and close the file, ready to be written to.
-            System.IO.File.Create(Application.dataPath + filePath + ".json").Close();
+            if (System.IO.File.Exists(Application.dataPath + filePath + ".json"))
+            {
+                //overwriting file
+            }
+            else
+            {
+                //create and close the file, ready to be written to.
+                System.IO.File.Create(Application.dataPath + filePath + ".json").Close();
+            }
+
+            System.IO.File.WriteAllText(Application.dataPath + filePath + ".json", saveStr);
         }
 
-        System.IO.File.WriteAllText(Application.dataPath + filePath + ".json", saveStr);
+        else
+        {
+            if (!firebaseSaveExists)
+            { 
+                FirebaseDatabase.PostJSON(FirebaseController.Instance.userData.uid, saveStr,
+                    gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
+            }
+            else
+            {
+                FirebaseDatabase.UpdateJSON(FirebaseController.Instance.userData.uid, saveStr,
+                    gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
+            }
+        }
+    }
+
+    private void OnWriteToJSONSuccess(string _data)
+    {
+        firebaseSaveExists = true;
+        FirebaseController.Instance.UpdateText(_data);
+        //JSON Write Success
+    }
+
+    private void OnWriteToJSONFailed(string _error)
+    {
+        firebaseSaveExists = false;
+        FirebaseController.Instance.UpdateText(_error, Color.red);
+        //JSON Write Failed
     }
 
     public void CreateFromSave(string roomName)
@@ -76,6 +111,28 @@ public class SaveManager : Singleton<SaveManager>
         if (sfd == null) { Debug.Log("FAILED TO LOAD " + filePath); return; }
 
         allRoomData = sfd.rooms;
+    }
+
+    public void LoadJSONFromFirebase()
+    {
+        FirebaseDatabase.GetJSON(FirebaseController.Instance.userData.uid, 
+            gameObject.name, callback: "OnGetJSONSuccess", fallback: "OnGetJSONFailed");
+    }
+
+    private void OnGetJSONSuccess(string _data)
+    {
+        firebaseSaveExists = true;
+        SaveFileData sfd = JsonUtility.FromJson<SaveFileData>(_data);
+
+        allRoomData = sfd.rooms;
+        FirebaseController.Instance.UpdateText(_data);
+    }
+
+    private void OnGetJSONFailed(string _error)
+    {
+        firebaseSaveExists = false;
+        FirebaseController.Instance.UpdateText(_error, Color.red);
+        //No Data found
     }
 }
 
