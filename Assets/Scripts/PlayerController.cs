@@ -28,8 +28,6 @@ public class PlayerController : Singleton<PlayerController>
     public Command latestCommand = Command.NONE;
     bool processInput;
 
-    Vector3 perspCamRot;
-
     bool orthographicMode = false;
 
     Vector3 camLookAtPosition;
@@ -39,7 +37,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Start()
     {
-        perspCamRot = cam.transform.rotation.eulerAngles;
+        OrthoToggle();
     }
 
     void Update()

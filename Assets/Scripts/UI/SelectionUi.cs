@@ -7,6 +7,9 @@ public class SelectionUi : MonoBehaviour
 {
     public List<ObjectList> selectionUiList = new List<ObjectList>();
     [Space]
+    public ComponentBtnScript selectedMeshIcon;
+    public ComponentBtnScript selectedMatIcon;
+    [Space]
     public GameObject btnPrefab;
     public Transform materialBtnHolder;
     public Transform meshBtnHolder;
@@ -40,6 +43,19 @@ public class SelectionUi : MonoBehaviour
             {
                 obj.SetActive(true);
             }
+        }
+
+        if (selectedMeshIcon.mesh != PlacementManager.Instance.selectedMesh)
+        {
+            selectedMeshIcon.mesh = PlacementManager.Instance.selectedMesh;
+            selectedMeshIcon.thumbnail = selectedMeshIcon.mesh == null ? null : ResourceManager.Instance.GetThumbnail(selectedMeshIcon.mesh.name);
+
+        }
+
+        if(selectedMatIcon.mat != PlacementManager.Instance.selectedMaterial) 
+        {
+            selectedMatIcon.mat = PlacementManager.Instance.selectedMaterial;
+            selectedMatIcon.thumbnail = selectedMatIcon.mat == null ? null : ResourceManager.Instance.GetThumbnail(selectedMatIcon.mat.name);
         }
     }
 

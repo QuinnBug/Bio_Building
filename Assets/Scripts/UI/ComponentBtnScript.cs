@@ -14,13 +14,15 @@ public class ComponentBtnScript : MonoBehaviour
     public Material mat;
     public Mesh mesh;
     public Sprite thumbnail;
+    public Sprite defaultThumbnail;
 
     public void Update()
     {
-        if(thumbnail != null) display.sprite = thumbnail;
+        if (thumbnail != null) display.sprite = thumbnail;
+        else display.sprite = defaultThumbnail;
 
         if (mesh != null || mat != null) title.text = type == AssignType.MATERIAL ? mat.name : mesh.name;
-        else title.text = "Invalid";
+        else title.text = "No Selection";
 
     }
 

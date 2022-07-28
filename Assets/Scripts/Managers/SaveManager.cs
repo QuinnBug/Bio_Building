@@ -39,7 +39,7 @@ public class SaveManager : Singleton<SaveManager>
         sfd.rooms = allRoomData;
 
         string saveStr = JsonUtility.ToJson(sfd);
-        if (!Application.isEditor)
+        if (Application.isEditor)
         {
             if (System.IO.File.Exists(Application.dataPath + filePath + ".json"))
             {
@@ -53,7 +53,6 @@ public class SaveManager : Singleton<SaveManager>
 
             System.IO.File.WriteAllText(Application.dataPath + filePath + ".json", saveStr);
         }
-
         else
         {
             if (!firebaseSaveExists)
@@ -85,7 +84,11 @@ public class SaveManager : Singleton<SaveManager>
 
     public void CreateFromSave(string roomName)
     {
-        //Clear all existing objects?
+        foreach (Selectable select in FindObjectsOfType<Selectable>())
+        {
+            Destroy(select.gameObject);
+        }
+
         RoomData data = null;
         foreach (RoomData roomData in allRoomData)
         {
