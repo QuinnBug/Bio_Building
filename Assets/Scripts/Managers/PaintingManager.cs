@@ -42,6 +42,7 @@ public class PaintingManager : Singleton<PaintingManager>
 
         hoveredObject.data.materialName = selectedMat.name;
         hoveredObject.UpdateMaterial();
+        EventManager.Instance.objectPainted.Invoke();
 
         if (connectedObjects.Count > 0)
         {
@@ -107,7 +108,7 @@ public class PaintingManager : Singleton<PaintingManager>
         current = hoveredObject;
         while (FetchAdjacentsInDirection(hoveredObject.transform.right, current, out current)) { adjacentCount++; }
 
-        Debug.Log("Adjacent Count = " + adjacentCount);
+        //Debug.Log("Adjacent Count = " + adjacentCount);
     }
 
     bool FetchAdjacentsInDirection(Vector3 direction, Selectable current, out Selectable newCurrent) 

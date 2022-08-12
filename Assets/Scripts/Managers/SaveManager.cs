@@ -7,10 +7,16 @@ using FirebaseWebGL.Scripts.FirebaseBridge;
 public class SaveManager : Singleton<SaveManager>
 {
     public string filePath = "/SavedRooms/";
+    public SaveFileData currentUserData = null;
     public List<RoomData> allRoomData = new List<RoomData>();
     private bool firebaseSaveExists = false;
+
+    public bool dataLoaded;
+
     public void Start()
     {
+        if (dataLoaded) return;
+
         if (!Application.isEditor)
             LoadJSONFromFirebase();
         else
@@ -114,6 +120,7 @@ public class SaveManager : Singleton<SaveManager>
         if (sfd == null) { Debug.Log("FAILED TO LOAD " + filePath); return; }
 
         allRoomData = sfd.rooms;
+        dataLoaded = true;
     }
 
     public void LoadJSONFromFirebase()
@@ -125,10 +132,12 @@ public class SaveManager : Singleton<SaveManager>
     private void OnGetJSONSuccess(string _data)
     {
         firebaseSaveExists = true;
-        SaveFileData sfd = JsonUtility.FromJson<SaveFileData>(_data);
+        currentUserData = JsonUtility.FromJson<SaveFileData>(_data);
 
-        allRoomData = sfd.rooms;
+        allRoomData = currentUserData.rooms;
         FirebaseController.Instance.UpdateText(_data);
+
+        dataLoaded = true;
     }
 
     private void OnGetJSONFailed(string _error)
@@ -151,5 +160,6 @@ public class RoomData
 [Serializable]
 public class SaveFileData 
 {
+    public bool tutorialCompleted = false;
     public List<RoomData> rooms = new List<RoomData>();
 }

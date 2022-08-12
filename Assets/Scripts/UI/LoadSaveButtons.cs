@@ -13,7 +13,7 @@ public class LoadSaveButtons : MonoBehaviour
     {
         if (!fileNamesLoaded && SaveManager.Instance.allRoomData.Count != 0) PopulateDropdown();
 
-        if (fileNamesLoaded) { Debug.Log(dropdown.value - 1); }
+        //if (fileNamesLoaded) { Debug.Log(dropdown.value - 1); }
 
         input.gameObject.SetActive(dropdown.value == 0);
     }

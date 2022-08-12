@@ -5,6 +5,7 @@ using UnityEngine.Events;
 
 public enum State 
 {
+    NULL = -1,
     SELECT = 0,
     BUILD = 1,
     DECORATE = 2
@@ -16,12 +17,10 @@ public class StateManager : Singleton<StateManager>
     [Space]
     public State currentState = State.SELECT;
 
-    internal StateEvent stateChanged = new StateEvent();
-
     private void Start()
     {
         ChangeState(currentState);
-        stateChanged.AddListener(UpdateUI);
+        EventManager.Instance.stateChanged.AddListener(UpdateUI);
     }
 
     public void UpdateUI(State newState)
@@ -48,11 +47,9 @@ public class StateManager : Singleton<StateManager>
         currentState = newState;
 
         PlacementManager.Instance.active = currentState == State.BUILD;
+        PaintingManager.Instance.active = currentState == State.DECORATE;
         SelectionManager.Instance.active = currentState == State.SELECT;
 
-        stateChanged.Invoke(newState);
+        EventManager.Instance.stateChanged.Invoke(newState);
     }
 }
-
-[System.Serializable]
-public class StateEvent : UnityEvent<State> { }

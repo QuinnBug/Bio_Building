@@ -76,6 +76,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Numbers",
+                    "type": "Value",
+                    "id": "9d7bc736-935f-4da6-9b66-cc1f7489a9d4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -439,6 +447,39 @@
                     "processors": "",
                     "groups": "Keyboard&Mouse",
                     "action": "Delete",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4ce353a0-74dd-47e0-a7b5-1033ebdb8c47",
+                    "path": "<Keyboard>/1",
+                    "interactions": "",
+                    "processors": "Clamp(min=1,max=1)",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Numbers",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "9d3f31d1-091a-4c28-9348-6423d3ea2e76",
+                    "path": "<Keyboard>/2",
+                    "interactions": "",
+                    "processors": "Clamp(min=2,max=2)",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Numbers",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e7977d10-9dc5-4622-986b-2eadc9ca50cc",
+                    "path": "<Keyboard>/3",
+                    "interactions": "",
+                    "processors": "Clamp(min=3,max=3)",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Numbers",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
