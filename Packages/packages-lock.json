@@ -9,6 +9,13 @@
       },
       "url": "https://packages.unity.com"
     },
+    "com.unity.editorcoroutines": {
+      "version": "0.0.2-preview.1",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.ext.nunit": {
       "version": "1.0.6",
       "depth": 1,
@@ -62,6 +69,25 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
+    "com.unity.reflect": {
+      "version": "3.1.0-preview.9",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {
+        "com.unity.editorcoroutines": "0.0.2-preview.1",
+        "com.unity.reflect.runtime": "1.5.0-preview.3",
+        "com.unity.sharp-zip-lib": "1.2.2-preview.2",
+        "com.unity.ugui": "1.0.0"
+      },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.reflect.runtime": {
+      "version": "1.5.0-preview.3",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
+      "url": "https://packages.unity.com"
+    },
     "com.unity.render-pipelines.core": {
       "version": "10.5.0",
       "depth": 1,
@@ -97,6 +123,13 @@
         "com.unity.render-pipelines.core": "10.5.0",
         "com.unity.searcher": "4.3.2"
       },
+      "url": "https://packages.unity.com"
+    },
+    "com.unity.sharp-zip-lib": {
+      "version": "1.2.2-preview.2",
+      "depth": 1,
+      "source": "registry",
+      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
