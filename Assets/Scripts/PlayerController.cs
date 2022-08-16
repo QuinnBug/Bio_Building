@@ -37,7 +37,10 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Start()
     {
+        //put the cam in top down mode, make the target pos zero, then go from there.
+        //Relly this just needs to be a proper positioning function that put the cam at the right pos + angle
         OrthoToggle();
+        camTargetPosition = Vector3.up * orthoOffset;
     }
 
     void Update()
@@ -135,7 +138,7 @@ public class PlayerController : Singleton<PlayerController>
                 {
                     case State.BUILD:
                         SelectionManager.Instance.HoverUpdate();
-                        if (SelectionManager.Instance.hoveredObject != null) Destroy(SelectionManager.Instance.hoveredObject.gameObject);
+                        if (SelectionManager.Instance.hoveredObject != null) SelectionManager.Instance.hoveredObject.Destroy();
                         break;
 
                     case State.DECORATE:
@@ -272,6 +275,17 @@ public class PlayerController : Singleton<PlayerController>
         {
             int change = (int)context.ReadValue<float>();
             PlacementManager.Instance.RotatePlacement(change);
+        }
+    }
+
+    public void NumberInput(InputAction.CallbackContext context) 
+    {
+        if (context.phase == InputActionPhase.Started) 
+        {
+            float num = context.ReadValue<float>();
+            int flatNum = (int)num;
+            //Debug.Log(flatNum);
+            StateManager.Instance.ChangeState((State)flatNum - 1);
         }
     }
     #endregion

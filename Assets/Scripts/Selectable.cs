@@ -37,6 +37,12 @@ public class Selectable : BaseSelectable
         return true;
     }
 
+    public void Destroy() 
+    {
+        Destroy(gameObject);
+        EventManager.Instance.objectDestroyed.Invoke();
+    }
+
     internal void UpdateMesh()
     {
         mFilter.sharedMesh = ResourceManager.Instance.GetMesh(data.meshName);

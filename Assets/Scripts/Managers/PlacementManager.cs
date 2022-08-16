@@ -145,6 +145,8 @@ public class PlacementManager : Singleton<PlacementManager>
         {
             overlapTarget.data.meshName = selectedMesh.name;
             overlapTarget.UpdateMesh();
+            EventManager.Instance.modelChanged.Invoke();
+
 
             if (selectedMaterial != null)
             {
@@ -165,6 +167,7 @@ public class PlacementManager : Singleton<PlacementManager>
         Selectable objSelect = obj.AddComponent<Selectable>();
         objSelect.Init(selectedMesh, selectedMaterial != null ? selectedMaterial : ResourceManager.Instance.materials[0]);
 
+        EventManager.Instance.objectPlaced.Invoke();
         return obj;
     }
 

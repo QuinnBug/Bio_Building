@@ -36,7 +36,7 @@ public class SelectionManager : Singleton<SelectionManager>
 
     private void Start()
     {
-        StateManager.Instance.stateChanged.AddListener(ClearSelection);
+        EventManager.Instance.stateChanged.AddListener(ClearSelection);
         selectionDisplayMesh.gameObject.SetActive(false);
     }
 
@@ -62,9 +62,9 @@ public class SelectionManager : Singleton<SelectionManager>
     {
         if (selectedObjects.Count <= 0) return;
 
-        foreach (BaseSelectable item in selectedObjects)
+        foreach (Selectable item in selectedObjects)
         {
-            Destroy(item.gameObject);
+            item.Destroy();
         }
 
         selectedObjects.Clear();

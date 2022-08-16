@@ -11,36 +11,57 @@ public class ToggleableMenu : MonoBehaviour
     public Vector3 endEuler;
     [Header("Menu")]
     public Transform menuHolder;
+    private RectTransform menuRect;
     public Vector3 menuStartPos;
     public Vector3 menuEndPos;
     [Header("Options")]
-    public float lerpSpeed = 1;
+    public float moveSpeed = 1;
     public bool asLerp = true;
     [Space]
     public bool isOpen;
 
     private void Start()
     {
-        menuHolder.localPosition = menuStartPos;
+        menuHolder.TryGetComponent(out menuRect);
+
+        if(menuRect != null) menuRect.anchoredPosition = menuStartPos;
+        else menuHolder.localPosition = menuStartPos;
+
         buttonImage.localRotation = Quaternion.Euler(startEuler);
     }
 
     private void Update()
     {
         Quaternion targetRot = Quaternion.Euler(isOpen ? endEuler : startEuler);
-        buttonImage.localRotation = Quaternion.Lerp(buttonImage.localRotation, targetRot, lerpSpeed * Time.deltaTime);
+        buttonImage.localRotation = Quaternion.Lerp(buttonImage.localRotation, targetRot, moveSpeed * Time.deltaTime);
 
         Vector3 targetPos = isOpen ? menuEndPos : menuStartPos;
-        if (asLerp)
+
+        if(menuRect != null) 
         {
-            menuHolder.localPosition = Vector3.Lerp(menuHolder.localPosition, targetPos, lerpSpeed * Time.deltaTime);
+            if (asLerp)
+            { 
+                menuRect.anchoredPosition = Vector3.Lerp(menuRect.anchoredPosition, targetPos, moveSpeed * Time.deltaTime);
+            }
+            else
+            {
+                menuRect.anchoredPosition = Vector3.MoveTowards(menuRect.anchoredPosition, targetPos, moveSpeed * Time.deltaTime);
+            }
         }
-        else 
+        else
         {
-            menuHolder.localPosition = Vector3.MoveTowards(menuHolder.localPosition, targetPos, lerpSpeed * Time.deltaTime);
+            if (asLerp)
+            {
+                menuHolder.localPosition = Vector3.Lerp(menuHolder.localPosition, targetPos, moveSpeed * Time.deltaTime);
+            }
+            else
+            {
+                menuHolder.localPosition = Vector3.MoveTowards(menuHolder.localPosition, targetPos, moveSpeed * Time.deltaTime);
+            }
         }
 
 
+        
     }
 
     public void ToggleMenu() 
