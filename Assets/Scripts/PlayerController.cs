@@ -37,10 +37,7 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Start()
     {
-        //put the cam in top down mode, make the target pos zero, then go from there.
-        //Relly this just needs to be a proper positioning function that put the cam at the right pos + angle
-        OrthoToggle();
-        camTargetPosition = Vector3.up * orthoOffset;
+
     }
 
     void Update()

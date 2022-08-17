@@ -19,8 +19,8 @@ public class StateManager : Singleton<StateManager>
 
     private void Start()
     {
-        ChangeState(currentState);
         EventManager.Instance.stateChanged.AddListener(UpdateUI);
+        ChangeState(currentState);
     }
 
     public void UpdateUI(State newState)
