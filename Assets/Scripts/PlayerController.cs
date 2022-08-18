@@ -20,9 +20,11 @@ public class PlayerController : Singleton<PlayerController>
     public float rotSpeed;
     public float lookSpeed;
     [Space]
-    public Vector2 nonOrthoOffset;
-    public float orthoOffset;
-    public float camChangeDistance;
+    public Vector3 topDownViewPos;
+    public Vector3 frontalViewPos;
+    //public float camChangeDistance;
+    //public Vector2 nonOrthoOffset;
+    //public float orthoOffset;
 
     Vector3 moveInput;
     public Command latestCommand = Command.NONE;
@@ -37,7 +39,8 @@ public class PlayerController : Singleton<PlayerController>
 
     private void Start()
     {
-
+        orthographicMode = true;
+        OrthoToggle();
     }
 
     void Update()
@@ -50,7 +53,7 @@ public class PlayerController : Singleton<PlayerController>
             cam.transform.rotation = Quaternion.RotateTowards(cam.transform.rotation, targetRot, lookSpeed * Time.deltaTime);
             //cam.transform.rotation = targetRot;
 
-            if(Quaternion.Angle(cam.transform.rotation, targetRot) < 0.1f  && Vector3.Distance(transform.position, camTargetPosition) < 0.1f)
+            if(Quaternion.Angle(cam.transform.rotation, targetRot) < 0.01f  && Vector3.Distance(transform.position, camTargetPosition) < 0.01f)
             {
                 //cam.orthographic = orthographicMode;
                 transitioning = false;
@@ -59,7 +62,7 @@ public class PlayerController : Singleton<PlayerController>
             return;
         }
 
-        MovementUpdate();
+        //MovementUpdate();
         if (processInput) InputProcessing();
     }
 
@@ -193,20 +196,22 @@ public class PlayerController : Singleton<PlayerController>
 
         //change to be -> set cam TARGET pos and setup a Cam update that moves it towards it's target local pos & rot
 
-        camLookAtPosition = cam.transform.position + (cam.transform.forward * camChangeDistance);
-        camLookAtPosition.y = 0;
+        //camLookAtPosition = cam.transform.position + (cam.transform.forward * camChangeDistance);
+        //camLookAtPosition.y = 0;
 
         //cam.transform.rotation = orthographicMode ? Quaternion.Euler(90, 0, 0) : Quaternion.Euler(perspCamRot);
 
-        if (orthographicMode)
-        {
-            camTargetPosition = camLookAtPosition + (Vector3.up * orthoOffset);
-        }
-        else
-        {
-            camTargetPosition = camLookAtPosition + (Vector3.up * nonOrthoOffset.y) + (transform.forward * nonOrthoOffset.x);
-        }
+        //if (orthographicMode)
+        //{
+        //    camTargetPosition = camLookAtPosition + (Vector3.up * orthoOffset);
+        //}
+        //else
+        //{
+        //    camTargetPosition = camLookAtPosition + (Vector3.up * nonOrthoOffset.y) + (transform.forward * nonOrthoOffset.x);
+        //}
 
+        camTargetPosition = orthographicMode ? topDownViewPos : frontalViewPos;
+        camLookAtPosition = Vector3.zero;
     }
 
     #region Input Functions

@@ -22,6 +22,7 @@ public enum TutorialStage
 public class TutorialHandler : MonoBehaviour
 {
     public List<ObjectList> tutorialObjects = new List<ObjectList>();
+    public GameObject skipButton;
 
     public TutorialStage stage = TutorialStage.NULL;
     private TutorialStage nextStage = TutorialStage.NULL;
@@ -104,6 +105,12 @@ public class TutorialHandler : MonoBehaviour
         }
     }
 
+    public void EndTutorial() 
+    {
+        stepsToAdvance = 0;
+        ChangeStage(TutorialStage.COMPLETE_FLAG);
+    }
+
     public void UpdateVariables() 
     {
         //Add the necessary listen to advance, and remove the listener for the previous advancement
@@ -179,7 +186,9 @@ public class TutorialHandler : MonoBehaviour
             }
         }
 
-        if (stage == TutorialStage.NULL) return;
+        skipButton.SetActive(stage != TutorialStage.NULL);
+
+        if (stage == TutorialStage.NULL)  return;
 
         foreach (GameObject obj in tutorialObjects[(int)stage].objects)
         {
