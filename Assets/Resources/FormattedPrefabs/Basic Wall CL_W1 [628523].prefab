@@ -1,0 +1,378 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1725731204341432383
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3591059649398289656}
+  - component: {fileID: 2222651449768746923}
+  - component: {fileID: 3108355126377005420}
+  - component: {fileID: 6857543658057075256}
+  m_Layer: 0
+  m_Name: Basic Wall CL_W1 [628523](Clone)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3591059649398289656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725731204341432383}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.1430688, y: 1.5, z: 3.341594}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 178639261480827726}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &2222651449768746923
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725731204341432383}
+  m_Mesh: {fileID: 4300000, guid: 541b43a8a2ed3be479736cdab103b78f, type: 2}
+--- !u!23 &3108355126377005420
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725731204341432383}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 26fd06697ff3d2d4daf952c75b35adc3, type: 2}
+  - {fileID: 2100000, guid: 5607f9cf54a89e1439d523f2156239ae, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &6857543658057075256
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1725731204341432383}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 18.41, y: 1.5, z: 0.27999973}
+  m_Center: {x: -2.1430688, y: -0.75, z: -3.341594}
+--- !u!1 &4014113797953277152
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 178639261480827726}
+  - component: {fileID: 4547723432400029969}
+  m_Layer: 0
+  m_Name: Basic Wall CL_W1 [628523]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &178639261480827726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4014113797953277152}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3591059649398289656}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4547723432400029969
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4014113797953277152}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db04988f3b2e2b449b3abdabcc5fbb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parameters:
+    m_Keys:
+    - Id
+    - Category
+    - Family
+    - Type
+    - Document
+    - Structural
+    - Enable Analytical Model
+    - Structural Usage
+    - Location Line
+    - Image
+    - Comments
+    - Mark
+    - Phase Created
+    - Phase Demolished
+    - Rebar Cover - Exterior Face
+    - Rebar Cover - Interior Face
+    - Rebar Cover - Other Faces
+    - Base Constraint
+    - Base Offset
+    - Base is Attached
+    - Base Extension Distance
+    - Top Constraint
+    - Unconnected Height
+    - Top Offset
+    - Top is Attached
+    - Top Extension Distance
+    - Room Bounding
+    - Length
+    - Area
+    - Volume
+    - Related to Mass
+    - View
+    - Source
+    - Structure
+    - Coarse Scale Fill Pattern
+    - Coarse Scale Fill Color
+    - Wrapping at Inserts
+    - Wrapping at Ends
+    - Width
+    - Type Image
+    - Keynote
+    - Model
+    - Manufacturer
+    - Type Comments
+    - URL
+    - Description
+    - Structural Material
+    - Assembly Description
+    - Assembly Code
+    - Type Mark
+    - Fire Rating
+    - Cost
+    - Function
+    - Heat Transfer Coefficient (U)
+    - Thermal Resistance (R)
+    - Thermal mass
+    - Absorptance
+    - Roughness
+    m_Values:
+    - group: Identity Data
+      value: 628523
+      visible: 1
+    - group: Identity Data
+      value: Walls
+      visible: 1
+    - group: Identity Data
+      value: Basic Wall
+      visible: 1
+    - group: Identity Data
+      value: CL_W1
+      visible: 1
+    - group: Identity Data
+      value: RAC_basic_sample_project
+      visible: 1
+    - group: Structural
+      value: Yes
+      visible: 1
+    - group: Structural
+      value: Yes
+      visible: 1
+    - group: Structural
+      value: Bearing
+      visible: 1
+    - group: Constraints
+      value: 'Finish Face: Interior'
+      visible: 1
+    - group: Identity Data
+      value: <None>
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Phasing
+      value: Working Drawings
+      visible: 1
+    - group: Phasing
+      value: None
+      visible: 1
+    - group: Structural
+      value: Rebar Cover 1 <25 mm>
+      visible: 1
+    - group: Structural
+      value: Rebar Cover 1 <25 mm>
+      visible: 1
+    - group: Structural
+      value: Rebar Cover 1 <25 mm>
+      visible: 1
+    - group: Constraints
+      value: Level 1
+      visible: 1
+    - group: Constraints
+      value: -1500
+      visible: 1
+    - group: Constraints
+      value: No
+      visible: 1
+    - group: Constraints
+      value: 0
+      visible: 1
+    - group: Constraints
+      value: 'Up to level: Level 1'
+      visible: 1
+    - group: Constraints
+      value: 1500
+      visible: 1
+    - group: Constraints
+      value: 0
+      visible: 1
+    - group: Constraints
+      value: No
+      visible: 1
+    - group: Constraints
+      value: 0
+      visible: 1
+    - group: Constraints
+      value: Yes
+      visible: 1
+    - group: Dimensions
+      value: 18449
+      visible: 1
+    - group: Dimensions
+      value: "28 m\xB2"
+      visible: 1
+    - group: Dimensions
+      value: "7.73 m\xB3"
+      visible: 1
+    - group: Constraints
+      value: No
+      visible: 1
+    - group: Identity Data
+      value: '{3D}'
+      visible: 1
+    - group: Identity Data
+      value: RAC_basic_sample_project_{3D}
+      visible: 1
+    - group: Construction
+      value: 
+      visible: 1
+    - group: Graphics
+      value: <Solid fill>
+      visible: 1
+    - group: Graphics
+      value: 
+      visible: 1
+    - group: Construction
+      value: Both
+      visible: 1
+    - group: Construction
+      value: None
+      visible: 1
+    - group: Construction
+      value: 280
+      visible: 1
+    - group: Identity Data
+      value: <None>
+      visible: 1
+    - group: Identity Data
+      value: F10
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Materials and Finishes
+      value: CL Concrete_ panels
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 0.00
+      visible: 1
+    - group: Construction
+      value: Exterior
+      visible: 1
+    - group: Analytical Properties
+      value: "0.7500 W/(m\xB2\xB7K)"
+      visible: 1
+    - group: Analytical Properties
+      value: "1.3333 (m\xB2\xB7K)/W"
+      visible: 1
+    - group: Analytical Properties
+      value: 12.67 kJ/K
+      visible: 1
+    - group: Analytical Properties
+      value: 0.1
+      visible: 1
+    - group: Analytical Properties
+      value: 1
+      visible: 1
+  modelTag: 0
