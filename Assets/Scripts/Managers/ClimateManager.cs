@@ -12,22 +12,34 @@ public struct Range
         min = _min;
         max = _max;
     }
+
+    public float NormaliseToRange(float value)
+    {
+        return (value - this.min) / (this.max - this.min);
+    }
 }
 
 public class ClimateManager : Singleton<ClimateManager>
 {
     private MeshRenderer[] trees;
+    public Range treeChangeRange;
+    [SerializeField] private float currentTreePercent;
+
+    [Space]
     private ParticleSystem[] flameEmitters;
-    public int flameStartBoundary; 
-    public int treeEndBoundary; 
+    public Range flameChangeRange;
+    [SerializeField] private float currentFlamePercent;
+
     [Space]
     public Transform water;
     public Range waterLevels;
+    public Range waterChangeRange;
+    [SerializeField] private float currentWaterPercent;
+
     [Space]
     [Range(0,100)]
     public int environmentalLevel;
-    public int previousEnvironmentalLevel;
-    public float treePercent;
+    private int previousEnvironmentalLevel;
 
     private void Start()
     {
@@ -41,8 +53,7 @@ public class ClimateManager : Singleton<ClimateManager>
         }
 
         trees = renderers.ToArray();
-
-        treePercent = trees.Length / 100.0f;
+        //singleTreePercent = trees.Length / 100.0f;
 
         tempArray = GameObject.FindGameObjectsWithTag("Flames");
         List<ParticleSystem> emitters = new List<ParticleSystem>();
@@ -54,6 +65,7 @@ public class ClimateManager : Singleton<ClimateManager>
         }
 
         flameEmitters = emitters.ToArray();
+        //singleFlamePercent = flameEmitters.Length / 100.0f;
     }
 
     private void Update()
@@ -65,16 +77,11 @@ public class ClimateManager : Singleton<ClimateManager>
     {
         if (environmentalLevel == previousEnvironmentalLevel) return;
 
-        //Trees
+        UpdatePercents();
 
-        //int treeCount = (int)(treePercent * (100 - environmentalLevel));
-        float treeCount = treePercent * (
-            (environmentalLevel - treeEndBoundary) *
-            (100 / (100 - treeEndBoundary))
-            );
-        treeCount = trees.Length - treeCount;
+        #region Trees
+        float treeCount = trees.Length - (trees.Length * currentTreePercent);
         treeCount = Mathf.Clamp(treeCount, 0, trees.Length);
-        //Debug.Log("Tree Count = " + treeCount);
 
         List<int> availableIndices = new List<int>();
 
@@ -91,23 +98,21 @@ public class ClimateManager : Singleton<ClimateManager>
             availableIndices.RemoveAt(j);
         }
 
-        //Water
+        #endregion
+
+        #region Water
         Vector3 targetPosition = water.position;
-        targetPosition.y = Mathf.Lerp(waterLevels.min, waterLevels.max, (100-environmentalLevel)/100.0f);
+        targetPosition.y = Mathf.Lerp(waterLevels.min, waterLevels.max, currentWaterPercent);
         water.position = targetPosition;
 
-        //Flames
+        #endregion
+
+        #region Flames
         List<int> emittersToBeActive = new List<int>();
-        float amountOfFlames = flameStartBoundary - environmentalLevel;
+        float amountOfFlames = currentFlamePercent * flameEmitters.Length;
         if(amountOfFlames > 0) 
         {
-            float x = (100.0f / flameStartBoundary);
-            float y = amountOfFlames * x;
-            float z = (flameEmitters.Length / 100.0f) * y;
-
-            amountOfFlames = Mathf.CeilToInt(z);
-
-            Debug.Log("AOF = " + amountOfFlames + " -> total:" + flameEmitters.Length);
+            Debug.Log("AOF = " + amountOfFlames + " -> total:" + flameEmitters.Length + " -- " + currentFlamePercent);
             for (int i = 0; i < flameEmitters.Length; i++)
             {
                 availableIndices.Add(i);
@@ -136,6 +141,17 @@ public class ClimateManager : Singleton<ClimateManager>
             idx++;
         }
 
+        #endregion
+
         previousEnvironmentalLevel = environmentalLevel;
     }
+
+    public void UpdatePercents() 
+    {
+        currentTreePercent =  Mathf.Clamp((treeChangeRange.NormaliseToRange(environmentalLevel)), 0, 1);
+        currentWaterPercent = 1 - Mathf.Clamp((waterChangeRange.NormaliseToRange(environmentalLevel)), 0, 1);
+        currentFlamePercent = 1 - Mathf.Clamp((flameChangeRange.NormaliseToRange(environmentalLevel)), 0, 1);
+    }
+
+    
 }
