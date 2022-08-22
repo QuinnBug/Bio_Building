@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8546222852552225068}
   - component: {fileID: 8798665645644244844}
   - component: {fileID: 4445592310046681244}
-  - component: {fileID: 8291671271551138704}
+  - component: {fileID: 2456081624585089656}
   m_Layer: 0
   m_Name: Furniture_Bed_1:1346x1880x355mm-Double:312745 [316436]
   m_TagString: Untagged
@@ -83,7 +83,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8291671271551138704
+--- !u!64 &2456081624585089656
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4111913023792771947}
-  - component: {fileID: 1817183858451602990}
+  - component: {fileID: 8254958306205813570}
   m_Layer: 0
   m_Name: 1346x1880x355mm-Double_312745 _ Furniture_Bed_1_13...
   m_TagString: Untagged
@@ -129,7 +129,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1817183858451602990
+--- !u!114 &8254958306205813570
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

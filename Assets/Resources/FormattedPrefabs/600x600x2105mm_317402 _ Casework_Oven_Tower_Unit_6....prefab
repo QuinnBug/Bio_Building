@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 387553151738507893}
-  - component: {fileID: 8163089231892377233}
+  - component: {fileID: 6197161258088300916}
   m_Layer: 0
   m_Name: 600x600x2105mm_317402 _ Casework_Oven_Tower_Unit_6...
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8163089231892377233
+--- !u!114 &6197161258088300916
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 4887413350102155854}
   - component: {fileID: 8604123443693924522}
   - component: {fileID: 2700025312127186113}
-  - component: {fileID: 6524575397594316877}
+  - component: {fileID: 7860548835671843215}
   m_Layer: 0
   m_Name: Casework_Oven_Tower_Unit:600x600x2105mm:317402 [316766]
   m_TagString: Untagged
@@ -210,8 +210,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8489806212229577012}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: -1}
-  m_LocalPosition: {x: 3.0811338, y: -0.03399992, z: -3.8753672}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -3.8753672, y: -0.03399992, z: -3.0811338}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 387553151738507893}
@@ -268,7 +268,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6524575397594316877
+--- !u!64 &7860548835671843215
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

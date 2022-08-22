@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8578221620121472216}
-  - component: {fileID: 608393174050926537}
+  - component: {fileID: 7253040093119021568}
   m_Layer: 0
   m_Name: 500x560x210mm_Shelf_344604 _ Plumbing_Fixtures_Sin...
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &608393174050926537
+--- !u!114 &7253040093119021568
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 9021531387389340443}
   - component: {fileID: 4147355109800206540}
   - component: {fileID: 285462200314780185}
-  - component: {fileID: 1312577123277967775}
+  - component: {fileID: 5729918944603307463}
   m_Layer: 0
   m_Name: Plumbing_Fixtures_Sink_Bathroom_w-Shelf_2:500x560x210mm_Shelf:344604 [316160]
   m_TagString: Untagged
@@ -230,8 +230,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7964026179583181677}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: -1}
-  m_LocalPosition: {x: 3.7343836, y: -0.55385137, z: -3.8968673}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -3.8968673, y: -0.55385137, z: -3.7343836}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8578221620121472216}
@@ -289,7 +289,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1312577123277967775
+--- !u!64 &5729918944603307463
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

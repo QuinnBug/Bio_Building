@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2931221216613043796}
-  - component: {fileID: 3653125902052921165}
+  - component: {fileID: 8358589306344813242}
   m_Layer: 0
   m_Name: 540x360x820mm_341474 _ Plumbing_Fixtures_WC_w-Cist...
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3653125902052921165
+--- !u!114 &8358589306344813242
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -215,7 +215,7 @@ GameObject:
   - component: {fileID: 2939241928356992724}
   - component: {fileID: 3199784301078118374}
   - component: {fileID: 7473998792451788962}
-  - component: {fileID: 1647516879391314906}
+  - component: {fileID: 456085376096242690}
   m_Layer: 0
   m_Name: Plumbing_Fixtures_WC_w-Cistern:540x360x820mm:341474 [316895]
   m_TagString: Untagged
@@ -230,8 +230,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6536679848889244903}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: -1}
-  m_LocalPosition: {x: 4.4343834, y: -0.03399998, z: -3.8253808}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -3.8253808, y: -0.03399998, z: -4.4343834}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2931221216613043796}
@@ -289,7 +289,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1647516879391314906
+--- !u!64 &456085376096242690
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

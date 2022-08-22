@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 720035312381289309}
-  - component: {fileID: 1232982390587993750}
+  - component: {fileID: 8987607656403275613}
   m_Layer: 0
   m_Name: 865 mmx815 mm - Public_342641 _ Shower Stall - Cor...
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1232982390587993750
+--- !u!114 &8987607656403275613
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 278008498648108814}
   - component: {fileID: 3391200468240654107}
   - component: {fileID: 5293208878377715779}
-  - component: {fileID: 6465766837284005192}
+  - component: {fileID: 7592895106630817967}
   m_Layer: 0
   m_Name: Shower Stall - Corner:865 mmx815 mm - Public:342641 [316902]
   m_TagString: Untagged
@@ -234,8 +234,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4525813738710792480}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: -1}
-  m_LocalPosition: {x: 5.2418838, y: -0.03399998, z: -3.7443671}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -3.7443671, y: -0.03399998, z: -5.2418838}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 720035312381289309}
@@ -290,7 +290,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6465766837284005192
+--- !u!64 &7592895106630817967
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

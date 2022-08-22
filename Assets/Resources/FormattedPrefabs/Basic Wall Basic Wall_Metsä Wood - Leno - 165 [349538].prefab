@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1684654006948991931
+--- !u!1 &6844211324925482320
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 2471523631536355969}
-  - component: {fileID: 7078509879731023252}
+  - component: {fileID: 5344120366928222573}
+  - component: {fileID: 972473908280567336}
   m_Layer: 0
   m_Name: "Basic Wall Basic Wall_Mets\xE4 Wood - Leno - 165 [349538]"
   m_TagString: Untagged
@@ -17,28 +17,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &2471523631536355969
+--- !u!4 &5344120366928222573
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1684654006948991931}
+  m_GameObject: {fileID: 6844211324925482320}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4203585584394689107}
+  - {fileID: 5484043937606484738}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7078509879731023252
+--- !u!114 &972473908280567336
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1684654006948991931}
+  m_GameObject: {fileID: 6844211324925482320}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3db04988f3b2e2b449b3abdabcc5fbb8, type: 3}
@@ -320,7 +320,7 @@ MonoBehaviour:
       value: 0.1
       visible: 1
   modelTag: 0
---- !u!1 &6404705422405665218
+--- !u!1 &7336191360711936507
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -328,10 +328,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4203585584394689107}
-  - component: {fileID: 885837290234883080}
-  - component: {fileID: 9112269497905814411}
-  - component: {fileID: 8093507085200214828}
+  - component: {fileID: 5484043937606484738}
+  - component: {fileID: 5720569988660841886}
+  - component: {fileID: 1371950410313684881}
+  - component: {fileID: 1868112167692472674}
   m_Layer: 0
   m_Name: "Basic Wall Basic Wall_Mets\xE4 Wood - Leno - 165 [349538](Clone)"
   m_TagString: Untagged
@@ -339,35 +339,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4203585584394689107
+--- !u!4 &5484043937606484738
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6404705422405665218}
+  m_GameObject: {fileID: 7336191360711936507}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -155.69774, y: 0, z: -39.3322}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 2471523631536355969}
+  m_Father: {fileID: 5344120366928222573}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &885837290234883080
+--- !u!33 &5720569988660841886
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6404705422405665218}
+  m_GameObject: {fileID: 7336191360711936507}
   m_Mesh: {fileID: 4300000, guid: 9cdc9d54b3ef12441af77ee1d11f595c, type: 2}
---- !u!23 &9112269497905814411
+--- !u!23 &1371950410313684881
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6404705422405665218}
+  m_GameObject: {fileID: 7336191360711936507}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -403,13 +403,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8093507085200214828
+--- !u!64 &1868112167692472674
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6404705422405665218}
+  m_GameObject: {fileID: 7336191360711936507}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1

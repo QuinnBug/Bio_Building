@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8985993501754693791}
   - component: {fileID: 1301935070531322655}
   - component: {fileID: 4119855326497667725}
-  - component: {fileID: 4885185229369710397}
+  - component: {fileID: 7594002281556812679}
   m_Layer: 0
   m_Name: Furniture_TV_Plasma:42":395702 [316286]
   m_TagString: Untagged
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4885185229369710397
+--- !u!64 &7594002281556812679
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8103002331137325777}
-  - component: {fileID: 7695808540132137732}
+  - component: {fileID: 2040968778789497256}
   m_Layer: 0
   m_Name: 42_395702 _ Furniture_TV_Plasma_42_395702 [316290]
   m_TagString: Untagged
@@ -130,7 +130,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7695808540132137732
+--- !u!114 &2040968778789497256
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

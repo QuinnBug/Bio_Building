@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &478122916828585744
+--- !u!1 &3912661097408953110
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,10 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8533071092371841574}
-  - component: {fileID: 6078021293763399597}
-  - component: {fileID: 5958563853549609315}
-  - component: {fileID: 8996505683399069537}
+  - component: {fileID: 2108382675528239501}
+  - component: {fileID: 4280905583440092354}
+  - component: {fileID: 7454802784365663328}
+  - component: {fileID: 4129137267640394916}
   m_Layer: 0
   m_Name: "Basic Wall Basic Wall_Mets\xE4 Wood - Leno - 125 [349534](Clone)"
   m_TagString: Untagged
@@ -19,35 +19,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8533071092371841574
+--- !u!4 &2108382675528239501
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 478122916828585744}
+  m_GameObject: {fileID: 3912661097408953110}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -148.39774, y: 0, z: -30.78072}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5025567032557741353}
+  m_Father: {fileID: 3812247265779253442}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &6078021293763399597
+--- !u!33 &4280905583440092354
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 478122916828585744}
+  m_GameObject: {fileID: 3912661097408953110}
   m_Mesh: {fileID: 4300000, guid: 3fac7d0622d15a64eab7f610bce85589, type: 2}
---- !u!23 &5958563853549609315
+--- !u!23 &7454802784365663328
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 478122916828585744}
+  m_GameObject: {fileID: 3912661097408953110}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -83,13 +83,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8996505683399069537
+--- !u!64 &4129137267640394916
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 478122916828585744}
+  m_GameObject: {fileID: 3912661097408953110}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -97,7 +97,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 3fac7d0622d15a64eab7f610bce85589, type: 2}
---- !u!1 &8004855924792156139
+--- !u!1 &7704082208442358679
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,8 +105,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5025567032557741353}
-  - component: {fileID: 3483490384941466849}
+  - component: {fileID: 3812247265779253442}
+  - component: {fileID: 5424115546861050202}
   m_Layer: 0
   m_Name: "Basic Wall Basic Wall_Mets\xE4 Wood - Leno - 125 [349534]"
   m_TagString: Untagged
@@ -114,28 +114,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5025567032557741353
+--- !u!4 &3812247265779253442
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8004855924792156139}
+  m_GameObject: {fileID: 7704082208442358679}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8533071092371841574}
+  - {fileID: 2108382675528239501}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3483490384941466849
+--- !u!114 &5424115546861050202
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8004855924792156139}
+  m_GameObject: {fileID: 7704082208442358679}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3db04988f3b2e2b449b3abdabcc5fbb8, type: 3}

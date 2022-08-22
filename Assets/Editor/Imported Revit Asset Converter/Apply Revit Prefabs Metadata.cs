@@ -9,6 +9,8 @@ public class ApplyRevitPrefabsMetadata : EditorWindow
 {
     Object myBasePrefab = null;
     string exportedObjectPath = "Resources/FormattedPrefabs/";
+    bool specificExport = false;
+    int numberOfExports;
     // Add menu named "My Window" to the Window menu
     [MenuItem("Window/Reflect/Apply Prefab Metadata")]
     static void Init()
@@ -26,7 +28,14 @@ public class ApplyRevitPrefabsMetadata : EditorWindow
         GUILayout.Label("Base Revit Export Prefab", EditorStyles.boldLabel);
         myBasePrefab = EditorGUILayout.ObjectField(myBasePrefab, typeof(Object), true);
 
-        if(GUILayout.Button("Apply Metadata"))
+        specificExport = EditorGUILayout.Toggle("Only export a specific number of objects? (Used mainly for testing)", specificExport);
+        if(specificExport)
+        {
+            numberOfExports = EditorGUILayout.IntField("How many exports? ", numberOfExports);
+        }
+
+
+        if (GUILayout.Button("Apply Metadata"))
         {
             if (exportedObjectPath == "" || exportedObjectPath == null)
             {
@@ -38,9 +47,34 @@ public class ApplyRevitPrefabsMetadata : EditorWindow
                 Debug.LogWarning("No prefab to export set");
                 return;
             }
+            if (specificExport && numberOfExports <= 0)
+            {
+                Debug.LogWarning("Please select a number greater than 0 for exports or turn off specific number of exports");
+                return;
+            }
             ApplyMetadata();
         }
 
+        GUILayout.Space(40);
+
+        if (GUILayout.Button("Clear Import Folder"))
+        {
+            ClearImportFolder();
+
+        }
+
+
+    }
+
+    public void ClearImportFolder()
+    {
+        
+        string[] folderToClear = { "Assets/" + exportedObjectPath.Remove(exportedObjectPath.Length - 1, 1) };
+        foreach (var asset in AssetDatabase.FindAssets("", folderToClear))
+        {
+            var path = AssetDatabase.GUIDToAssetPath(asset);
+            AssetDatabase.DeleteAsset(path);
+        }
     }
 
     public void ApplyMetadata()
@@ -79,9 +113,9 @@ public class ApplyRevitPrefabsMetadata : EditorWindow
             CreateAndRecentreBounds(childPrefabGameObject);
             SavePrefabData(childPrefabGameObject, childPath);
 
-            //debugChildrenCount++;
-            //if (debugChildrenCount == 50)
-            //    break;
+            debugChildrenCount++;
+            if (specificExport && debugChildrenCount >= numberOfExports)
+                break;
         }
         SavePrefabData(basePrefabGameObject, prefabPath);
         Debug.Log("Metadata Application Complete");
@@ -167,7 +201,19 @@ public class ApplyRevitPrefabsMetadata : EditorWindow
         GameObject meshHolder = _childPrefab.GetComponentInChildren<MeshRenderer>().gameObject;
 
         BoxCollider boxCollider = meshHolder.AddComponent<BoxCollider>();
-        Vector3 movementBounds = new Vector3(boxCollider.center.x, -((boxCollider.size.y/2)-boxCollider.center.y ), boxCollider.center.z);
+        Vector3 movementBounds;
+        if (boxCollider.size.x < boxCollider.size.z)
+        {
+            Vector3 currentRotation = meshHolder.transform.rotation.eulerAngles;
+            currentRotation.y += 90;
+            meshHolder.transform.rotation = Quaternion.Euler(currentRotation);
+            movementBounds = new Vector3(boxCollider.center.z, -((boxCollider.size.y / 2) - boxCollider.center.y), -boxCollider.center.x);
+        }
+        else
+        {
+            movementBounds = new Vector3(boxCollider.center.x, -((boxCollider.size.y / 2) - boxCollider.center.y), boxCollider.center.z);
+        }
+        //Vector3 movementBounds = new Vector3(boxCollider.center.x, -((boxCollider.size.y/2)-boxCollider.center.y ), boxCollider.center.z);
 
         Vector3 newPosition = meshHolder.transform.position - movementBounds;
 

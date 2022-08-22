@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6569034264292405758}
-  - component: {fileID: 1636396200859946125}
+  - component: {fileID: 2838270130119982060}
   m_Layer: 0
   m_Name: 450x450x230mm_400688 _ Plumbing_Fixtures_Sgl-Sink_...
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1636396200859946125
+--- !u!114 &2838270130119982060
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 2476617267346043218}
   - component: {fileID: 6678231686665283635}
   - component: {fileID: 2492094578232766916}
-  - component: {fileID: 585634875215416523}
+  - component: {fileID: 7463901212374026027}
   m_Layer: 0
   m_Name: Plumbing_Fixtures_Sgl-Sink_Kitchen_Square:450x450x230mm:400688 [316300]
   m_TagString: Untagged
@@ -290,7 +290,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &585634875215416523
+--- !u!64 &7463901212374026027
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 974183703323712783}
-  - component: {fileID: 3384458711834648406}
+  - component: {fileID: 7985527450505668142}
   m_Layer: 0
   m_Name: 600x820x550mm_524767 _ Specialty_Equipment_Washer_...
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3384458711834648406
+--- !u!114 &7985527450505668142
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 2305756367843332870}
   - component: {fileID: 1845031830225538716}
   - component: {fileID: 738025740676188424}
-  - component: {fileID: 2895373344029347871}
+  - component: {fileID: 8122674501567046164}
   m_Layer: 0
   m_Name: Specialty_Equipment_Washer:600x820x550mm:524767 [333517]
   m_TagString: Untagged
@@ -292,7 +292,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2895373344029347871
+--- !u!64 &8122674501567046164
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

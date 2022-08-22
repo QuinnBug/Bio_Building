@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8331274889478436499}
-  - component: {fileID: 2398389312033386239}
+  - component: {fileID: 9027331560994446196}
   m_Layer: 0
   m_Name: OriginGlobal_OS44_OX_DoorLeaf_433539 _ OriginGloba...
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2398389312033386239
+--- !u!114 &9027331560994446196
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 3727841635193281794}
   - component: {fileID: 4679470216686070326}
   - component: {fileID: 887853626768493855}
-  - component: {fileID: 3919637023134482900}
+  - component: {fileID: 1776570702497053133}
   m_Layer: 0
   m_Name: OriginGlobal_OS44_OX_DoorLeaf:OriginGlobal_OS44_OX_DoorLeaf:433539 [316393]
   m_TagString: Untagged
@@ -234,8 +234,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8507771226758587451}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: -1}
-  m_LocalPosition: {x: -2.3191655, y: -0.06500006, z: -2.1372674}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -2.1372674, y: -0.06500006, z: 2.3191655}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 8331274889478436499}
@@ -291,7 +291,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3919637023134482900
+--- !u!64 &1776570702497053133
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

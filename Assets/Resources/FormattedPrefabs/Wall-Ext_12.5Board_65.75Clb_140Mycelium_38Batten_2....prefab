@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 64349746515298609}
-  - component: {fileID: 1819764036283556887}
+  - component: {fileID: 3737684392777460209}
   m_Layer: 0
   m_Name: Wall-Ext_12.5Board_65.75Clb_140Mycelium_38Batten_2...
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1819764036283556887
+--- !u!114 &3737684392777460209
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -249,7 +249,7 @@ GameObject:
   - component: {fileID: 733197843141670342}
   - component: {fileID: 4539936751607012889}
   - component: {fileID: 948112584574108442}
-  - component: {fileID: 1968728129391774837}
+  - component: {fileID: 1703125754933214577}
   m_Layer: 0
   m_Name: Basic Wall:Wall-Ext_12.5Board_65.75Clb_140Mycelium_38Batten_21Larch C:354066
     [316183]
@@ -265,8 +265,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5319810609998546858}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: -1}
-  m_LocalPosition: {x: -2.3082414, y: 0, z: -2.3344922}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -2.3344922, y: 0, z: 2.3082414}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 64349746515298609}
@@ -321,7 +321,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1968728129391774837
+--- !u!64 &1703125754933214577
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

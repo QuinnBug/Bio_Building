@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4049673272909243672}
-  - component: {fileID: 8984463488634740534}
+  - component: {fileID: 5521832282757885926}
   m_Layer: 0
   m_Name: 600mm_Depth 2_418146 _ Casework_Counter_Top_Corner...
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8984463488634740534
+--- !u!114 &5521832282757885926
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 1031661764156821289}
   - component: {fileID: 6825988930164883711}
   - component: {fileID: 6782095530282060954}
-  - component: {fileID: 6946437476671063472}
+  - component: {fileID: 8522775019350518338}
   m_Layer: 0
   m_Name: Casework_Counter_Top_Corner2:600mm_Depth 2:418146 [316315]
   m_TagString: Untagged
@@ -266,7 +266,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6946437476671063472
+--- !u!64 &8522775019350518338
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
