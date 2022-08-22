@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &6693397447273811498
+--- !u!1 &2343899685948839970
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,10 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7573140208640329893}
-  - component: {fileID: 275439484556407502}
-  - component: {fileID: 6536809326666595233}
-  - component: {fileID: 7659602759203601682}
+  - component: {fileID: 42269343141331167}
+  - component: {fileID: 5181631794021694014}
+  - component: {fileID: 8571039117605754451}
+  - component: {fileID: 1630962962411074792}
   m_Layer: 0
   m_Name: Amphibia 45x140 _ Glulam (1)_Amphibia 45x140 [363804](Clone)
   m_TagString: Untagged
@@ -19,35 +19,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7573140208640329893
+--- !u!4 &42269343141331167
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6693397447273811498}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 2343899685948839970}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 7213869587721280985}
+  m_Father: {fileID: 2741029746319448358}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &275439484556407502
+--- !u!33 &5181631794021694014
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6693397447273811498}
+  m_GameObject: {fileID: 2343899685948839970}
   m_Mesh: {fileID: 4300000, guid: 88602d56fea84b647bd5800c37d5f888, type: 2}
---- !u!23 &6536809326666595233
+--- !u!23 &8571039117605754451
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6693397447273811498}
+  m_GameObject: {fileID: 2343899685948839970}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -82,13 +82,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &7659602759203601682
+--- !u!64 &1630962962411074792
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6693397447273811498}
+  m_GameObject: {fileID: 2343899685948839970}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -96,7 +96,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 88602d56fea84b647bd5800c37d5f888, type: 2}
---- !u!1 &7996540498311801239
+--- !u!1 &5140629177323975242
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,8 +104,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7213869587721280985}
-  - component: {fileID: 5835385885908799771}
+  - component: {fileID: 2741029746319448358}
+  - component: {fileID: 4177596709362869270}
   m_Layer: 0
   m_Name: Amphibia 45x140 _ Glulam (1)_Amphibia 45x140 [363804] 44
   m_TagString: Untagged
@@ -113,28 +113,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7213869587721280985
+--- !u!4 &2741029746319448358
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7996540498311801239}
+  m_GameObject: {fileID: 5140629177323975242}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7573140208640329893}
+  - {fileID: 42269343141331167}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5835385885908799771
+--- !u!114 &4177596709362869270
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7996540498311801239}
+  m_GameObject: {fileID: 5140629177323975242}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3db04988f3b2e2b449b3abdabcc5fbb8, type: 3}

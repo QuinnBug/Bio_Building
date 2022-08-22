@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4451767851494703983}
   - component: {fileID: 1384847336050471722}
   - component: {fileID: 6195308303842135905}
-  - component: {fileID: 4592612759483696090}
+  - component: {fileID: 9044748423017160609}
   m_Layer: 0
   m_Name: OriginGlobal_Doors_InlineSlider_OS44_2Panel_1Fixed1Sliding:2000(w)x2100(h):433536
     [316367]
@@ -27,8 +27,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4836705541311713576}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: -1}
-  m_LocalPosition: {x: -2.3184164, y: 0, z: -2.1372674}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -2.1372674, y: 0, z: 2.3184164}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1719379821137920010}
@@ -84,7 +84,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4592612759483696090
+--- !u!64 &9044748423017160609
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -107,7 +107,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1719379821137920010}
-  - component: {fileID: 3732982925017572560}
+  - component: {fileID: 8509682931358561791}
   m_Layer: 0
   m_Name: 2000(w)x2100(h)_433536 _ OriginGlobal_Doors_Inline...
   m_TagString: Untagged
@@ -130,7 +130,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3732982925017572560
+--- !u!114 &8509682931358561791
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3940332186925291204
+--- !u!1 &884737933589022631
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 659292253585087663}
-  - component: {fileID: 7607582218981190824}
+  - component: {fileID: 1580019774339736199}
+  - component: {fileID: 4184968654197695040}
   m_Layer: 0
   m_Name: Batten 38x38 _ Glulam (1)_Batten 38x38 [363807] 17
   m_TagString: Untagged
@@ -17,28 +17,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &659292253585087663
+--- !u!4 &1580019774339736199
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3940332186925291204}
+  m_GameObject: {fileID: 884737933589022631}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 6417311614130502443}
+  - {fileID: 5515384081445397377}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7607582218981190824
+--- !u!114 &4184968654197695040
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3940332186925291204}
+  m_GameObject: {fileID: 884737933589022631}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3db04988f3b2e2b449b3abdabcc5fbb8, type: 3}
@@ -244,7 +244,7 @@ MonoBehaviour:
       value: 
       visible: 1
   modelTag: 0
---- !u!1 &4490936169866816777
+--- !u!1 &2351950310301965713
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -252,10 +252,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6417311614130502443}
-  - component: {fileID: 278329350742033222}
-  - component: {fileID: 5682751115972067099}
-  - component: {fileID: 3300957463008698458}
+  - component: {fileID: 5515384081445397377}
+  - component: {fileID: 1155851822796372254}
+  - component: {fileID: 5077122500803906279}
+  - component: {fileID: 2337982139283494123}
   m_Layer: 0
   m_Name: Batten 38x38 _ Glulam (1)_Batten 38x38 [363807](Clone)
   m_TagString: Untagged
@@ -263,35 +263,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &6417311614130502443
+--- !u!4 &5515384081445397377
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4490936169866816777}
+  m_GameObject: {fileID: 2351950310301965713}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.22200012, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 659292253585087663}
+  m_Father: {fileID: 1580019774339736199}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &278329350742033222
+--- !u!33 &1155851822796372254
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4490936169866816777}
+  m_GameObject: {fileID: 2351950310301965713}
   m_Mesh: {fileID: 4300000, guid: 6ce31c57f734a9541b24fd9e97be1f65, type: 2}
---- !u!23 &5682751115972067099
+--- !u!23 &5077122500803906279
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4490936169866816777}
+  m_GameObject: {fileID: 2351950310301965713}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -326,13 +326,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3300957463008698458
+--- !u!64 &2337982139283494123
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4490936169866816777}
+  m_GameObject: {fileID: 2351950310301965713}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1

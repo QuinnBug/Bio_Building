@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6488638473583294299}
-  - component: {fileID: 499677276880747833}
+  - component: {fileID: 2388171263628556590}
   m_Layer: 0
   m_Name: 810x2110mm _ Doors_IntSgl_810x2110mm [363815]
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &499677276880747833
+--- !u!114 &2388171263628556590
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -303,7 +303,7 @@ GameObject:
   - component: {fileID: 2497602358424413308}
   - component: {fileID: 3912422510798093144}
   - component: {fileID: 8310492887406494524}
-  - component: {fileID: 9095060707820150040}
+  - component: {fileID: 9046897389490155110}
   m_Layer: 0
   m_Name: Doors_IntSgl:810x2110mm:414442 [333457]
   m_TagString: Untagged
@@ -377,7 +377,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &9095060707820150040
+--- !u!64 &9046897389490155110
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

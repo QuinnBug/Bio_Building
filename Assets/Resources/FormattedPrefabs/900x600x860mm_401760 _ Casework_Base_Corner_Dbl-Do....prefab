@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7172310478376090260}
-  - component: {fileID: 8222105932988369115}
+  - component: {fileID: 1178914322704323584}
   m_Layer: 0
   m_Name: 900x600x860mm_401760 _ Casework_Base_Corner_Dbl-Do...
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8222105932988369115
+--- !u!114 &1178914322704323584
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -195,7 +195,7 @@ GameObject:
   - component: {fileID: 4500662097785640644}
   - component: {fileID: 3536034902952211504}
   - component: {fileID: 6914974869170538823}
-  - component: {fileID: 8829677461684218746}
+  - component: {fileID: 8338467773688687341}
   m_Layer: 0
   m_Name: Casework_Base_Corner_Dbl-Doors_2:900x600x860mm:401760 [333443]
   m_TagString: Untagged
@@ -267,7 +267,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8829677461684218746
+--- !u!64 &8338467773688687341
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

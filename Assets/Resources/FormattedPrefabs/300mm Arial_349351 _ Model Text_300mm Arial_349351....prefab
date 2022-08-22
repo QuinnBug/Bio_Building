@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1375448071518212724}
   - component: {fileID: 2312716186804121757}
   - component: {fileID: 4508849200949051784}
-  - component: {fileID: 2195356027718920828}
+  - component: {fileID: 703741924488385085}
   m_Layer: 0
   m_Name: Model Text:300mm Arial:349351 [331912]
   m_TagString: Untagged
@@ -82,7 +82,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2195356027718920828
+--- !u!64 &703741924488385085
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 207546207722001174}
-  - component: {fileID: 6609484029778302836}
+  - component: {fileID: 6013985683623784821}
   m_Layer: 0
   m_Name: 300mm Arial_349351 _ Model Text_300mm Arial_349351...
   m_TagString: Untagged
@@ -128,7 +128,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6609484029778302836
+--- !u!114 &6013985683623784821
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

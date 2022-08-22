@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7189168200848826824
+--- !u!1 &2314048242836100237
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,10 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7551843157935166131}
-  - component: {fileID: 8632614613934847184}
-  - component: {fileID: 9145999383323520415}
-  - component: {fileID: 3952493190072506494}
+  - component: {fileID: 3556405180887504888}
+  - component: {fileID: 1533611111163968950}
+  - component: {fileID: 5054382071027015133}
+  - component: {fileID: 4895668990340405397}
   m_Layer: 0
   m_Name: Batten 38x38 _ Glulam (1)_Batten 38x38 [363807](Clone)
   m_TagString: Untagged
@@ -19,35 +19,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7551843157935166131
+--- !u!4 &3556405180887504888
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7189168200848826824}
+  m_GameObject: {fileID: 2314048242836100237}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0.22200012, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5790525091644007382}
+  m_Father: {fileID: 336037411173008900}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8632614613934847184
+--- !u!33 &1533611111163968950
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7189168200848826824}
+  m_GameObject: {fileID: 2314048242836100237}
   m_Mesh: {fileID: 4300000, guid: 6ce31c57f734a9541b24fd9e97be1f65, type: 2}
---- !u!23 &9145999383323520415
+--- !u!23 &5054382071027015133
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7189168200848826824}
+  m_GameObject: {fileID: 2314048242836100237}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -82,13 +82,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &3952493190072506494
+--- !u!64 &4895668990340405397
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7189168200848826824}
+  m_GameObject: {fileID: 2314048242836100237}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -96,7 +96,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 6ce31c57f734a9541b24fd9e97be1f65, type: 2}
---- !u!1 &9104893810172041368
+--- !u!1 &6548254123633059480
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,8 +104,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5790525091644007382}
-  - component: {fileID: 7418300834443766281}
+  - component: {fileID: 336037411173008900}
+  - component: {fileID: 1136574786919056850}
   m_Layer: 0
   m_Name: Batten 38x38 _ Glulam (1)_Batten 38x38 [363807] 35
   m_TagString: Untagged
@@ -113,28 +113,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5790525091644007382
+--- !u!4 &336037411173008900
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9104893810172041368}
+  m_GameObject: {fileID: 6548254123633059480}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7551843157935166131}
+  - {fileID: 3556405180887504888}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7418300834443766281
+--- !u!114 &1136574786919056850
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9104893810172041368}
+  m_GameObject: {fileID: 6548254123633059480}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3db04988f3b2e2b449b3abdabcc5fbb8, type: 3}

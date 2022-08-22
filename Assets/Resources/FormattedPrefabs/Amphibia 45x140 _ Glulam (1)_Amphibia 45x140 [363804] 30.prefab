@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1244535337748615689
+--- !u!1 &4434515943216584426
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,8 +8,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 3575193678050781514}
-  - component: {fileID: 4200417520569764618}
+  - component: {fileID: 1101493771788160654}
+  - component: {fileID: 5084261611737435667}
   m_Layer: 0
   m_Name: Amphibia 45x140 _ Glulam (1)_Amphibia 45x140 [363804] 30
   m_TagString: Untagged
@@ -17,28 +17,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &3575193678050781514
+--- !u!4 &1101493771788160654
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1244535337748615689}
+  m_GameObject: {fileID: 4434515943216584426}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8518459531276341662}
+  - {fileID: 193298112484679688}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4200417520569764618
+--- !u!114 &5084261611737435667
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1244535337748615689}
+  m_GameObject: {fileID: 4434515943216584426}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3db04988f3b2e2b449b3abdabcc5fbb8, type: 3}
@@ -244,7 +244,7 @@ MonoBehaviour:
       value: 
       visible: 1
   modelTag: 0
---- !u!1 &2547054232888314360
+--- !u!1 &4736050252497025546
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -252,10 +252,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8518459531276341662}
-  - component: {fileID: 9212936530079843260}
-  - component: {fileID: 8535376938024482795}
-  - component: {fileID: 5121954212720431326}
+  - component: {fileID: 193298112484679688}
+  - component: {fileID: 9040158131688770018}
+  - component: {fileID: 9164272254803116418}
+  - component: {fileID: 7433244262891630996}
   m_Layer: 0
   m_Name: Amphibia 45x140 _ Glulam (1)_Amphibia 45x140 [363804](Clone)
   m_TagString: Untagged
@@ -263,35 +263,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8518459531276341662
+--- !u!4 &193298112484679688
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2547054232888314360}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_GameObject: {fileID: 4736050252497025546}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3575193678050781514}
+  m_Father: {fileID: 1101493771788160654}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &9212936530079843260
+--- !u!33 &9040158131688770018
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2547054232888314360}
+  m_GameObject: {fileID: 4736050252497025546}
   m_Mesh: {fileID: 4300000, guid: 88602d56fea84b647bd5800c37d5f888, type: 2}
---- !u!23 &8535376938024482795
+--- !u!23 &9164272254803116418
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2547054232888314360}
+  m_GameObject: {fileID: 4736050252497025546}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -326,13 +326,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5121954212720431326
+--- !u!64 &7433244262891630996
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2547054232888314360}
+  m_GameObject: {fileID: 4736050252497025546}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1

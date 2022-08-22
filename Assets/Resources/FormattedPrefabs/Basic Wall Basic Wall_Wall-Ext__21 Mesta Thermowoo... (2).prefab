@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2022515794644752899
+--- !u!1 &3916615909717461628
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,10 +8,10 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7418493053119620910}
-  - component: {fileID: 7510027187736583209}
-  - component: {fileID: 169722349272605281}
-  - component: {fileID: 8697753511699354700}
+  - component: {fileID: 4365805219283135634}
+  - component: {fileID: 2826449128128919472}
+  - component: {fileID: 5650558417555041234}
+  - component: {fileID: 5090927255153471970}
   m_Layer: 0
   m_Name: Basic Wall Basic Wall_Wall-Ext__21 Mesta Thermowoo... (2)(Clone)
   m_TagString: Untagged
@@ -19,35 +19,35 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7418493053119620910
+--- !u!4 &4365805219283135634
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2022515794644752899}
+  m_GameObject: {fileID: 3916615909717461628}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 2.502184, y: -2.4, z: 0.12788275}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 359367856846835867}
+  m_Father: {fileID: 1741806771522756550}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &7510027187736583209
+--- !u!33 &2826449128128919472
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2022515794644752899}
+  m_GameObject: {fileID: 3916615909717461628}
   m_Mesh: {fileID: 4300000, guid: 61d772ab0feaea348b18a1b6f2b0fd3b, type: 2}
---- !u!23 &169722349272605281
+--- !u!23 &5650558417555041234
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2022515794644752899}
+  m_GameObject: {fileID: 3916615909717461628}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -82,13 +82,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8697753511699354700
+--- !u!64 &5090927255153471970
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2022515794644752899}
+  m_GameObject: {fileID: 3916615909717461628}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -96,7 +96,7 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 61d772ab0feaea348b18a1b6f2b0fd3b, type: 2}
---- !u!1 &8471226080769945559
+--- !u!1 &8296535259557113567
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -104,8 +104,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 359367856846835867}
-  - component: {fileID: 4009952423512843159}
+  - component: {fileID: 1741806771522756550}
+  - component: {fileID: 3236575329672553300}
   m_Layer: 0
   m_Name: Basic Wall Basic Wall_Wall-Ext__21 Mesta Thermowoo... (2)
   m_TagString: Untagged
@@ -113,28 +113,28 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &359367856846835867
+--- !u!4 &1741806771522756550
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8471226080769945559}
+  m_GameObject: {fileID: 8296535259557113567}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7418493053119620910}
+  - {fileID: 4365805219283135634}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4009952423512843159
+--- !u!114 &3236575329672553300
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8471226080769945559}
+  m_GameObject: {fileID: 8296535259557113567}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3db04988f3b2e2b449b3abdabcc5fbb8, type: 3}

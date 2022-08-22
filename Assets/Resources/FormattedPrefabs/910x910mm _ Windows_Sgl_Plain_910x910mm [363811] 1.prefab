@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4452507428152414016}
   - component: {fileID: 3774305083247431987}
   - component: {fileID: 8302646298392331659}
-  - component: {fileID: 8738457008007430268}
+  - component: {fileID: 7262904964507623240}
   m_Layer: 0
   m_Name: Windows_Sgl_Plain:910x910mm:393649 [316284]
   m_TagString: Untagged
@@ -83,7 +83,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &8738457008007430268
+--- !u!64 &7262904964507623240
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7899140566580682270}
-  - component: {fileID: 1940477467059498699}
+  - component: {fileID: 3254876456148853846}
   m_Layer: 0
   m_Name: 910x910mm _ Windows_Sgl_Plain_910x910mm [363811] 1
   m_TagString: Untagged
@@ -129,7 +129,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1940477467059498699
+--- !u!114 &3254876456148853846
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

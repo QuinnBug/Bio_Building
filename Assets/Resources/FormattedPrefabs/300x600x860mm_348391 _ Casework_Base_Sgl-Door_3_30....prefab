@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5013973288963060667}
   - component: {fileID: 5477027465341192273}
   - component: {fileID: 4402111595671913967}
-  - component: {fileID: 6046319323191818034}
+  - component: {fileID: 8378643456111100935}
   m_Layer: 0
   m_Name: Casework_Base_Sgl-Door_3:300x600x860mm:348391 [316909]
   m_TagString: Untagged
@@ -26,8 +26,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1970228579341842006}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: -1}
-  m_LocalPosition: {x: 1.5311337, y: -0.03399998, z: -3.8641672}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -3.8641672, y: -0.03399998, z: -1.5311337}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5315196810835469926}
@@ -83,7 +83,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &6046319323191818034
+--- !u!64 &8378643456111100935
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5315196810835469926}
-  - component: {fileID: 5203616409578605179}
+  - component: {fileID: 1392736619623708694}
   m_Layer: 0
   m_Name: 300x600x860mm_348391 _ Casework_Base_Sgl-Door_3_30...
   m_TagString: Untagged
@@ -129,7 +129,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5203616409578605179
+--- !u!114 &1392736619623708694
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

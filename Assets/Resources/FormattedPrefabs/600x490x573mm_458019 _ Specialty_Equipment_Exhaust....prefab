@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8512479798177616418}
   - component: {fileID: 7211323170628671812}
   - component: {fileID: 2006975608436258770}
-  - component: {fileID: 4853260125385886183}
+  - component: {fileID: 1455399093735891435}
   m_Layer: 0
   m_Name: Specialty_Equipment_Exhaust_Hood:600x490x573mm:458019 [316404]
   m_TagString: Untagged
@@ -82,7 +82,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &4853260125385886183
+--- !u!64 &1455399093735891435
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7698994375465548907}
-  - component: {fileID: 1010895831405611651}
+  - component: {fileID: 1791274301610736143}
   m_Layer: 0
   m_Name: 600x490x573mm_458019 _ Specialty_Equipment_Exhaust...
   m_TagString: Untagged
@@ -128,7 +128,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1010895831405611651
+--- !u!114 &1791274301610736143
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

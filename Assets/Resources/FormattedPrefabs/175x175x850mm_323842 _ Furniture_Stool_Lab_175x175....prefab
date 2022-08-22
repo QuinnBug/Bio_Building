@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8832310205466777610}
   - component: {fileID: 1782130811443168105}
   - component: {fileID: 7859783814257775439}
-  - component: {fileID: 5308906971805882200}
+  - component: {fileID: 7424031941068225793}
   m_Layer: 0
   m_Name: Furniture_Stool_Lab:175x175x850mm:323842 [316780]
   m_TagString: Untagged
@@ -26,8 +26,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 514974599230845864}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: -1}
-  m_LocalPosition: {x: -1.037523, y: -0.03259313, z: -3.2768674}
+  m_LocalRotation: {x: -0, y: 0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -3.2768674, y: -0.03259313, z: 1.037523}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1971732761101651360}
@@ -83,7 +83,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &5308906971805882200
+--- !u!64 &7424031941068225793
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +106,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1971732761101651360}
-  - component: {fileID: 8891251468007120010}
+  - component: {fileID: 5677329079606050475}
   m_Layer: 0
   m_Name: 175x175x850mm_323842 _ Furniture_Stool_Lab_175x175...
   m_TagString: Untagged
@@ -129,7 +129,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8891251468007120010
+--- !u!114 &5677329079606050475
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

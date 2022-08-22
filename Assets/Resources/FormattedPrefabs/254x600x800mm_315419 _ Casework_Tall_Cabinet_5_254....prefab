@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5648572791940227931}
   - component: {fileID: 1504508773238499461}
   - component: {fileID: 2073037920253599842}
-  - component: {fileID: 142380721149762583}
+  - component: {fileID: 5730673311094464941}
   m_Layer: 0
   m_Name: Casework_Tall_Cabinet_5:254x600x800mm:315419 [316759]
   m_TagString: Untagged
@@ -82,7 +82,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &142380721149762583
+--- !u!64 &5730673311094464941
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,7 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2141669899575335384}
-  - component: {fileID: 7536299959577911769}
+  - component: {fileID: 6981757136302704294}
   m_Layer: 0
   m_Name: 254x600x800mm_315419 _ Casework_Tall_Cabinet_5_254...
   m_TagString: Untagged
@@ -128,7 +128,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7536299959577911769
+--- !u!114 &6981757136302704294
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

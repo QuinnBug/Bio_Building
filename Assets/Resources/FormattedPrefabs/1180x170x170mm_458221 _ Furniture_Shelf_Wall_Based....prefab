@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 924853560490267020}
-  - component: {fileID: 7662732214289563130}
+  - component: {fileID: 2793178705522047204}
   m_Layer: 0
   m_Name: 1180x170x170mm_458221 _ Furniture_Shelf_Wall_Based...
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7662732214289563130
+--- !u!114 &2793178705522047204
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 8022008346904142093}
   - component: {fileID: 616315354722624514}
   - component: {fileID: 3972188480769399037}
-  - component: {fileID: 2172098931576352672}
+  - component: {fileID: 7710722118978498136}
   m_Layer: 0
   m_Name: Furniture_Shelf_Wall_Based:1180x170x170mm:458221 [316422]
   m_TagString: Untagged
@@ -262,7 +262,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2172098931576352672
+--- !u!64 &7710722118978498136
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
