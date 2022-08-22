@@ -17,9 +17,10 @@ public class ResourceManager : Singleton<ResourceManager>
 
     internal Material[] materials;
     internal Mesh[] meshes;
+    internal GameObject[] prefabs;
     [SerializeField] internal Sprite[] thumbnails;
 
-    public MeshRenderer exampleObject;
+    public Transform exampleObject;
 
     private Rect rect;
     private RenderTexture renderTexture;
@@ -33,6 +34,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
         materials = Resources.LoadAll<Material>("Q_Materials/");
         meshes = Resources.LoadAll<Mesh>("Q_Meshes/");
+        prefabs = Resources.LoadAll<GameObject>("Active_Prefabs/");
 
         CreateThumbnails();
         thumbCam.enabled = false;
@@ -80,11 +82,11 @@ public class ResourceManager : Singleton<ResourceManager>
             needReload = true;
         }
 
-        foreach (Mesh mesh in meshes)
+        foreach (GameObject obj in prefabs)
         {
-            if (thumbNames.Contains(mesh.name + thumbnailFileExtension)) continue;
+            if (thumbNames.Contains(obj.name + thumbnailFileExtension)) continue;
 
-            GenerateThumbnail(materials[0], mesh, mesh.name);
+            GenerateThumbnail(obj, obj.name);
             needReload = true;
         }
 
@@ -113,13 +115,63 @@ public class ResourceManager : Singleton<ResourceManager>
     private void GenerateThumbnail(Material material, Mesh mesh, string name)
     {
         
-        //this needs access to the resources folder for saving, so it can only be done in editor
-//#if UNITY_EDITOR
+//        //this needs access to the resources folder for saving, so it can only be done in editor
+////#if UNITY_EDITOR
         
 
-        if(material != null) exampleObject.material = material;
+//        if(material != null) exampleObject.material = material;
 
-        if (mesh != null) exampleObject.GetComponent<MeshFilter>().sharedMesh = mesh;
+//        if (mesh != null) exampleObject.GetComponent<MeshFilter>().sharedMesh = mesh;
+
+//        if (renderTexture == null)
+//        {
+//            rect = new Rect(0, 0, thumbnailSize.x, thumbnailSize.y);
+//            renderTexture = new RenderTexture(thumbnailSize.x, thumbnailSize.y, 24);
+//            screenShot = new Texture2D(thumbnailSize.x, thumbnailSize.y, TextureFormat.RGB24, false);
+//        }
+
+//        thumbCam.targetTexture = renderTexture;
+//        thumbCam.Render();
+
+//        RenderTexture.active = renderTexture;
+//        screenShot.ReadPixels(rect, 0, 0);
+
+//        thumbCam.targetTexture = null;
+//        RenderTexture.active = null;
+
+//        string filename = Application.dataPath + "/" + thumbnailFilepath + "/" + name + thumbnailFileExtension + ".png";
+//        //Debug.Log(filename);
+
+//        byte[] fileData = null;
+//        fileData = screenShot.EncodeToPNG();
+
+//        var f = System.IO.File.Create(filename);
+//        f.Write(fileData, 0, fileData.Length);
+//        f.Close();
+//        Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filename, fileData.Length));
+
+//        #region commented out since i don't think webgl would appreciate even the chance of multi threading
+//        //// create new thread to save the image to file (only operation that can be done in background)
+//        //new System.Threading.Thread(() =>
+//        //{
+//        //    // create file and write optional header with image bytes
+//        //    var f = System.IO.File.Create(filename);
+//        //    if (fileHeader != null) f.Write(fileHeader, 0, fileHeader.Length);
+//        //    f.Write(fileData, 0, fileData.Length);
+//        //    f.Close();
+//        //    Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filename, fileData.Length));
+
+//        //}).Start();
+//        #endregion
+////#endif
+    }
+
+    private void GenerateThumbnail(GameObject prefab, string name)
+    {
+        //this needs access to the resources folder for saving, so it can only be done in editor
+        //#if UNITY_EDITOR
+
+        GameObject obj = Instantiate(prefab, exampleObject.transform);
 
         if (renderTexture == null)
         {
@@ -140,28 +192,15 @@ public class ResourceManager : Singleton<ResourceManager>
         string filename = Application.dataPath + "/" + thumbnailFilepath + "/" + name + thumbnailFileExtension + ".png";
         //Debug.Log(filename);
 
-        byte[] fileData = null;
-        fileData = screenShot.EncodeToPNG();
+        byte[] fileData = screenShot.EncodeToPNG();
 
         var f = System.IO.File.Create(filename);
         f.Write(fileData, 0, fileData.Length);
         f.Close();
         Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filename, fileData.Length));
 
-        #region commented out since i don't think webgl would appreciate even the chance of multi threading
-        //// create new thread to save the image to file (only operation that can be done in background)
-        //new System.Threading.Thread(() =>
-        //{
-        //    // create file and write optional header with image bytes
-        //    var f = System.IO.File.Create(filename);
-        //    if (fileHeader != null) f.Write(fileHeader, 0, fileHeader.Length);
-        //    f.Write(fileData, 0, fileData.Length);
-        //    f.Close();
-        //    Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filename, fileData.Length));
-
-        //}).Start();
-        #endregion
-//#endif
+        Destroy(obj);
+        //#endif
     }
 
     public Sprite LoadNewSprite(string fileName, float PixelsPerUnit = 100.0f)
