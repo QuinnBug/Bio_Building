@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1955450266036936733
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5100143333336666200}
+  m_Layer: 0
+  m_Name: Opening 649250 Opening 649250 [348370](Clone)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5100143333336666200
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1955450266036936733}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 2602928287963689103}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3649778211348602833
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2602928287963689103}
+  - component: {fileID: 7278644452478571630}
+  m_Layer: 0
+  m_Name: Opening 649250 Opening 649250 [348370]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2602928287963689103
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3649778211348602833}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5100143333336666200}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7278644452478571630
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3649778211348602833}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db04988f3b2e2b449b3abdabcc5fbb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parameters:
+    m_Keys:
+    - Id
+    - Category
+    - Family
+    - Type
+    - Document
+    - Host Id
+    - Elevation from Level
+    - Moves With Nearby Elements
+    - View
+    - Source
+    - OmniClass Number
+    - OmniClass Title
+    - Code Name
+    m_Values:
+    - group: Identity Data
+      value: 348370
+      visible: 1
+    - group: Identity Data
+      value: IfcOpeningElements
+      visible: 1
+    - group: Identity Data
+      value: Opening 649250
+      visible: 1
+    - group: Identity Data
+      value: Opening 649250
+      visible: 1
+    - group: Identity Data
+      value: Project1
+      visible: 1
+    - group: Constraints
+      value: -1
+      visible: 1
+    - group: Constraints
+      value: 0 mm
+      visible: 1
+    - group: Constraints
+      value: No
+      visible: 1
+    - group: Identity Data
+      value: '{3D}'
+      visible: 1
+    - group: Identity Data
+      value: Project1_{3D}
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+  modelTag: 0

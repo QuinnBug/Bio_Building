@@ -79,9 +79,9 @@ public class ApplyRevitPrefabsMetadata : EditorWindow
             CreateAndRecentreBounds(childPrefabGameObject);
             SavePrefabData(childPrefabGameObject, childPath);
 
-            debugChildrenCount++;
-            if (debugChildrenCount == 50)
-                break;
+            //debugChildrenCount++;
+            //if (debugChildrenCount == 50)
+            //    break;
         }
         SavePrefabData(basePrefabGameObject, prefabPath);
         Debug.Log("Metadata Application Complete");
@@ -172,6 +172,11 @@ public class ApplyRevitPrefabsMetadata : EditorWindow
         Vector3 newPosition = meshHolder.transform.position - movementBounds;
 
         meshHolder.transform.position = newPosition;
+
+        DestroyImmediate(boxCollider);
+        MeshCollider meshCollider = meshHolder.AddComponent<MeshCollider>();
+
+        meshCollider.convex = true;
     }
 
 }
