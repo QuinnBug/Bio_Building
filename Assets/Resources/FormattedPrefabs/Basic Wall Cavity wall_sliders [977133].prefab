@@ -1,0 +1,366 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &5014274773916465790
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5253846424941411313}
+  - component: {fileID: 3473831898247652870}
+  - component: {fileID: 6042097855133529925}
+  - component: {fileID: 1008847423968946459}
+  m_Layer: 0
+  m_Name: Basic Wall Cavity wall_sliders [977133](Clone)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5253846424941411313
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5014274773916465790}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -8.481432, y: 0.60000014, z: 3.341594}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7822720675351300945}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &3473831898247652870
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5014274773916465790}
+  m_Mesh: {fileID: 4300000, guid: 4e8217da397119f4fba9cd682678a245, type: 2}
+--- !u!23 &6042097855133529925
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5014274773916465790}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 644d5c6df0f981940988e9b4052a31b5, type: 2}
+  - {fileID: 2100000, guid: fa5d0f11664ee504d8564ab5a2176ecd, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!65 &1008847423968946459
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5014274773916465790}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.8389997, y: 3.3000002, z: 0.27999973}
+  m_Center: {x: 8.481432, y: 1.05, z: -3.341594}
+--- !u!1 &8094635067123517897
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7822720675351300945}
+  - component: {fileID: 5585155932465078745}
+  m_Layer: 0
+  m_Name: Basic Wall Cavity wall_sliders [977133]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7822720675351300945
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8094635067123517897}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5253846424941411313}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5585155932465078745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8094635067123517897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db04988f3b2e2b449b3abdabcc5fbb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parameters:
+    m_Keys:
+    - Id
+    - Category
+    - Family
+    - Type
+    - Document
+    - Structural
+    - Enable Analytical Model
+    - Structural Usage
+    - Location Line
+    - Image
+    - Comments
+    - Mark
+    - Phase Created
+    - Phase Demolished
+    - Base Constraint
+    - Base Offset
+    - Base is Attached
+    - Base Extension Distance
+    - Top Constraint
+    - Unconnected Height
+    - Top Offset
+    - Top is Attached
+    - Top Extension Distance
+    - Room Bounding
+    - Length
+    - Area
+    - Volume
+    - Related to Mass
+    - View
+    - Source
+    - Structure
+    - Coarse Scale Fill Pattern
+    - Coarse Scale Fill Color
+    - Wrapping at Inserts
+    - Wrapping at Ends
+    - Width
+    - Type Image
+    - Keynote
+    - Model
+    - Manufacturer
+    - Type Comments
+    - URL
+    - Description
+    - Structural Material
+    - Assembly Description
+    - Assembly Code
+    - Type Mark
+    - Fire Rating
+    - Cost
+    - Function
+    - Heat Transfer Coefficient (U)
+    - Thermal Resistance (R)
+    - Thermal mass
+    - Absorptance
+    - Roughness
+    m_Values:
+    - group: Identity Data
+      value: 977133
+      visible: 1
+    - group: Identity Data
+      value: Walls
+      visible: 1
+    - group: Identity Data
+      value: Basic Wall
+      visible: 1
+    - group: Identity Data
+      value: Cavity wall_sliders
+      visible: 1
+    - group: Identity Data
+      value: RAC_basic_sample_project
+      visible: 1
+    - group: Structural
+      value: No
+      visible: 1
+    - group: Structural
+      value: No
+      visible: 1
+    - group: Structural
+      value: Non-bearing
+      visible: 1
+    - group: Constraints
+      value: 'Finish Face: Exterior'
+      visible: 1
+    - group: Identity Data
+      value: <None>
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Phasing
+      value: Working Drawings
+      visible: 1
+    - group: Phasing
+      value: None
+      visible: 1
+    - group: Constraints
+      value: Level 1
+      visible: 1
+    - group: Constraints
+      value: -600
+      visible: 1
+    - group: Constraints
+      value: No
+      visible: 1
+    - group: Constraints
+      value: 0
+      visible: 1
+    - group: Constraints
+      value: 'Up to level: Level 2'
+      visible: 1
+    - group: Constraints
+      value: 3300
+      visible: 1
+    - group: Constraints
+      value: -300
+      visible: 1
+    - group: Constraints
+      value: No
+      visible: 1
+    - group: Constraints
+      value: 0
+      visible: 1
+    - group: Constraints
+      value: Yes
+      visible: 1
+    - group: Dimensions
+      value: 2940
+      visible: 1
+    - group: Dimensions
+      value: "9 m\xB2"
+      visible: 1
+    - group: Dimensions
+      value: "2.62 m\xB3"
+      visible: 1
+    - group: Constraints
+      value: No
+      visible: 1
+    - group: Identity Data
+      value: '{3D}'
+      visible: 1
+    - group: Identity Data
+      value: RAC_basic_sample_project_{3D}
+      visible: 1
+    - group: Construction
+      value: 
+      visible: 1
+    - group: Graphics
+      value: <Solid fill>
+      visible: 1
+    - group: Graphics
+      value: 
+      visible: 1
+    - group: Construction
+      value: Do not wrap
+      visible: 1
+    - group: Construction
+      value: None
+      visible: 1
+    - group: Construction
+      value: 280
+      visible: 1
+    - group: Identity Data
+      value: <None>
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Materials and Finishes
+      value: <By Category>
+      visible: 1
+    - group: Identity Data
+      value: Partitions - Drywall w/ Metal Stud
+      visible: 1
+    - group: Identity Data
+      value: C1010145
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 0.00
+      visible: 1
+    - group: Construction
+      value: Interior
+      visible: 1
+    - group: Analytical Properties
+      value: "0.0962 W/(m\xB2\xB7K)"
+      visible: 1
+    - group: Analytical Properties
+      value: "10.4000 (m\xB2\xB7K)/W"
+      visible: 1
+    - group: Analytical Properties
+      value: 0.03 kJ/K
+      visible: 1
+    - group: Analytical Properties
+      value: 0.1
+      visible: 1
+    - group: Analytical Properties
+      value: 1
+      visible: 1
+  modelTag: 0

@@ -1,0 +1,256 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4489828088649773428
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5447900931147965627}
+  m_Layer: 0
+  m_Name: 3D View Solar Analysis [959069](Clone)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5447900931147965627
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4489828088649773428}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4087909284863242058}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7201796378937322007
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4087909284863242058}
+  - component: {fileID: 2096636734398606513}
+  m_Layer: 0
+  m_Name: 3D View Solar Analysis [959069]
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4087909284863242058
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7201796378937322007}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 5447900931147965627}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2096636734398606513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7201796378937322007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3db04988f3b2e2b449b3abdabcc5fbb8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parameters:
+    m_Keys:
+    - Id
+    - Category
+    - Family
+    - Type
+    - Document
+    - View Template
+    - View Name
+    - Dependency
+    - Title on Sheet
+    - View Scale
+    - 'Scale Value    1:'
+    - Detail Level
+    - Parts Visibility
+    - Detail Number
+    - Sheet Number
+    - Sheet Name
+    - Rotation on Sheet
+    - Crop View
+    - Crop Region Visible
+    - Annotation Crop
+    - Visibility/Graphics Overrides
+    - Graphic Display Options
+    - Far Clip Active
+    - Far Clip Offset
+    - Phase Filter
+    - Phase
+    - Scope Box
+    - Discipline
+    - Show Hidden Lines
+    - Default Analysis Display Style
+    - Rendering Settings
+    - Locked Orientation
+    - Projection Mode
+    - Eye Elevation
+    - Target Elevation
+    - Camera Position
+    - Section Box
+    - None
+    - Sun Path
+    - View
+    - Source
+    - View Template applied to new views
+    - New views are dependent on template
+    - Coarse Poche Material
+    m_Values:
+    - group: Identity Data
+      value: 959069
+      visible: 1
+    - group: Identity Data
+      value: Cameras
+      visible: 1
+    - group: Identity Data
+      value: 3D View
+      visible: 1
+    - group: Identity Data
+      value: 3D View
+      visible: 1
+    - group: Identity Data
+      value: RAC_basic_sample_project
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: Solar Analysis
+      visible: 1
+    - group: Identity Data
+      value: Independent
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Graphics
+      value: ' 1 : 500'
+      visible: 1
+    - group: Graphics
+      value: 500
+      visible: 1
+    - group: Graphics
+      value: Medium
+      visible: 1
+    - group: Graphics
+      value: Show Original
+      visible: 1
+    - group: Graphics
+      value: 2
+      visible: 1
+    - group: Identity Data
+      value: A101
+      visible: 1
+    - group: Identity Data
+      value: Site Plan
+      visible: 1
+    - group: Graphics
+      value: None
+      visible: 1
+    - group: Extents
+      value: No
+      visible: 1
+    - group: Extents
+      value: No
+      visible: 1
+    - group: Extents
+      value: No
+      visible: 1
+    - group: Graphics
+      value: 
+      visible: 1
+    - group: Graphics
+      value: 
+      visible: 1
+    - group: Extents
+      value: No
+      visible: 1
+    - group: Extents
+      value: 304800
+      visible: 1
+    - group: Phasing
+      value: Show All
+      visible: 1
+    - group: Phasing
+      value: Working Drawings
+      visible: 1
+    - group: Extents
+      value: None
+      visible: 1
+    - group: Graphics
+      value: Coordination
+      visible: 1
+    - group: Graphics
+      value: By Discipline
+      visible: 1
+    - group: Graphics
+      value: None
+      visible: 1
+    - group: Camera
+      value: 
+      visible: 1
+    - group: Camera
+      value: No
+      visible: 1
+    - group: Camera
+      value: Orthographic
+      visible: 1
+    - group: Camera
+      value: 49271
+      visible: 1
+    - group: Camera
+      value: 170
+      visible: 1
+    - group: Camera
+      value: Adjusting
+      visible: 1
+    - group: Extents
+      value: Yes
+      visible: 1
+    - group: Other
+      value: -1
+      visible: 0
+    - group: Graphics
+      value: Yes
+      visible: 1
+    - group: Identity Data
+      value: '{3D}'
+      visible: 1
+    - group: Identity Data
+      value: RAC_basic_sample_project_{3D}
+      visible: 1
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: Yes
+      visible: 1
+    - group: Graphics
+      value: Poche
+      visible: 1
+  modelTag: 0
