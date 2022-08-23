@@ -138,7 +138,7 @@ public class PlayerController : Singleton<PlayerController>
                 {
                     case State.BUILD:
                         SelectionManager.Instance.HoverUpdate();
-                        if (SelectionManager.Instance.hoveredObject != null) SelectionManager.Instance.hoveredObject.Destroy();
+                        if (SelectionManager.Instance.hoveredObject != null) SelectionManager.Instance.hoveredObject.DestroySelectable();
                         break;
 
                     case State.DECORATE:

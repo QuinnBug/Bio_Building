@@ -64,7 +64,7 @@ public class SelectionManager : Singleton<SelectionManager>
 
         foreach (Selectable item in selectedObjects)
         {
-            item.Destroy();
+            item.DestroySelectable();
         }
 
         selectedObjects.Clear();
