@@ -194,7 +194,10 @@ public class SelectionManager : Singleton<SelectionManager>
 
         if (Physics.Raycast(ray, out hit, 25, layerMask))
         {
-            hit.collider.gameObject.TryGetComponent(out newHoveredObj);
+            if(!hit.collider.gameObject.TryGetComponent(out newHoveredObj)) 
+            {
+                hit.collider.transform.parent.TryGetComponent(out newHoveredObj);
+            }
         }
         
         if (newHoveredObj != hoveredObject)

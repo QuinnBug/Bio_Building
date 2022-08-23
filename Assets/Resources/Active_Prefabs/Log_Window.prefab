@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &444139778365721636
+--- !u!1 &820418786750107848
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,46 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 7509010342385299692}
-  - component: {fileID: 8199646377944261086}
-  - component: {fileID: 3148231924904008331}
-  - component: {fileID: 1859966481014721795}
+  - component: {fileID: 3641729752027485819}
+  - component: {fileID: 3736267667923562310}
+  - component: {fileID: 2169468875804684228}
+  - component: {fileID: 1187076696537562260}
   m_Layer: 0
-  m_Name: "Basic Wall Basic Wall_Mets\xE4 Wood - Leno - 231 [349545](Clone)"
+  m_Name: "Basic Wall Basic Wall_Mets\xE4 Wood - Leno - KIL85_ [...(Clone)"
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &7509010342385299692
+--- !u!4 &3641729752027485819
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 444139778365721636}
+  m_GameObject: {fileID: 820418786750107848}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -155.69774, y: 0, z: -30.780716}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 8416303780107125546}
+  m_Father: {fileID: 3281307336398389592}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &8199646377944261086
+--- !u!33 &3736267667923562310
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 444139778365721636}
-  m_Mesh: {fileID: 4300000, guid: 397b04ee601df574da82f4c200806755, type: 2}
---- !u!23 &3148231924904008331
+  m_GameObject: {fileID: 820418786750107848}
+  m_Mesh: {fileID: 5420307649262887999, guid: 957b866d7089ef04f8caeb29f1a1c0c3, type: 3}
+--- !u!23 &2169468875804684228
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 444139778365721636}
+  m_GameObject: {fileID: 820418786750107848}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -60,8 +60,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: cf7ec5cb1347f6246b2789802edee85e, type: 2}
-  - {fileID: 2100000, guid: 91a6700e96ba7e143a043558bc5bcedf, type: 2}
+  - {fileID: 2100000, guid: 806a876148fdd8e48b5df60ae95efec1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -83,21 +82,21 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1859966481014721795
+--- !u!64 &1187076696537562260
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 444139778365721636}
+  m_GameObject: {fileID: 820418786750107848}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 397b04ee601df574da82f4c200806755, type: 2}
---- !u!1 &8394365267503139686
+  m_Mesh: {fileID: 5420307649262887999, guid: 957b866d7089ef04f8caeb29f1a1c0c3, type: 3}
+--- !u!1 &4293572705852341496
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -105,37 +104,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8416303780107125546}
-  - component: {fileID: 5921752929969624678}
+  - component: {fileID: 3281307336398389592}
+  - component: {fileID: 5826776070535786703}
   m_Layer: 0
-  m_Name: "Basic Wall Basic Wall_Mets\xE4 Wood - Leno - 231 [349545]"
+  m_Name: Log_Window
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8416303780107125546
+--- !u!4 &3281307336398389592
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8394365267503139686}
+  m_GameObject: {fileID: 4293572705852341496}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7509010342385299692}
+  - {fileID: 3641729752027485819}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5921752929969624678
+--- !u!114 &5826776070535786703
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8394365267503139686}
+  m_GameObject: {fileID: 4293572705852341496}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3db04988f3b2e2b449b3abdabcc5fbb8, type: 3}
@@ -213,7 +212,7 @@ MonoBehaviour:
     - Absorptance
     m_Values:
     - group: Identity Data
-      value: 349545
+      value: 349512
       visible: 1
     - group: Identity Data
       value: Walls
@@ -222,7 +221,7 @@ MonoBehaviour:
       value: Basic Wall
       visible: 1
     - group: Identity Data
-      value: "Basic Wall:Mets\xE4 Wood - Leno - 231"
+      value: "Basic Wall:Mets\xE4 Wood - Leno - KIL85*"
       visible: 1
     - group: Identity Data
       value: Project1
@@ -240,7 +239,7 @@ MonoBehaviour:
       value: Wall Centerline
       visible: 1
     - group: IFC Parameters
-      value: 1QHLwyD0zEwBbITaizrTsY
+      value: 1QHLwyD0zEwBbITaizrTrT
       visible: 1
     - group: Identity Data
       value: <None>
@@ -252,16 +251,16 @@ MonoBehaviour:
       value: 
       visible: 1
     - group: IFC Parameters
-      value: "Basic Wall:Mets\xE4 Wood - Leno - 231:349329"
+      value: "Basic Wall:Mets\xE4 Wood - Leno - KIL85*:349294"
       visible: 1
     - group: IFC Parameters
-      value: "Basic Wall:Mets\xE4 Wood - Leno - 231"
+      value: "Basic Wall:Mets\xE4 Wood - Leno - KIL85*"
       visible: 1
     - group: IFC Parameters
       value: 305 mm
       visible: 1
     - group: IFC Parameters
-      value: "Mets\xE4 Wood - Leno - 231"
+      value: "Mets\xE4 Wood - Leno - KIL85*"
       visible: 1
     - group: IFC Parameters
       value: No
@@ -273,7 +272,7 @@ MonoBehaviour:
       value: No
       visible: 1
     - group: IFC Parameters
-      value: 349329
+      value: 349294
       visible: 1
     - group: IFC Parameters
       value: n/a
@@ -291,7 +290,7 @@ MonoBehaviour:
       value: 2015
       visible: 1
     - group: IFC Parameters
-      value: Leno 231
+      value: Leno KIL 85*
       visible: 1
     - group: Phasing
       value: New Construction
@@ -336,7 +335,7 @@ MonoBehaviour:
       value: "7.140 m\xB2"
       visible: 1
     - group: Dimensions
-      value: "1.649 m\xB3"
+      value: "0.604 m\xB3"
       visible: 1
     - group: Constraints
       value: No
@@ -363,7 +362,7 @@ MonoBehaviour:
       value: None
       visible: 1
     - group: Construction
-      value: 231 mm
+      value: 85 mm
       visible: 1
     - group: Identity Data
       value: <None>
@@ -402,7 +401,7 @@ MonoBehaviour:
       value: Interior
       visible: 1
     - group: IFC Parameters
-      value: "0.0000 W/(m\xB2\xB7K)"
+      value: "3.4641 W/(m\xB2\xB7K)"
       visible: 1
     - group: Analytical Properties
       value: "0.0000 W/(m\xB2\xB7K)"

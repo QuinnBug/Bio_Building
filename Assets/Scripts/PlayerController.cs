@@ -17,11 +17,17 @@ public class PlayerController : Singleton<PlayerController>
 {
     public Camera cam;
     public float speed;
+    public float sprintSpeed;
+    private bool sprinting;
+    [Space]
     public float rotSpeed;
     public float lookSpeed;
     [Space]
     public Vector3 topDownViewPos;
-    public Vector3 frontalViewPos;
+    public Vector3 standardPos;
+    [Space]
+    public Bounds topDownBounds;
+    public Bounds standardBounds;
     //public float camChangeDistance;
     //public Vector2 nonOrthoOffset;
     //public float orthoOffset;
@@ -62,7 +68,7 @@ public class PlayerController : Singleton<PlayerController>
             return;
         }
 
-        //MovementUpdate();
+        MovementUpdate();
         if (processInput) InputProcessing();
     }
 
@@ -177,7 +183,7 @@ public class PlayerController : Singleton<PlayerController>
 
     void MovementUpdate() 
     {
-        Vector3 movement = moveInput;
+        Vector3 movement = moveInput * (sprinting ? sprintSpeed : speed);
 
         if (cam.orthographic)
         {
@@ -186,7 +192,30 @@ public class PlayerController : Singleton<PlayerController>
             movement.y = 0;
         }
 
-        transform.Translate(movement * Time.deltaTime);
+        Bounds currentBounds = orthographicMode ? topDownBounds : standardBounds;
+
+        movement *= Time.deltaTime;
+
+        if (!currentBounds.Contains(transform.position + (movement.x * Vector3.right))) movement.x = 0;
+        if (!currentBounds.Contains(transform.position + (movement.y * Vector3.up))) movement.y = 0;
+        if (!currentBounds.Contains(transform.position + (movement.z * Vector3.forward))) movement.z = 0;
+
+        transform.Translate(movement);
+
+        float x = Mathf.Clamp(transform.position.x,
+            (currentBounds.center.x - currentBounds.extents.x) + 0.05f,
+            (currentBounds.center.x + currentBounds.extents.x) - 0.05f);
+
+        float y = Mathf.Clamp(transform.position.y,
+            (currentBounds.center.y - currentBounds.extents.y) + 0.05f,
+            (currentBounds.center.y + currentBounds.extents.y) - 0.05f);
+
+        float z = Mathf.Clamp(transform.position.z,
+            (currentBounds.center.z - currentBounds.extents.z) + 0.05f,
+            (currentBounds.center.z + currentBounds.extents.z) - 0.05f);
+
+        transform.position = new Vector3(x, y, z);
+        
     }
 
     void OrthoToggle() 
@@ -210,8 +239,17 @@ public class PlayerController : Singleton<PlayerController>
         //    camTargetPosition = camLookAtPosition + (Vector3.up * nonOrthoOffset.y) + (transform.forward * nonOrthoOffset.x);
         //}
 
-        camTargetPosition = orthographicMode ? topDownViewPos : frontalViewPos;
+        camTargetPosition = orthographicMode ? topDownViewPos : standardPos;
         camLookAtPosition = Vector3.zero;
+    }
+
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawCube(topDownBounds.center, topDownBounds.extents * 2);
+
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawCube(standardBounds.center, standardBounds.extents * 2);
     }
 
     #region Input Functions
@@ -220,6 +258,11 @@ public class PlayerController : Singleton<PlayerController>
         Vector2 input = context.ReadValue<Vector2>();
         moveInput.x = input.x;
         moveInput.z = input.y;
+    }
+
+    public void SprintInput(InputAction.CallbackContext context)
+    {
+        sprinting = context.phase != InputActionPhase.Canceled;
     }
 
     public void FlyInput(InputAction.CallbackContext context) 

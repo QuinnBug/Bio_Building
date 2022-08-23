@@ -209,17 +209,18 @@ public class PlacementManager : Singleton<PlacementManager>
         //Check for overlapping other selectables
         LayerMask mask = 1 << LayerMask.NameToLayer("Selectable");
 
-        Vector3 collCenter = currentPos + (Vector3.up * (placementCollider.bounds.size.y / 2));
+        Vector3 collCenter = placementCollider.bounds.center;
 
         Collider[] colliders = Physics.OverlapBox(
             collCenter,
-            placementCollider.bounds.size / 3,
-            placementCollider.transform.rotation,
+            placementCollider.bounds.size / 2.5f,
+            Quaternion.identity,
             mask);
 
-        Debug.DrawLine(collCenter - (placementCollider.bounds.size / 2), collCenter + (placementCollider.bounds.size / 2), Color.red, 1);
+        //Debug.DrawLine(collCenter - (placementCollider.bounds.size / 2.5f), collCenter + (placementCollider.bounds.size / 2.5f), Color.red, 1);
 
-        if (colliders.Length == 1 /*&& Mathf.Abs(Vector3.Dot(placementCollider.transform.forward, colliders[0].transform.forward)) > 0.1f*/)
+        //if (colliders.Length == 1 && Mathf.Abs(Vector3.Dot(placementCollider.transform.forward, colliders[0].transform.forward)) > 0.1f)
+        if (colliders.Length == 1)
         {
             overlapTarget = colliders[0].GetComponent<Selectable>();
 

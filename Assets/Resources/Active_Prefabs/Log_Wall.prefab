@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &940524722115735793
+--- !u!1 &4274910204480352802
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,37 +8,37 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5847891963607765305}
-  - component: {fileID: 457239308633285942}
+  - component: {fileID: 3497514563650378435}
+  - component: {fileID: 355248619775732781}
   m_Layer: 0
-  m_Name: Floor Floor_Floor_Timber_3CR-10CUL-15OSB-140INSU-1..
+  m_Name: Log_Wall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5847891963607765305
+--- !u!4 &3497514563650378435
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 940524722115735793}
+  m_GameObject: {fileID: 4274910204480352802}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1683976898338507720}
+  - {fileID: 5194773169125461726}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &457239308633285942
+--- !u!114 &355248619775732781
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 940524722115735793}
+  m_GameObject: {fileID: 4274910204480352802}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3db04988f3b2e2b449b3abdabcc5fbb8, type: 3}
@@ -51,31 +51,37 @@ MonoBehaviour:
     - Family
     - Type
     - Document
+    - Host Id
     - Level
-    - Height Offset From Level
-    - Structural
+    - Host
+    - Offset from Host
+    - Moves With Nearby Elements
     - IfcGUID
     - Image
+    - Volume
     - Comments
+    - Structural Material
+    - Camber Size
+    - Number of studs
+    - Reference Level
     - Mark
+    - NameOverride
+    - ObjectTypeOverride
+    - Reference
+    - IsExternal
+    - LoadBearing
+    - Tag
+    - Slope
+    - Span
     - Phase Created
     - Phase Demolished
-    - Enable Analytical Model
-    - Slope
-    - Room Bounding
-    - Perimeter
-    - Area
-    - Volume
-    - Related to Mass
-    - Elevation at Top
-    - Elevation at Bottom
-    - Thickness
+    - Rebar Cover - Top Face
+    - Rebar Cover - Bottom Face
+    - Rebar Cover - Other Faces
     - View
     - Source
-    - Structure
-    - Coarse Scale Fill Pattern
-    - Coarse Scale Fill Color
-    - Default Thickness
+    - Material
+    - Section Shape
     - Type Image
     - Keynote
     - Model
@@ -83,53 +89,96 @@ MonoBehaviour:
     - Type Comments
     - URL
     - Description
-    - Structural Material
+    - Section Name Key
     - Assembly Description
     - Assembly Code
     - Type Mark
+    - Fire Rating
     - Cost
-    - Function
-    - Heat Transfer Coefficient (U)
-    - Thermal Resistance (R)
-    - Thermal mass
-    - Absorptance
-    - Roughness
+    - OmniClass Number
+    - OmniClass Title
+    - Code Name
     m_Values:
     - group: Identity Data
-      value: 349585
+      value: 349284
       visible: 1
     - group: Identity Data
-      value: Floors
+      value: Structural Framing
       visible: 1
     - group: Identity Data
-      value: Floor
+      value: Glulam (2):45X195 619595
       visible: 1
     - group: Identity Data
-      value: Floor:Floor_Timber_3CR-10CUL-15OSB-140INSU-12OSB 2
+      value: Glulam (2):45X195 619595
       visible: 1
     - group: Identity Data
       value: Project1
       visible: 1
     - group: Constraints
+      value: -1
+      visible: 1
+    - group: Constraints
       value: Ground Floor (No Finish)
+      visible: 1
+    - group: Constraints
+      value: 'Level : Ground Floor (No Finish)'
       visible: 1
     - group: Constraints
       value: 0 mm
       visible: 1
-    - group: Structural
+    - group: Constraints
       value: No
       visible: 1
     - group: IFC Parameters
-      value: 2WNnHqK3P9rPfw85IQj_Dd
+      value: 1_aHHmGBX6fwlgsNzC1PTa
       visible: 1
     - group: Identity Data
       value: <None>
       visible: 1
+    - group: Dimensions
+      value: "0.010 m\xB3"
+      visible: 1
     - group: Identity Data
+      value: 
+      visible: 1
+    - group: Materials and Finishes
+      value: <By Category>
+      visible: 1
+    - group: Structural
+      value: 
+      visible: 1
+    - group: Structural
+      value: 
+      visible: 1
+    - group: Constraints
       value: 
       visible: 1
     - group: Identity Data
       value: 
+      visible: 1
+    - group: IFC Parameters
+      value: Glulam (2):45X195:446113
+      visible: 1
+    - group: IFC Parameters
+      value: Glulam (2):45X195
+      visible: 1
+    - group: IFC Parameters
+      value: 45X195
+      visible: 1
+    - group: IFC Parameters
+      value: No
+      visible: 1
+    - group: IFC Parameters
+      value: Yes
+      visible: 1
+    - group: IFC Parameters
+      value: 446113
+      visible: 1
+    - group: IFC Parameters
+      value: "0.00\xB0"
+      visible: 1
+    - group: IFC Parameters
+      value: 40 mm
       visible: 1
     - group: Phasing
       value: New Construction
@@ -138,34 +187,13 @@ MonoBehaviour:
       value: None
       visible: 1
     - group: Structural
-      value: No
+      value: Rebar Cover 1 <25 mm>
       visible: 1
-    - group: Dimensions
-      value: "0.00\xB0"
+    - group: Structural
+      value: Rebar Cover 1 <25 mm>
       visible: 1
-    - group: Constraints
-      value: Yes
-      visible: 1
-    - group: Dimensions
-      value: 28946 mm
-      visible: 1
-    - group: Dimensions
-      value: "44.527 m\xB2"
-      visible: 1
-    - group: Dimensions
-      value: "9.885 m\xB3"
-      visible: 1
-    - group: Constraints
-      value: No
-      visible: 1
-    - group: Dimensions
-      value: 0 mm
-      visible: 1
-    - group: Dimensions
-      value: -222 mm
-      visible: 1
-    - group: Dimensions
-      value: 222 mm
+    - group: Structural
+      value: Rebar Cover 1 <25 mm>
       visible: 1
     - group: Identity Data
       value: '{3D}'
@@ -173,17 +201,11 @@ MonoBehaviour:
     - group: Identity Data
       value: Project1_{3D}
       visible: 1
-    - group: Construction
-      value: 
+    - group: Materials and Finishes
+      value: Wood - Dimensional Lumber
       visible: 1
-    - group: Graphics
-      value: 
-      visible: 1
-    - group: Graphics
-      value: 
-      visible: 1
-    - group: Construction
-      value: 222 mm
+    - group: Structural
+      value: Not Defined
       visible: 1
     - group: Identity Data
       value: <None>
@@ -206,8 +228,11 @@ MonoBehaviour:
     - group: Identity Data
       value: 
       visible: 1
-    - group: Materials and Finishes
-      value: <By Category>
+    - group: Identity Data
+      value: 
+      visible: 1
+    - group: Identity Data
+      value: 
       visible: 1
     - group: Identity Data
       value: 
@@ -221,26 +246,17 @@ MonoBehaviour:
     - group: Identity Data
       value: 0.00
       visible: 1
-    - group: Construction
-      value: Interior
+    - group: Identity Data
+      value: 
       visible: 1
-    - group: Analytical Properties
-      value: "0.1613 W/(m\xB2\xB7K)"
+    - group: Identity Data
+      value: 
       visible: 1
-    - group: Analytical Properties
-      value: "6.2000 (m\xB2\xB7K)/W"
-      visible: 1
-    - group: Analytical Properties
-      value: 0.45 kJ/K
-      visible: 1
-    - group: Analytical Properties
-      value: 0.1
-      visible: 1
-    - group: Analytical Properties
-      value: 1
+    - group: Identity Data
+      value: 
       visible: 1
   modelTag: 0
---- !u!1 &8241139394710026794
+--- !u!1 &7507677331576786382
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -248,46 +264,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1683976898338507720}
-  - component: {fileID: 2519154554140905894}
-  - component: {fileID: 3448840545185402891}
-  - component: {fileID: 1655832439955526429}
+  - component: {fileID: 5194773169125461726}
+  - component: {fileID: 8624256917366013375}
+  - component: {fileID: 8032405850809182047}
+  - component: {fileID: 1965552518246137431}
   m_Layer: 0
-  m_Name: Floor Floor_Floor_Timber_3CR-10CUL-15OSB-140INSU-1...(Clone)
+  m_Name: 45X195 619595 _ Glulam (2)_45X195 619595 [337904](Clone)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1683976898338507720
+--- !u!4 &5194773169125461726
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8241139394710026794}
+  m_GameObject: {fileID: 7507677331576786382}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.6493838, y: 0.222, z: -2.1768672}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5847891963607765305}
+  m_Father: {fileID: 3497514563650378435}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &2519154554140905894
+--- !u!33 &8624256917366013375
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8241139394710026794}
-  m_Mesh: {fileID: 4300000, guid: 8576b1f5d6a60e843baabfee0c0ab574, type: 2}
---- !u!23 &3448840545185402891
+  m_GameObject: {fileID: 7507677331576786382}
+  m_Mesh: {fileID: -3310425524620074077, guid: 13182796b64e4c844b01d118d61e9e31, type: 3}
+--- !u!23 &8032405850809182047
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8241139394710026794}
+  m_GameObject: {fileID: 7507677331576786382}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -300,7 +316,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: fa26ca5d50d2e7b45921eeed4c966de9, type: 2}
+  - {fileID: 2100000, guid: 806a876148fdd8e48b5df60ae95efec1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -322,17 +338,17 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &1655832439955526429
+--- !u!64 &1965552518246137431
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8241139394710026794}
+  m_GameObject: {fileID: 7507677331576786382}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 4
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: 4300000, guid: 8576b1f5d6a60e843baabfee0c0ab574, type: 2}
+  m_Mesh: {fileID: -3310425524620074077, guid: 13182796b64e4c844b01d118d61e9e31, type: 3}
