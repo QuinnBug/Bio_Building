@@ -48,7 +48,7 @@ public class Selectable : BaseSelectable
 
         Destroy(GetComponentInChildren<MeshRenderer>().gameObject);
         GameObject child = Instantiate(prefab.GetComponentInChildren<MeshRenderer>().gameObject, transform);
-        child.tag = "Selectable";
+        child.layer = LayerMask.NameToLayer("Selectable");
     }
 
     public void DestroySelectable() 
