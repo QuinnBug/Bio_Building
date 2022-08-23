@@ -17,7 +17,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
     internal Material[] materials;
     internal Mesh[] meshes;
-    internal GameObject[] prefabs;
+    [SerializeField] internal GameObject[] prefabs;
     [SerializeField] internal Sprite[] thumbnails;
 
     public Transform exampleObject;
@@ -73,14 +73,6 @@ public class ResourceManager : Singleton<ResourceManager>
 
         List<string> thumbNames = new List<string>();
         foreach (Sprite thumbnail in thumbnails) {thumbNames.Add(thumbnail.name); }
-
-        foreach (Material mat in materials)
-        {
-            if (thumbNames.Contains(mat.name + thumbnailFileExtension)) continue;
-
-            GenerateThumbnail(mat, null, mat.name);
-            needReload = true;
-        }
 
         foreach (GameObject obj in prefabs)
         {
@@ -169,9 +161,13 @@ public class ResourceManager : Singleton<ResourceManager>
     private void GenerateThumbnail(GameObject prefab, string name)
     {
         //this needs access to the resources folder for saving, so it can only be done in editor
-        //#if UNITY_EDITOR
+        #if UNITY_EDITOR
 
         GameObject obj = Instantiate(prefab, exampleObject.transform);
+        foreach (Transform item in obj.GetComponentInChildren<Transform>())
+        {
+            item.gameObject.layer = LayerMask.NameToLayer("Thumbnail");
+        }
 
         if (renderTexture == null)
         {
@@ -199,8 +195,13 @@ public class ResourceManager : Singleton<ResourceManager>
         f.Close();
         Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filename, fileData.Length));
 
+        foreach (Transform item in obj.GetComponentInChildren<Transform>())
+        {
+            item.gameObject.layer = 0;
+        }
+
         Destroy(obj);
-        //#endif
+        #endif
     }
 
     public Sprite LoadNewSprite(string fileName, float PixelsPerUnit = 100.0f)

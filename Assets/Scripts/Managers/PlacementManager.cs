@@ -70,10 +70,24 @@ public class PlacementManager : Singleton<PlacementManager>
         if (selectedPrefab != null)
         {
             placementCollider.sharedMesh = placementCursorFilter.sharedMesh = prefabMesh;
+
+            if (prefabMesh.subMeshCount > 1)
+            {
+                Material[] mats = new Material[prefabMesh.subMeshCount];
+                for (int i = 0; i < mats.Length; i++)
+                {
+                    mats[i] = placementColours[(int)currentState];
+                }
+
+                placementCursor.materials = mats;
+            }
         }
 
         placementCursor.material = placementColours[(int)currentState];
-        placementCursor.transform.position = currentPos + prefabMeshOffset;
+
+        
+
+        placementCursor.transform.position = currentPos + (placementCursor.transform.rotation * prefabMeshOffset);
         placementCursor.transform.rotation = Quaternion.Euler(0, yRotation, 0);
     }
 
@@ -195,13 +209,17 @@ public class PlacementManager : Singleton<PlacementManager>
         //Check for overlapping other selectables
         LayerMask mask = 1 << LayerMask.NameToLayer("Selectable");
 
+        Vector3 collCenter = currentPos + (Vector3.up * (placementCollider.bounds.size.y / 2));
+
         Collider[] colliders = Physics.OverlapBox(
-            placementCollider.bounds.center + prefabMeshOffset,
+            collCenter,
             placementCollider.bounds.size / 3,
             placementCollider.transform.rotation,
             mask);
 
-        if (colliders.Length == 1 && Mathf.Abs(Vector3.Dot(placementCollider.transform.forward, colliders[0].transform.forward)) > 0.1f)
+        Debug.DrawLine(collCenter - (placementCollider.bounds.size / 2), collCenter + (placementCollider.bounds.size / 2), Color.red, 1);
+
+        if (colliders.Length == 1 /*&& Mathf.Abs(Vector3.Dot(placementCollider.transform.forward, colliders[0].transform.forward)) > 0.1f*/)
         {
             overlapTarget = colliders[0].GetComponent<Selectable>();
 
@@ -209,6 +227,7 @@ public class PlacementManager : Singleton<PlacementManager>
             {
                 overlapTarget = colliders[0].transform.parent.GetComponent<Selectable>();
             }
+            Debug.Log("Overlap Target == " + overlapTarget == null ? "NULL" : overlapTarget.name);
 
             return PlacementState.OVERLAPPING;
         }

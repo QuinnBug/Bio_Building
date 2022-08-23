@@ -47,7 +47,8 @@ public class Selectable : BaseSelectable
         tmd.tag = pfmd.tag;
 
         Destroy(GetComponentInChildren<MeshRenderer>().gameObject);
-        Instantiate(prefab.GetComponentInChildren<MeshRenderer>().gameObject, transform);
+        GameObject child = Instantiate(prefab.GetComponentInChildren<MeshRenderer>().gameObject, transform);
+        child.tag = "Selectable";
     }
 
     public void DestroySelectable() 

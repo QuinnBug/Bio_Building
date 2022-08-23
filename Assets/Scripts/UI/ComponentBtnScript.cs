@@ -55,6 +55,9 @@ public class ComponentBtnScript : MonoBehaviour
             //if (type == AssignType.MESH) PlacementManager.Instance.selectedMesh = mesh;
             //if (type == AssignType.MATERIAL) PlacementManager.Instance.selectedMaterial = mat;
             PlacementManager.Instance.selectedPrefab = prefab;
+            MeshFilter childMF = prefab.GetComponentInChildren<MeshFilter>();
+            PlacementManager.Instance.prefabMesh = childMF.sharedMesh;
+            PlacementManager.Instance.prefabMeshOffset = childMF.transform.localPosition;
         }
     }
 }
