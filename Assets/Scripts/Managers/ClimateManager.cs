@@ -34,12 +34,20 @@ public class ClimateManager : Singleton<ClimateManager>
     public Transform water;
     public Range waterLevels;
     public Range waterChangeRange;
-    [SerializeField] private float currentWaterPercent;
+    private float currentWaterPercent;
 
     [Space]
     [Range(0,100)]
-    public int environmentalLevel;
-    private int previousEnvironmentalLevel;
+    public float[] impactLevels = new float[5];
+    private float[] prevImpactLevels = new float[5];
+    [Space]
+    public float animDuration;
+    public float postAnimDuration;
+    [Space]
+    [SerializeField] private float[] targetValues;
+    [SerializeField] internal bool animating;
+    [SerializeField] private bool postAnimStarted;
+    [SerializeField] private float animTimer;
 
     private void Start()
     {
@@ -66,36 +74,94 @@ public class ClimateManager : Singleton<ClimateManager>
 
         flameEmitters = emitters.ToArray();
         //singleFlamePercent = flameEmitters.Length / 100.0f;
+
+        ResetLevels();
+    }
+
+    internal void StartAnimation(float[] newValues)
+    {
+        animTimer = 0;
+        postAnimStarted = false;
+        targetValues = newValues;
+        animating = true;
+    }
+
+    internal void EndAnimation()
+    {
+        animating = false;
+        Debug.Log("End Animation");
     }
 
     private void Update()
     {
-        UpdateClimateLevel();
+        if (animating)
+        {
+            Debug.Log("animating");
+            animTimer += Time.deltaTime;
+
+            if (!postAnimStarted)
+            {
+                for (int i = 0; i < impactLevels.Length; i++)
+                {
+                    impactLevels[i] = Mathf.Lerp(50, targetValues[i], Mathf.Clamp01(animTimer / animDuration));
+                }
+                UpdateClimateLevel();
+
+                postAnimStarted = animTimer >= animDuration;
+            }
+            else if(animTimer > animDuration + postAnimDuration)
+            {
+                EndAnimation();
+            }
+        }
     }
 
     private void UpdateClimateLevel() 
     {
-        if (environmentalLevel == previousEnvironmentalLevel) return;
+        //bool update = false;
+        //for (int i = 0; i < 5; i++)
+        //{
+        //    if (impactLevels[i] == prevImpactLevels[i]) continue;
+
+        //    update = true;
+
+        //    prevImpactLevels[i] = impactLevels[i];
+        //}
+
+        //if (!update) return;
 
         UpdatePercents();
 
         #region Trees
-        float treeCount = trees.Length - (trees.Length * currentTreePercent);
-        treeCount = Mathf.Clamp(treeCount, 0, trees.Length);
+        float inactiveTreeCount = trees.Length - (trees.Length * currentTreePercent);
+        inactiveTreeCount = Mathf.Clamp(inactiveTreeCount, 0, trees.Length);
 
-        List<int> availableIndices = new List<int>();
+        List<int> inactiveIndices = new List<int>();
+        List<int> activeIndices = new List<int>();
+        List<int> indices = new List<int>();
 
         for (int i = 0; i < trees.Length; i++)
         {
-            availableIndices.Add(i);
-            trees[i].enabled = true;
+            if (trees[i].enabled) activeIndices.Add(i);
+            else inactiveIndices.Add(i);
         }
 
-        for (int i = 0; i < treeCount; i++)
+        //how many trees we need to change to get to the correct value (we abs the value before looping for negitives)
+        float inactiveDiff = inactiveTreeCount - inactiveIndices.Count;
+
+        if(Mathf.Abs(inactiveDiff) < 1) 
         {
-            int j = Random.Range(0, availableIndices.Count);
-            trees[availableIndices[j]].enabled = false;
-            availableIndices.RemoveAt(j);
+            //targetState = the state that the selected trees will be set to
+            bool targetState = inactiveDiff < 0;
+            indices = targetState ? inactiveIndices : activeIndices;
+
+            inactiveDiff = Mathf.Abs(inactiveDiff);
+            for (int i = 0; i < inactiveDiff; i++)
+            {
+                int j = Random.Range(0, indices.Count);
+                trees[indices[j]].enabled = targetState;
+                indices.RemoveAt(j);
+            }
         }
 
         #endregion
@@ -108,50 +174,50 @@ public class ClimateManager : Singleton<ClimateManager>
         #endregion
 
         #region Flames
-        List<int> emittersToBeActive = new List<int>();
-        float amountOfFlames = currentFlamePercent * flameEmitters.Length;
-        if(amountOfFlames > 0) 
-        {
-            Debug.Log("AOF = " + amountOfFlames + " -> total:" + flameEmitters.Length + " -- " + currentFlamePercent);
-            for (int i = 0; i < flameEmitters.Length; i++)
-            {
-                availableIndices.Add(i);
-            }
+        inactiveIndices = new List<int>();
+        activeIndices = new List<int>();
+        indices = new List<int>();
 
-            for (int i = 0; i < amountOfFlames; i++)
-            {
-                int rnd = Random.Range(0, availableIndices.Count);
-                emittersToBeActive.Add(availableIndices[rnd]);
-                availableIndices.RemoveAt(rnd);
-            }
+        float amountOfFlames = currentFlamePercent * flameEmitters.Length;
+
+        for (int i = 0; i < flameEmitters.Length; i++)
+        {
+            if(flameEmitters[i].isPlaying)activeIndices.Add(i);
+            else inactiveIndices.Add(i);
         }
 
-        int idx = 0;
-        foreach (ParticleSystem emitter in flameEmitters)
-        {
-            if (emitter.isStopped && emittersToBeActive.Contains(idx))
-            {
-                emitter.Play();
-            }
-            else if (emitter.isPlaying && !emittersToBeActive.Contains(idx))
-            {
-                emitter.Stop();
-            }
+        //how many flames we need to change to get to the correct value (we abs the value before looping for negitives)
+        float activeDiff = amountOfFlames - activeIndices.Count;
 
-            idx++;
+        if (Mathf.Abs(activeDiff) > 1)
+        {
+            //targetState = the state that the selected trees will be set to
+            bool targetState = activeDiff > 0;
+            indices = targetState ? inactiveIndices : activeIndices;
+
+            activeDiff = Mathf.Abs(activeDiff);
+            for (int i = 0; i < activeDiff; i++)
+            {
+                int j = Random.Range(0, indices.Count);
+                if (targetState) flameEmitters[indices[j]].Play();
+                else flameEmitters[indices[j]].Stop();
+                indices.RemoveAt(j);
+            }
         }
 
         #endregion
-
-        previousEnvironmentalLevel = environmentalLevel;
     }
 
     public void UpdatePercents() 
     {
-        currentTreePercent =  Mathf.Clamp((treeChangeRange.NormaliseToRange(environmentalLevel)), 0, 1);
-        currentWaterPercent = 1 - Mathf.Clamp((waterChangeRange.NormaliseToRange(environmentalLevel)), 0, 1);
-        currentFlamePercent = 1 - Mathf.Clamp((flameChangeRange.NormaliseToRange(environmentalLevel)), 0, 1);
+        currentTreePercent =  Mathf.Clamp((treeChangeRange.NormaliseToRange(impactLevels[0])), 0, 1);
+        currentWaterPercent = 1 - Mathf.Clamp((waterChangeRange.NormaliseToRange(impactLevels[1])), 0, 1);
+        currentFlamePercent = 1 - Mathf.Clamp((flameChangeRange.NormaliseToRange(impactLevels[2])), 0, 1);
     }
 
-    
+    public void ResetLevels() 
+    {
+        impactLevels = new float[] {50, 50, 50, 50, 50};
+        UpdateClimateLevel();
+    }
 }

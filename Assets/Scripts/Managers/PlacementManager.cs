@@ -228,7 +228,7 @@ public class PlacementManager : Singleton<PlacementManager>
             {
                 overlapTarget = colliders[0].transform.parent.GetComponent<Selectable>();
             }
-            Debug.Log("Overlap Target == " + overlapTarget == null ? "NULL" : overlapTarget.name);
+            //Debug.Log("Overlap Target == " + overlapTarget == null ? "NULL" : overlapTarget.name);
 
             return PlacementState.OVERLAPPING;
         }

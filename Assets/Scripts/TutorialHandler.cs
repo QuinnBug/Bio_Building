@@ -7,12 +7,11 @@ public enum TutorialStage
 {
     NULL = -1,
     START,
+    MOVEMENT,
     BUILD_STATE,
     PLACE_WALLS,
     MESH_CHANGE,
     QUICK_DELETE,
-    DECORATE_STATE,
-    PAINT_WALL,
     SELECT_STATE,
     DELETE_GROUP,
     END,
@@ -55,7 +54,7 @@ public class TutorialHandler : MonoBehaviour
         switch (stage)
         {
             case TutorialStage.START:
-                ChangeStage(TutorialStage.BUILD_STATE);
+                ChangeStage(TutorialStage.START + 1);
                 break;
 
             case TutorialStage.END:
@@ -116,8 +115,13 @@ public class TutorialHandler : MonoBehaviour
         //Add the necessary listen to advance, and remove the listener for the previous advancement
         switch (stage)
         {
+            case TutorialStage.MOVEMENT:
+                EventManager.Instance.orthoToggle.AddListener(ChangeStage);
+                break;
+
             case TutorialStage.BUILD_STATE:
                 //The listener for this stage to advance
+                EventManager.Instance.orthoToggle.RemoveListener(ChangeStage);
                 EventManager.Instance.stateChanged.AddListener(ChangeStage);
                 targetState = State.BUILD;
                 break;
@@ -139,20 +143,8 @@ public class TutorialHandler : MonoBehaviour
                 EventManager.Instance.objectDestroyed.AddListener(ChangeStage);
                 break;
 
-            case TutorialStage.DECORATE_STATE:
-                EventManager.Instance.objectDestroyed.RemoveListener(ChangeStage);
-                EventManager.Instance.stateChanged.AddListener(ChangeStage);
-                targetState = State.DECORATE;
-                break;
-
-            case TutorialStage.PAINT_WALL:
-                targetState = State.NULL;
-                EventManager.Instance.stateChanged.RemoveListener(ChangeStage);
-                EventManager.Instance.objectPainted.AddListener(ChangeStage);
-                break;
-
             case TutorialStage.SELECT_STATE:
-                EventManager.Instance.objectPainted.RemoveListener(ChangeStage);
+                EventManager.Instance.objectDestroyed.RemoveListener(ChangeStage);
                 EventManager.Instance.stateChanged.AddListener(ChangeStage);
                 targetState = State.SELECT;
                 break;
@@ -166,7 +158,7 @@ public class TutorialHandler : MonoBehaviour
             case TutorialStage.END:
                 EventManager.Instance.objectDestroyed.RemoveListener(ChangeStage);
                 break;
-
+            
             case TutorialStage.START:
             case TutorialStage.COMPLETE_FLAG:
             case TutorialStage.NULL:

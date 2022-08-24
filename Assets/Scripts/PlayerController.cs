@@ -83,7 +83,7 @@ public class PlayerController : Singleton<PlayerController>
                         PlacementManager.Instance.PlacePoint();
                         break;
 
-                    case State.DECORATE:
+                    case State.EVALUATE:
                         PaintingManager.Instance.PaintTargets();
                         break;
 
@@ -107,7 +107,7 @@ public class PlayerController : Singleton<PlayerController>
 
                         break;
 
-                    case State.DECORATE:
+                    case State.EVALUATE:
 
                         break;
 
@@ -130,7 +130,7 @@ public class PlayerController : Singleton<PlayerController>
                     case State.BUILD:
                         PlacementManager.Instance.ClearPlacement();
                         break;
-                    case State.DECORATE:
+                    case State.EVALUATE:
                         break;
                     default:
                         if (PlacementManager.Instance.editing) PlacementManager.Instance.EndEdit();
@@ -147,7 +147,7 @@ public class PlayerController : Singleton<PlayerController>
                         if (SelectionManager.Instance.hoveredObject != null) SelectionManager.Instance.hoveredObject.DestroySelectable();
                         break;
 
-                    case State.DECORATE:
+                    case State.EVALUATE:
                         break;
 
                     case State.SELECT:
@@ -220,6 +220,7 @@ public class PlayerController : Singleton<PlayerController>
 
     void OrthoToggle() 
     {
+        if (transitioning) return;
         orthographicMode = !orthographicMode;
         transitioning = true;
 
@@ -241,6 +242,8 @@ public class PlayerController : Singleton<PlayerController>
 
         camTargetPosition = orthographicMode ? topDownViewPos : standardPos;
         camLookAtPosition = Vector3.zero;
+
+        EventManager.Instance.orthoToggle.Invoke();
     }
 
     private void OnDrawGizmosSelected()
@@ -329,8 +332,8 @@ public class PlayerController : Singleton<PlayerController>
         {
             float num = context.ReadValue<float>();
             int flatNum = (int)num;
-            //Debug.Log(flatNum);
-            StateManager.Instance.ChangeState((State)flatNum - 1);
+            State newState = (State)flatNum - 1;
+            if (newState == State.SELECT || newState == State.BUILD) StateManager.Instance.ChangeState(newState);
         }
     }
     #endregion

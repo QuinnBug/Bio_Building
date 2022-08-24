@@ -11,6 +11,7 @@ public class EventManager : Singleton<EventManager>
     internal UnityEvent objectDestroyed = new UnityEvent();
     internal UnityEvent objectPainted = new UnityEvent();
     internal UnityEvent modelChanged = new UnityEvent();    
+    internal UnityEvent orthoToggle = new UnityEvent();    
 }
 
 
