@@ -10,6 +10,9 @@ public class ImpactEvaluation : MonoBehaviour
 
     public void Evaluate()
     {
+        StateManager.Instance.ChangeState(State.EVALUATE);
+        StateManager.Instance.stateLocked = true;
+
         Debug.Log("Started Evaluation");
         allData = FindObjectsOfType<Metadata>();
 
@@ -27,10 +30,12 @@ public class ImpactEvaluation : MonoBehaviour
                 {
                     int value = 0;
 
+                    #region Metadata calculation
                     if (int.TryParse(idString[i].ToString(), out value)) Debug.Log((value -5) * 2);
                     else Debug.Log("Failed to read id # ");
 
                     levels[i] += (value - 5) * 5;
+                    #endregion
                 }
             }
             else
@@ -47,9 +52,6 @@ public class ImpactEvaluation : MonoBehaviour
         }
 
         ClimateManager.Instance.StartAnimation(levels);
-
-        StateManager.Instance.ChangeState(State.EVALUATE);
-        StateManager.Instance.stateLocked = true;
         watchForEnd = true;
 
     }

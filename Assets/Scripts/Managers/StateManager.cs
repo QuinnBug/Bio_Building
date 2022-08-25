@@ -23,6 +23,7 @@ public class StateManager : Singleton<StateManager>
     {
         EventManager.Instance.stateChanged.AddListener(UpdateUI);
         ChangeState(State.SELECT);
+        stateLocked = false;
     }
 
     public void UpdateUI(State newState)
@@ -44,12 +45,13 @@ public class StateManager : Singleton<StateManager>
 
     public void ChangeState(State newState) 
     {
+        Debug.Log("Statelocked " + stateLocked);
         if (currentState == newState || stateLocked) return;
 
         currentState = newState;
 
         PlacementManager.Instance.active = currentState == State.BUILD;
-        //PaintingManager.Instance.active = currentState == State.EVALUATE;
+        //PaintingManager.Instance.active = currentState == State.DECORATE;
         SelectionManager.Instance.active = currentState == State.SELECT;
 
         EventManager.Instance.stateChanged.Invoke(newState);

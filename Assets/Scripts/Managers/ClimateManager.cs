@@ -61,7 +61,6 @@ public class ClimateManager : Singleton<ClimateManager>
         }
 
         trees = renderers.ToArray();
-        //singleTreePercent = trees.Length / 100.0f;
 
         tempArray = GameObject.FindGameObjectsWithTag("Flames");
         List<ParticleSystem> emitters = new List<ParticleSystem>();
@@ -73,7 +72,6 @@ public class ClimateManager : Singleton<ClimateManager>
         }
 
         flameEmitters = emitters.ToArray();
-        //singleFlamePercent = flameEmitters.Length / 100.0f;
 
         ResetLevels();
     }
@@ -105,8 +103,8 @@ public class ClimateManager : Singleton<ClimateManager>
                 {
                     impactLevels[i] = Mathf.Lerp(50, targetValues[i], Mathf.Clamp01(animTimer / animDuration));
                 }
-                UpdateClimateLevel();
 
+                UpdateClimateLevel();
                 postAnimStarted = animTimer >= animDuration;
             }
             else if(animTimer > animDuration + postAnimDuration)
@@ -122,9 +120,7 @@ public class ClimateManager : Singleton<ClimateManager>
         //for (int i = 0; i < 5; i++)
         //{
         //    if (impactLevels[i] == prevImpactLevels[i]) continue;
-
         //    update = true;
-
         //    prevImpactLevels[i] = impactLevels[i];
         //}
 
