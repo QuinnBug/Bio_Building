@@ -8,19 +8,22 @@ public enum State
     NULL = -1,
     SELECT = 0,
     BUILD = 1,
-    DECORATE = 2
+    EVALUATE = 2
 }
 
 public class StateManager : Singleton<StateManager>
 {
     public List<ObjectList> uiList = new List<ObjectList>();
     [Space]
-    public State currentState = State.SELECT;
+    public State currentState = State.NULL;
+
+    public bool stateLocked = false;
 
     private void Start()
     {
         EventManager.Instance.stateChanged.AddListener(UpdateUI);
-        ChangeState(currentState);
+        ChangeState(State.SELECT);
+        stateLocked = false;
     }
 
     public void UpdateUI(State newState)
@@ -42,12 +45,13 @@ public class StateManager : Singleton<StateManager>
 
     public void ChangeState(State newState) 
     {
-        if (currentState == newState) return;
+        Debug.Log("Statelocked " + stateLocked);
+        if (currentState == newState || stateLocked) return;
 
         currentState = newState;
 
         PlacementManager.Instance.active = currentState == State.BUILD;
-        PaintingManager.Instance.active = currentState == State.DECORATE;
+        //PaintingManager.Instance.active = currentState == State.DECORATE;
         SelectionManager.Instance.active = currentState == State.SELECT;
 
         EventManager.Instance.stateChanged.Invoke(newState);

@@ -12,7 +12,7 @@ public class SelectionUi : MonoBehaviour
     [Space]
     public GameObject btnPrefab;
     public Transform materialBtnHolder;
-    public Transform meshBtnHolder;
+    public Transform prefabBtnHolder;
     [Space]
     public SelectedType currentSelectedType = SelectedType.COLUMN;
 
@@ -20,8 +20,7 @@ public class SelectionUi : MonoBehaviour
     {
         if (!ResourceManager.Instance.setupComplete) ResourceManager.Instance.Start();
 
-        LoadMaterialChoices();
-        LoadMeshChoices();
+        LoadPrefabChoices();
     }
 
     private void Update()
@@ -45,41 +44,55 @@ public class SelectionUi : MonoBehaviour
             }
         }
 
-        if (selectedMeshIcon.mesh != PlacementManager.Instance.selectedMesh)
-        {
-            selectedMeshIcon.mesh = PlacementManager.Instance.selectedMesh;
-            selectedMeshIcon.thumbnail = selectedMeshIcon.mesh == null ? null : ResourceManager.Instance.GetThumbnail(selectedMeshIcon.mesh.name);
+        //Need to set up the display
 
-        }
+        //if (selectedMeshIcon.mesh != PlacementManager.Instance.selectedMesh)
+        //{
+        //    selectedMeshIcon.mesh = PlacementManager.Instance.selectedMesh;
+        //    selectedMeshIcon.thumbnail = selectedMeshIcon.mesh == null ? null : ResourceManager.Instance.GetThumbnail(selectedMeshIcon.mesh.name);
 
-        if(selectedMatIcon.mat != PlacementManager.Instance.selectedMaterial) 
-        {
-            selectedMatIcon.mat = PlacementManager.Instance.selectedMaterial;
-            selectedMatIcon.thumbnail = selectedMatIcon.mat == null ? null : ResourceManager.Instance.GetThumbnail(selectedMatIcon.mat.name);
-        }
+        //}
+
+        //if(selectedMatIcon.mat != PlacementManager.Instance.selectedMaterial) 
+        //{
+        //    selectedMatIcon.mat = PlacementManager.Instance.selectedMaterial;
+        //    selectedMatIcon.thumbnail = selectedMatIcon.mat == null ? null : ResourceManager.Instance.GetThumbnail(selectedMatIcon.mat.name);
+        //}
     }
 
     private void LoadMaterialChoices()
     {
-        foreach (Material material in ResourceManager.Instance.materials)
-        {
-            GameObject btnGo = Instantiate(btnPrefab, materialBtnHolder);
-            ComponentBtnScript btn = btnGo.GetComponent<ComponentBtnScript>();
-            btn.type = AssignType.MATERIAL;
-            btn.mat = material;
-            btn.thumbnail = ResourceManager.Instance.GetThumbnail(material.name);
-        }
+        //foreach (Material material in ResourceManager.Instance.materials)
+        //{
+        //    GameObject btnGo = Instantiate(btnPrefab, materialBtnHolder);
+        //    ComponentBtnScript btn = btnGo.GetComponent<ComponentBtnScript>();
+        //    btn.type = AssignType.MATERIAL;
+        //    btn.mat = material;
+        //    btn.thumbnail = ResourceManager.Instance.GetThumbnail(material.name);
+        //}
     }
 
     private void LoadMeshChoices()
     {
-        foreach (Mesh mesh in ResourceManager.Instance.meshes)
+        //foreach (Mesh mesh in ResourceManager.Instance.meshes)
+        //{
+        //    GameObject btnGo = Instantiate(btnPrefab, meshBtnHolder);
+        //    ComponentBtnScript btn = btnGo.GetComponent<ComponentBtnScript>();
+        //    btn.type = AssignType.MESH;
+        //    btn.mesh = mesh;
+        //    btn.thumbnail = ResourceManager.Instance.GetThumbnail(mesh.name);
+        //}
+    }
+
+    private void LoadPrefabChoices() 
+    {
+        foreach (GameObject prefab in ResourceManager.Instance.prefabs)
         {
-            GameObject btnGo = Instantiate(btnPrefab, meshBtnHolder);
+            GameObject btnGo = Instantiate(btnPrefab, prefabBtnHolder);
             ComponentBtnScript btn = btnGo.GetComponent<ComponentBtnScript>();
-            btn.type = AssignType.MESH;
-            btn.mesh = mesh;
-            btn.thumbnail = ResourceManager.Instance.GetThumbnail(mesh.name);
+            btn.type = AssignType.PREFAB;
+            btn.prefab = prefab;
+            btn.thumbnail = ResourceManager.Instance.GetThumbnail(prefab.name);
         }
     }
 
