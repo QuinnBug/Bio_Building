@@ -1,11 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Reflect;
 
 public class ImpactEvaluation : MonoBehaviour
 {
-    public Metadata[] allData;
+    public Metadata_Plus[] allData;
     bool watchForEnd = false;
 
     public void Evaluate()
@@ -14,17 +13,16 @@ public class ImpactEvaluation : MonoBehaviour
         StateManager.Instance.stateLocked = true;
 
         Debug.Log("Started Evaluation");
-        allData = FindObjectsOfType<Metadata>();
+        allData = FindObjectsOfType<Metadata_Plus>();
 
         ClimateManager.Instance.ResetLevels();
         float[] levels = new float[] { 0, 0, 0, 0, 0 };
 
-        foreach (Metadata data in allData)
+        foreach (Metadata_Plus data in allData)
         {
             //Debug.Log(data.gameObject.name);
-            if (data.parameters.TryGetValue("Id", out Metadata.Parameter idParameter))
+            if (data.parameters.TryGetValue("Id", out string idString))
             {
-                string idString = idParameter.value;
 
                 for (int i = 0; i < 5; i++)
                 {
