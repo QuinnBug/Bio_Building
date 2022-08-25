@@ -14,6 +14,8 @@ public class SMSettingsUI : MonoBehaviour
 
     private void UpdateToggleFromState(State newState)
     {
+        if (newState != State.SELECT && newState != State.BUILD) return;
+
         int stateNum = (int)newState;
 
         toggles[stateNum].isOn = true;

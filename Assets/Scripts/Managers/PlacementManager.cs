@@ -32,6 +32,8 @@ public class PlacementManager : Singleton<PlacementManager>
     public MeshRenderer placementCursor;
     public Material[] placementColours = new Material[5];
     public PlacementState currentState;
+    [Space]
+    public Transform selectableParent;
 
     private MeshCollider placementCollider;
     private MeshFilter placementCursorFilter;
@@ -71,7 +73,7 @@ public class PlacementManager : Singleton<PlacementManager>
         {
             placementCollider.sharedMesh = placementCursorFilter.sharedMesh = prefabMesh;
 
-            if (prefabMesh.subMeshCount > 1)
+            if (prefabMesh.subMeshCount > 0)
             {
                 Material[] mats = new Material[prefabMesh.subMeshCount];
                 for (int i = 0; i < mats.Length; i++)
@@ -81,11 +83,9 @@ public class PlacementManager : Singleton<PlacementManager>
 
                 placementCursor.materials = mats;
             }
+
+            placementCursor.material = placementColours[(int)currentState];
         }
-
-        placementCursor.material = placementColours[(int)currentState];
-
-        
 
         placementCursor.transform.position = currentPos + (placementCursor.transform.rotation * prefabMeshOffset);
         placementCursor.transform.rotation = Quaternion.Euler(0, yRotation, 0);
@@ -181,7 +181,7 @@ public class PlacementManager : Singleton<PlacementManager>
     private GameObject CreateObject()
     {
         //GameObject obj = new GameObject(selectedMesh.name + "_" + nextId++);
-        GameObject obj = Instantiate(selectedPrefab);
+        GameObject obj = Instantiate(selectedPrefab, selectableParent);
         obj.name = selectedPrefab.name + "_" + nextId++;
 
         obj.layer = LayerMask.NameToLayer("Selectable");

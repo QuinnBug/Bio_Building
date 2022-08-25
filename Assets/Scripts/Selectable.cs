@@ -41,8 +41,8 @@ public class Selectable : BaseSelectable
         data.prefabName = prefab.name;
         gameObject.name = prefab.name + "_" + data.id;
 
-        Metadata tmd = GetComponent<Metadata>();
-        Metadata pfmd = prefab.GetComponent<Metadata>();
+        Metadata_Plus tmd = GetComponent<Metadata_Plus>();
+        Metadata_Plus pfmd = prefab.GetComponent<Metadata_Plus>();
         tmd.parameters = pfmd.parameters;
         tmd.tag = pfmd.tag;
 
@@ -78,6 +78,6 @@ public class SelectableData
     public string prefabName;
     public float yRotation;
     public Vector3 position;
-    public Metadata revitData;
+    public Metadata_Plus revitData;
 }
 

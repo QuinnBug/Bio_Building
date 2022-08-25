@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,26 +6,36 @@ using UnityEngine.Reflect;
 
 public class ImpactEvaluation : MonoBehaviour
 {
-    public Metadata[] allData;
+    public GameObject evaluationScreen;
+    public AdjustableShape currentShape;
+    [Space]
+    public Metadata_Plus[] allData;
     bool watchForEnd = false;
+    float[] levels;
+
+    private void Start()
+    {
+        evaluationScreen.SetActive(false);
+    }
 
     public void Evaluate()
     {
+        allData = FindObjectsOfType<Metadata_Plus>();
+        if (allData.Length == 0) return;
+
+        Debug.Log("Started Evaluation");
+
         StateManager.Instance.ChangeState(State.EVALUATE);
         StateManager.Instance.stateLocked = true;
 
-        Debug.Log("Started Evaluation");
-        allData = FindObjectsOfType<Metadata>();
-
         ClimateManager.Instance.ResetLevels();
-        float[] levels = new float[] { 0, 0, 0, 0, 0 };
+        levels = new float[] { 0, 0, 0, 0, 0 };
 
-        foreach (Metadata data in allData)
+        foreach (Metadata_Plus data in allData)
         {
             //Debug.Log(data.gameObject.name);
-            if (data.parameters.TryGetValue("Id", out Metadata.Parameter idParameter))
+            if (data.parameters.TryGetValue("id", out string idString))
             {
-                string idString = idParameter.value;
 
                 for (int i = 0; i < 5; i++)
                 {
@@ -34,7 +45,7 @@ public class ImpactEvaluation : MonoBehaviour
                     if (int.TryParse(idString[i].ToString(), out value)) Debug.Log((value -5) * 2);
                     else Debug.Log("Failed to read id # ");
 
-                    levels[i] += (value - 5) * 5;
+                    levels[i] += (value - 5) * 25;
                     #endregion
                 }
             }
@@ -56,7 +67,7 @@ public class ImpactEvaluation : MonoBehaviour
 
     }
 
-    void EndEvaluation(bool clearPreviousAttempt)
+    public void EndEvaluation(bool clearPreviousAttempt)
     {
         Debug.Log("End Evaluation");
 
@@ -70,6 +81,8 @@ public class ImpactEvaluation : MonoBehaviour
             }
         }
 
+        evaluationScreen.SetActive(false);
+
         watchForEnd = false;
         StateManager.Instance.stateLocked = false;
         StateManager.Instance.ChangeState(State.SELECT);
@@ -79,7 +92,25 @@ public class ImpactEvaluation : MonoBehaviour
     {
         if (watchForEnd)
         {
-            if (!ClimateManager.Instance.animating) EndEvaluation(true);
+            if (!ClimateManager.Instance.animating) DisplayEvaluationDetails();
         }
+
+        if (evaluationScreen.activeInHierarchy)
+        {
+            for (int i = 0; i < currentShape.values.Count; i++)
+            {
+                currentShape.values[i] = Mathf.Lerp(currentShape.values[i], levels[i]/10, 0.1f);
+            }
+        }
+    }
+
+    private void DisplayEvaluationDetails()
+    {
+        for (int i = 0; i < currentShape.values.Count; i++)
+        {
+            currentShape.values[i] = 0;
+        }
+
+        evaluationScreen.SetActive(true);
     }
 }

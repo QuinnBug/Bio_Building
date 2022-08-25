@@ -45,8 +45,9 @@ public class StateManager : Singleton<StateManager>
 
     public void ChangeState(State newState) 
     {
-        Debug.Log("Statelocked " + stateLocked);
-        if (currentState == newState || stateLocked) return;
+        if (currentState == newState) return;
+        Debug.Log("Statelocked " + stateLocked + " -- " + newState);
+        if (stateLocked) return;
 
         currentState = newState;
 
