@@ -144,5 +144,7 @@ MonoBehaviour:
   value: 
   createParameterFromInspector: 0
   parameters:
-    m_Keys: []
-    m_Values: []
+    m_Keys:
+    - id
+    m_Values:
+    - 19522

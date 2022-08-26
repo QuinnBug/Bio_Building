@@ -145,7 +145,7 @@ public class ClimateManager : Singleton<ClimateManager>
         //how many trees we need to change to get to the correct value (we abs the value before looping for negitives)
         float inactiveDiff = inactiveTreeCount - inactiveIndices.Count;
 
-        if(Mathf.Abs(inactiveDiff) < 1) 
+        if(Mathf.Abs(inactiveDiff) >= 1) 
         {
             //targetState = the state that the selected trees will be set to
             bool targetState = inactiveDiff < 0;
