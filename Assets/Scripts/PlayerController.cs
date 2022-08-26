@@ -328,7 +328,7 @@ public class PlayerController : Singleton<PlayerController>
 
     public void NumberInput(InputAction.CallbackContext context) 
     {
-        if (context.phase == InputActionPhase.Started) 
+        if (context.phase == InputActionPhase.Performed) 
         {
             float num = context.ReadValue<float>();
             int flatNum = (int)num;

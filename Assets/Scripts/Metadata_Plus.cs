@@ -47,7 +47,7 @@ public class StringDict : Dictionary<string, string>, ISerializationCallbackRece
 
     public void OnAfterDeserialize()
     {
-        for (int i = 0; i < m_Keys.Count; i++)
+        for (int i = 0; i < m_Keys.Count; i++) 
         {
             if (ContainsKey(m_Keys[i])) Remove(m_Keys[i]);
 
@@ -58,3 +58,4 @@ public class StringDict : Dictionary<string, string>, ISerializationCallbackRece
         m_Values.Clear();
     }
 }
+
