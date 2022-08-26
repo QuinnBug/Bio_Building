@@ -8,13 +8,15 @@ using UnityEngine.SceneManagement;
 public class LoginController : MonoBehaviour
 {
     public static LoginController Instance;
+    private LoginCanvasController loginCanvasController;
 
     [Header("Login Status")]
     [SerializeField] TextMeshProUGUI warningText;
 
     private void Start()
     {
-        Instance = this;        
+        Instance = this;
+        loginCanvasController = LoginCanvasController.Instance;
     }
     void OnEnable()
     {
@@ -43,7 +45,7 @@ public class LoginController : MonoBehaviour
         if(!Application.isEditor)
             FirebaseAuth.SignInAnonymously(gameObject.name, callback: "OnLoginSuccess", fallback: "OnLoginFailed");
         else
-            SceneManager.LoadScene(1);
+            loginCanvasController.SetAnimatorValues(3);
     }
     /// <summary>
     /// Sets the current users data in the FirebaseController if login is successful along with changes the scene
@@ -51,7 +53,7 @@ public class LoginController : MonoBehaviour
     private void OnLoginSuccess(string _data)
     {
         FirebaseController.Instance.SignInOrSignOutUser();
-        SceneManager.LoadScene(1);
+        loginCanvasController.SetAnimatorValues(3);
     }
     /// <summary>
     /// Outputs a warning message for if a users login/signup was unsuccessful
