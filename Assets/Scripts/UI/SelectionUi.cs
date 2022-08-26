@@ -7,8 +7,8 @@ public class SelectionUi : MonoBehaviour
 {
     public List<ObjectList> selectionUiList = new List<ObjectList>();
     [Space]
-    public ComponentBtnScript selectedMeshIcon;
-    public ComponentBtnScript selectedMatIcon;
+    public ComponentBtnScript selectedPrefabIcon;
+    //public ComponentBtnScript selectedMatIcon;
     [Space]
     public GameObject btnPrefab;
     public Transform materialBtnHolder;
@@ -44,14 +44,11 @@ public class SelectionUi : MonoBehaviour
             }
         }
 
-        //Need to set up the display
-
-        //if (selectedMeshIcon.mesh != PlacementManager.Instance.selectedMesh)
-        //{
-        //    selectedMeshIcon.mesh = PlacementManager.Instance.selectedMesh;
-        //    selectedMeshIcon.thumbnail = selectedMeshIcon.mesh == null ? null : ResourceManager.Instance.GetThumbnail(selectedMeshIcon.mesh.name);
-
-        //}
+        if (selectedPrefabIcon.prefab != PlacementManager.Instance.selectedPrefab)
+        {
+            selectedPrefabIcon.prefab = PlacementManager.Instance.selectedPrefab;
+            selectedPrefabIcon.thumbnail = selectedPrefabIcon.prefab == null ? null : ResourceManager.Instance.GetThumbnail(selectedPrefabIcon.prefab.name);
+        }
 
         //if(selectedMatIcon.mat != PlacementManager.Instance.selectedMaterial) 
         //{

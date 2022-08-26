@@ -8,13 +8,14 @@ using UnityEngine.InputSystem;
 public class SelectionManager : Singleton<SelectionManager>
 {
     public bool active;
-
     [Space]
     public List<Selectable> selectedObjects;
     [Space]
     public Selectable hoveredObject;
     [Space]
+    public Material selectedMat;
     public MeshFilter selectionDisplayMesh;
+    public MeshRenderer selectionDisplayRenderer;
     public EditNode[] editNodes = new EditNode[3];
     [Space]
     public bool ignoreWalls = false;
@@ -101,6 +102,7 @@ public class SelectionManager : Singleton<SelectionManager>
         if (selectedObjects.Count == 0)
         {
             selectionDisplayMesh.gameObject.SetActive(false);
+            selectionDisplayMesh.sharedMesh = null;
             return;
         }
 
@@ -116,7 +118,13 @@ public class SelectionManager : Singleton<SelectionManager>
 
             foreach (BaseSelectable item in selectedObjects)
             {
-                if (item.TryGetComponent(out MeshFilter _mFilter))
+                MeshFilter _mFilter;
+                if (!item.TryGetComponent(out _mFilter))
+                {
+                    _mFilter = item.GetComponentInChildren<MeshFilter>();
+                }
+
+                if (_mFilter != null)
                 {
                     c.mesh = _mFilter.sharedMesh;
                     c.transform = _mFilter.transform.localToWorldMatrix;
@@ -127,17 +135,44 @@ public class SelectionManager : Singleton<SelectionManager>
             if (combine.Count > 0)
             {
                 selectionDisplayMesh.sharedMesh = new Mesh();
-                selectionDisplayMesh.sharedMesh.CombineMeshes(combine.ToArray());
+                selectionDisplayMesh.sharedMesh.CombineMeshes(combine.ToArray(), true, true);
             }
         }
         else
         {
-            if(selectedObjects[0].TryGetComponent(out MeshFilter _mFilter)) selectionDisplayMesh.sharedMesh = _mFilter.sharedMesh;
-            selectionDisplayMesh.transform.position = selectedObjects[0].transform.position;
-            selectionDisplayMesh.transform.rotation = selectedObjects[0].transform.rotation;
+            MeshFilter _mFilter;
+
+            if (!selectedObjects[0].TryGetComponent(out _mFilter))
+            {
+                _mFilter = selectedObjects[0].GetComponentInChildren<MeshFilter>();
+            }
+
+            if (_mFilter != null)
+            {
+                selectionDisplayMesh.sharedMesh = _mFilter.sharedMesh;
+                selectionDisplayMesh.transform.position = _mFilter.transform.position;
+                selectionDisplayMesh.transform.rotation = _mFilter.transform.rotation;
+            }
         }
 
         selectionDisplayMesh.transform.localScale = selectedObjects[0].transform.localScale;
+
+        if (selectionDisplayMesh != null)
+        {
+
+            if (selectionDisplayMesh.sharedMesh.subMeshCount > 0)
+            {
+                Material[] mats = new Material[selectionDisplayMesh.sharedMesh.subMeshCount];
+                for (int i = 0; i < mats.Length; i++)
+                {
+                    mats[i] = selectedMat;
+                }
+
+                selectionDisplayRenderer.materials = mats;
+            }
+
+            selectionDisplayRenderer.material = selectedMat;
+        }
     }
 
     private void UpdateEditNodes()

@@ -59,7 +59,6 @@ public class PlacementManager : Singleton<PlacementManager>
 
     void Update()
     {
-        //placementCursor.enabled = active && selectedMesh != null;
         placementCursor.enabled = active && selectedPrefab != null;
         if (!active) return;
 
