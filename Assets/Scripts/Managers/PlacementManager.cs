@@ -179,9 +179,7 @@ public class PlacementManager : Singleton<PlacementManager>
 
     private GameObject CreateObject()
     {
-        //GameObject obj = new GameObject(selectedMesh.name + "_" + nextId++);
         GameObject obj = Instantiate(selectedPrefab, selectableParent);
-        obj.name = selectedPrefab.name + "_" + nextId++;
 
         obj.layer = LayerMask.NameToLayer("Selectable");
         foreach (Transform item in obj.GetComponentInChildren<Transform>())
@@ -192,10 +190,9 @@ public class PlacementManager : Singleton<PlacementManager>
         obj.transform.position = currentPos;
         obj.transform.rotation = Quaternion.Euler(0,yRotation,0);
 
-        
         Selectable objSelect = obj.AddComponent<Selectable>();
-        objSelect.Init(selectedPrefab);
-        //objSelect.Init(selectedMesh, selectedMaterial != null ? selectedMaterial : ResourceManager.Instance.materials[0]);
+        objSelect.Init(selectedPrefab, nextId++);
+        obj.name = selectedPrefab.name + "_" + nextId++;
 
         EventManager.Instance.objectPlaced.Invoke();
         return obj;
@@ -238,22 +235,17 @@ public class PlacementManager : Singleton<PlacementManager>
 
     internal bool RecreateObject(SelectableData data)
     {
-        //GameObject obj = new GameObject();
-        //obj.layer = LayerMask.NameToLayer("Selectable");
+        GameObject obj = Instantiate(ResourceManager.Instance.GetPrefab(data.prefabName), selectableParent);
+        obj.layer = LayerMask.NameToLayer("Selectable");
 
-        //obj.name = data.meshName + "_" + data.id.ToString();
-        //obj.transform.position = data.position;
-        //obj.transform.rotation = Quaternion.Euler(0, data.yRotation, 0);
+        obj.name = data.prefabName + "_" + data.id.ToString();
+        obj.transform.position = data.position;
+        obj.transform.rotation = Quaternion.Euler(0, data.yRotation, 0);
 
-        //Selectable selectable = obj.AddComponent<Selectable>();
-        //selectable.data = data;
+        Selectable selectable = obj.AddComponent<Selectable>();
+        selectable.data = data;
 
-        //Mesh mesh = ResourceManager.Instance.GetMesh(selectable.data.meshName);
-        //Material mat = ResourceManager.Instance.GetMaterial(selectable.data.materialName);
-
-        //bool success = selectable.Init(mesh, mat);
-        //return success;
-        return false;
+        return true;
     }
 
     public void BeginEditing(Vector3 startPoint, Selectable target) 

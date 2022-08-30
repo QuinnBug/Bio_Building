@@ -332,8 +332,10 @@ public class PlayerController : Singleton<PlayerController>
         {
             float num = context.ReadValue<float>();
             int flatNum = (int)num;
-            State newState = (State)flatNum - 1;
-            if (newState == State.SELECT || newState == State.BUILD) StateManager.Instance.ChangeState(newState);
+            //probably use this to select actions for selected objects.
+
+            //State newState = (State)flatNum - 1;
+            //if (newState == State.SELECT || newState == State.BUILD) StateManager.Instance.ChangeState(newState);
         }
     }
     #endregion

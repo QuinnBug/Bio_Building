@@ -151,8 +151,6 @@ public class SaveManager : Singleton<SaveManager>
 [Serializable]
 public class RoomData
 {
-    //public List<WallMeshData> walls = new List<WallMeshData>();
-    //public List<FurnitureData> furnitures = new List<FurnitureData>();
     public string name;
     public List<SelectableData> selectables = new List<SelectableData>();
 }

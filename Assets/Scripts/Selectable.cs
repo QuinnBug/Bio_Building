@@ -11,26 +11,16 @@ public class Selectable : BaseSelectable
 
     public SelectableData data;
 
-    public bool Init(GameObject prefab)
+    public bool Init(GameObject prefab, int id)
     {
-        //if (!TryGetComponent(out mFilter)) mFilter = gameObject.AddComponent<MeshFilter>();
-        //if (!TryGetComponent(out mCollider)) mCollider = gameObject.AddComponent<MeshCollider>();
-        //if (!TryGetComponent(out mRenderer)) mRenderer = gameObject.AddComponent<MeshRenderer>();
-
         if (data == null)
         {
             data = new SelectableData();
-            //data.meshName = mesh.name;
-            //data.materialName = mat.name;
             data.prefabName = prefab.name;
+            data.id = id;
             data.position = transform.position;
             data.yRotation = transform.rotation.eulerAngles.y;
         }
-
-        //mFilter.sharedMesh = mesh;
-        //mCollider.sharedMesh = mesh;
-        //mCollider.convex = true;
-        //mRenderer.material = mat;
 
         return true;
     }
@@ -71,8 +61,6 @@ public class Selectable : BaseSelectable
 [System.Serializable]
 public class SelectableData 
 {
-    //public string meshName;
-    //public string materialName;
     public int id;
     public string prefabName;
     public float yRotation;

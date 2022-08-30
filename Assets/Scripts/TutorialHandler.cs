@@ -120,7 +120,6 @@ public class TutorialHandler : MonoBehaviour
                 break;
 
             case TutorialStage.BUILD_STATE:
-                //The listener for this stage to advance
                 EventManager.Instance.orthoToggle.RemoveListener(ChangeStage);
                 EventManager.Instance.stateChanged.AddListener(ChangeStage);
                 targetState = State.BUILD;
@@ -163,6 +162,11 @@ public class TutorialHandler : MonoBehaviour
             case TutorialStage.COMPLETE_FLAG:
             case TutorialStage.NULL:
             default:
+                EventManager.Instance.orthoToggle.RemoveListener(ChangeStage);
+                EventManager.Instance.objectPlaced.RemoveListener(ChangeStage);
+                EventManager.Instance.stateChanged.RemoveListener(ChangeStage);
+                EventManager.Instance.modelChanged.RemoveListener(ChangeStage);
+                EventManager.Instance.objectDestroyed.RemoveListener(ChangeStage);
                 return;
         }
     }

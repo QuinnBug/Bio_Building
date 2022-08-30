@@ -26,6 +26,11 @@ public class StateManager : Singleton<StateManager>
         stateLocked = false;
     }
 
+    public void Update()
+    {
+        if(currentState != State.EVALUATE) ChangeState(PlacementManager.Instance.selectedPrefab != null ? State.BUILD : State.SELECT);
+    }
+
     public void UpdateUI(State newState)
     {
         //do this in 2 loops so that one object can be in multiple ui states, but gets set correctly without having to track each dupe
@@ -45,14 +50,11 @@ public class StateManager : Singleton<StateManager>
 
     public void ChangeState(State newState) 
     {
-        if (currentState == newState) return;
-        Debug.Log("Statelocked " + stateLocked + " -- " + newState);
-        if (stateLocked) return;
+        if (currentState == newState || stateLocked) return;
 
         currentState = newState;
 
         PlacementManager.Instance.active = currentState == State.BUILD;
-        //PaintingManager.Instance.active = currentState == State.DECORATE;
         SelectionManager.Instance.active = currentState == State.SELECT;
 
         EventManager.Instance.stateChanged.Invoke(newState);

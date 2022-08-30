@@ -32,8 +32,8 @@ public class ResourceManager : Singleton<ResourceManager>
     {
         if (setupComplete) return;
 
-        materials = Resources.LoadAll<Material>("Q_Materials/");
-        meshes = Resources.LoadAll<Mesh>("Q_Meshes/");
+        //materials = Resources.LoadAll<Material>("Q_Materials/");
+        //meshes = Resources.LoadAll<Mesh>("Q_Meshes/");
         prefabs = Resources.LoadAll<GameObject>("Active_Prefabs/");
 
         CreateThumbnails();
@@ -50,6 +50,17 @@ public class ResourceManager : Singleton<ResourceManager>
 
         Debug.Log(matName + " Material not found");
         return materials[0];
+    }
+
+    public GameObject GetPrefab(string _name)
+    {
+        foreach (GameObject pf in prefabs)
+        {
+            if (pf.name == _name) return pf;
+        }
+
+        Debug.Log(_name + " -- Prefab not found");
+        return prefabs[0];
     }
 
     public Mesh GetMesh(string meshName)
