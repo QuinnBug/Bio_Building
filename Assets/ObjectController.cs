@@ -5,7 +5,7 @@ using UnityEngine;
 public class ObjectController : MonoBehaviour
 {
     Vector3 touchStart;
-    public float zoomOutMin = 1.5f;
+    public float zoomOutMin = 2;
     public float zoomOutMax = 5;
     public GameObject objectHolder;
     private bool transition;
@@ -17,6 +17,7 @@ public class ObjectController : MonoBehaviour
     public static ObjectController instance;
 
     Vector3 transformOffset;
+    public RectTransform frameRect;
     // Update is called once per frame
     private void Start()
     {
@@ -26,7 +27,7 @@ public class ObjectController : MonoBehaviour
     {
         if(!transition)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && frameRect.rect.Contains(Input.mousePosition))
             {
                 touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             }
@@ -75,27 +76,32 @@ public class ObjectController : MonoBehaviour
     {
         if (shrink)
         {
-            if (objectHolder.transform.localScale.x > 0.01)
+            if (objectHolder.transform.localScale.x > 0.05)
             {
-                objectHolder.transform.localScale -= Vector3.one * 3* Time.deltaTime;
+                objectHolder.transform.localScale = Vector3.Lerp(objectHolder.transform.localScale, Vector3.zero, 6 * Time.deltaTime);
             }
             else
             {
                 objectHolder.transform.localScale = Vector3.one * 0.01f;
                 Destroy(currentObject);
                 currentObject = Instantiate(nextObject, objectHolder.transform);
+                SetLayerRecursively(currentObject, "LoadedViewerModel");
+                //currentObject.layer = LayerMask.NameToLayer("LoadedViewerModel");
+
                 currentObject.GetComponentInChildren<MeshCollider>().gameObject.AddComponent<BoxCollider>();
                 
                 currentObject.transform.localPosition = objectHolder.transform.localPosition - currentObject.GetComponentInChildren<BoxCollider>().center;
-
+                directionVelocity = new Vector3(Random.Range(-1,1),Random.Range(-1,1), Random.Range(-1,1));
                 shrink = false;
             }
         }
         else
         {
-            if (objectHolder.transform.localScale.x < 1.5)
+            if (objectHolder.transform.localScale.x < 2)
             {
-                objectHolder.transform.localScale += Vector3.one * 3 * Time.deltaTime;
+                objectHolder.transform.localScale = Vector3.Lerp(objectHolder.transform.localScale, Vector3.one * 2.5f, 3 * Time.deltaTime);
+
+                //objectHolder.transform.localScale += Vector3.one * 3 * Time.deltaTime;
             }
             else
             {
@@ -116,5 +122,15 @@ public class ObjectController : MonoBehaviour
         objectHolder.transform.localScale = new Vector3( (Mathf.Clamp(objectHolder.transform.localScale.x -  increment, zoomOutMin, zoomOutMax)),
             (Mathf.Clamp(objectHolder.transform.localScale.y - increment, zoomOutMin, zoomOutMax)),
             (Mathf.Clamp(objectHolder.transform.localScale.z - increment, zoomOutMin, zoomOutMax)));
+    }
+
+    void SetLayerRecursively( GameObject obj,  string newLayer )
+    {
+        obj.layer = LayerMask.NameToLayer(newLayer);
+
+        foreach (Transform child in obj.transform)
+        {
+            SetLayerRecursively(child.gameObject, newLayer);
+        }
     }
 }

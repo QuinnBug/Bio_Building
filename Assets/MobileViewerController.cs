@@ -7,6 +7,7 @@ public class MobileViewerController : MonoBehaviour
 
     private List<GameObject> availableObjects = new List<GameObject>();
     public ObjectController objectController;
+    public LoadedObjectDetails objectDetails;
     private int currentlyLoadedObjectIndex;
     // Start is called before the first frame update
     void Start()
@@ -19,12 +20,14 @@ public class MobileViewerController : MonoBehaviour
         currentlyLoadedObjectIndex = _objectToLoad;
         Debug.Log("Loading object " + currentlyLoadedObjectIndex + " which is " + availableObjects[currentlyLoadedObjectIndex].name);
         objectController.ChangeObject(availableObjects[currentlyLoadedObjectIndex]);
+        objectDetails.SetNewObjectData(availableObjects[currentlyLoadedObjectIndex].GetComponent<Metadata_Plus>());
     }
 
     public void LoadByIncrementingObject(int _objectToIncrementBy)
     {
         currentlyLoadedObjectIndex = (availableObjects.Count + currentlyLoadedObjectIndex + _objectToIncrementBy) % availableObjects.Count;
         objectController.ChangeObject(availableObjects[currentlyLoadedObjectIndex]);
+        objectDetails.SetNewObjectData(availableObjects[currentlyLoadedObjectIndex].GetComponent<Metadata_Plus>());
     }
 
     // Update is called once per frame

@@ -19,6 +19,8 @@ public class LoginCanvasController : MonoBehaviour
 
     private List<GameObject> allScreens = new List<GameObject>();
 
+    public MobileViewerController viewerController;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -63,5 +65,10 @@ public class LoginCanvasController : MonoBehaviour
     public void SetAnimatorValues(int _stateNumber)
     {
         animator.SetInteger("MenuState", _stateNumber);
+    }
+
+    public void SpawnObject()
+    {
+        viewerController.LoadSpecificObject(0);
     }
 }
