@@ -18,6 +18,8 @@ public class ObjectController : MonoBehaviour
 
     Vector3 transformOffset;
     public RectTransform frameRect;
+
+    bool rotating = false;
     // Update is called once per frame
     private void Start()
     {
@@ -27,9 +29,14 @@ public class ObjectController : MonoBehaviour
     {
         if(!transition)
         {
-            if (Input.GetMouseButtonDown(0) && frameRect.rect.Contains(Input.mousePosition))
+            if (Input.GetMouseButtonDown(0)/* && RectTransformUtility.RectangleContainsScreenPoint(frameRect, (Input.mousePosition))*/)
             {
-                touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                RectTransformUtility.ScreenPointToLocalPointInRectangle(frameRect, Input.mousePosition, Camera.main, out Vector2 lp);
+
+                if (rotating = frameRect.rect.Contains(lp))
+                {
+                    touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                }
             }
             if (Input.touchCount == 2)
             {
@@ -46,7 +53,7 @@ public class ObjectController : MonoBehaviour
 
                 zoom(difference * 0.01f);
             }
-            else if (Input.GetMouseButton(0))
+            else if (Input.GetMouseButton(0) && rotating)
             {
                 directionVelocity = (touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition)).normalized;
                 directionVelocity = new Vector3(-directionVelocity.y, directionVelocity.x, directionVelocity.z);

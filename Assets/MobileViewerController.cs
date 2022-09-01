@@ -21,6 +21,7 @@ public class MobileViewerController : MonoBehaviour
         Debug.Log("Loading object " + currentlyLoadedObjectIndex + " which is " + availableObjects[currentlyLoadedObjectIndex].name);
         objectController.ChangeObject(availableObjects[currentlyLoadedObjectIndex]);
         objectDetails.SetNewObjectData(availableObjects[currentlyLoadedObjectIndex].GetComponent<Metadata_Plus>());
+        MetadataEfficencyAnalyser.instance.SetShapeValues(availableObjects[currentlyLoadedObjectIndex].GetComponent<Metadata_Plus>());
     }
 
     public void LoadByIncrementingObject(int _objectToIncrementBy)
@@ -28,6 +29,7 @@ public class MobileViewerController : MonoBehaviour
         currentlyLoadedObjectIndex = (availableObjects.Count + currentlyLoadedObjectIndex + _objectToIncrementBy) % availableObjects.Count;
         objectController.ChangeObject(availableObjects[currentlyLoadedObjectIndex]);
         objectDetails.SetNewObjectData(availableObjects[currentlyLoadedObjectIndex].GetComponent<Metadata_Plus>());
+        MetadataEfficencyAnalyser.instance.SetShapeValues(availableObjects[currentlyLoadedObjectIndex].GetComponent<Metadata_Plus>());
     }
 
     // Update is called once per frame
