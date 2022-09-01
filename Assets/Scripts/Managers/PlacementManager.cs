@@ -31,7 +31,7 @@ public class PlacementManager : Singleton<PlacementManager>
     [Space]
     public MeshRenderer placementCursor;
     public Material[] placementColours = new Material[5];
-    public PlacementState currentState;
+    public PlacementState placementState;
     [Space]
     public Transform selectableParent;
 
@@ -41,9 +41,9 @@ public class PlacementManager : Singleton<PlacementManager>
     private int nextId = 0;
     private Vector3 currentPos = Vector3.zero;
 
-    private Selectable editTarget;
     private Selectable overlapTarget;
 
+    internal MeshCollider editCollider;
     internal GameObject selectedPrefab;
     internal Mesh prefabMesh;
     internal Vector3 prefabMeshOffset;
@@ -63,7 +63,8 @@ public class PlacementManager : Singleton<PlacementManager>
         if (!active) return;
 
         UpdateCurrentPos();
-        UpdateDisplayElements();
+        if(StateManager.Instance.currentState == State.BUILD) UpdateDisplayElements();
+        else if(StateManager.Instance.currentState == State.EDITING) UpdateEditObject();
     }
 
     private void UpdateDisplayElements()
@@ -77,17 +78,23 @@ public class PlacementManager : Singleton<PlacementManager>
                 Material[] mats = new Material[prefabMesh.subMeshCount];
                 for (int i = 0; i < mats.Length; i++)
                 {
-                    mats[i] = placementColours[(int)currentState];
+                    mats[i] = placementColours[(int)placementState];
                 }
 
                 placementCursor.materials = mats;
             }
 
-            placementCursor.material = placementColours[(int)currentState];
+            placementCursor.material = placementColours[(int)placementState];
         }
 
         placementCursor.transform.position = currentPos + (placementCursor.transform.rotation * prefabMeshOffset);
         placementCursor.transform.rotation = Quaternion.Euler(0, yRotation, 0);
+    }
+
+    private void UpdateEditObject() 
+    {
+        SelectionManager.Instance.editTarget.transform.position = currentPos;
+        SelectionManager.Instance.editTarget.transform.rotation = Quaternion.Euler(0,yRotation,0);
     }
 
     private void UpdateCurrentPos()
@@ -97,14 +104,14 @@ public class PlacementManager : Singleton<PlacementManager>
 
         LayerMask layerMask = 1 << LayerMask.NameToLayer("Floor");
 
-        if (Physics.Raycast(ray, out hit, 25, layerMask) && !EventSystem.current.IsPointerOverGameObject() && selectedPrefab != null)
+        if (Physics.Raycast(ray, out hit, 25, layerMask) && !EventSystem.current.IsPointerOverGameObject())
         {
             currentPos = hit.point;
-            currentState = CheckValidity();
+            if(selectedPrefab != null) placementState = CheckValidity(placementCollider);
         }
         else 
         {
-            currentState = PlacementState.TOO_FAR;
+            placementState = PlacementState.TOO_FAR;
             return;
         }
 
@@ -127,16 +134,16 @@ public class PlacementManager : Singleton<PlacementManager>
         }
     }
 
-    internal void ClearPlacement()
+    public void ClearPlacement()
     {
         selectedPrefab = null;
         prefabMesh = null;
         prefabMeshOffset = Vector2.zero;
     }
 
-    internal void PlacePoint()
+    public void PlacePoint()
     {
-        if (currentState == PlacementState.VALID)
+        if (placementState == PlacementState.VALID)
         {
             GameObject obj = CreateObject();
 
@@ -146,21 +153,12 @@ public class PlacementManager : Singleton<PlacementManager>
                 return;
             }
 
-            if (editing)
-            {
-                EndEdit();
-                SelectionManager.Instance.hoveredObject = obj.GetComponent<Selectable>();
-                SelectionManager.Instance.SelectHovered();
-                Destroy(editTarget);
-                return;
-            }
-
             if (!continuousPlacement)
             {
                 ClearPlacement();
             }
         }
-        else if (currentState == PlacementState.OVERLAPPING && overlapTarget != null) 
+        else if (placementState == PlacementState.OVERLAPPING && overlapTarget != null) 
         {
             overlapTarget.UpdatePrefab(selectedPrefab);
 
@@ -175,6 +173,36 @@ public class PlacementManager : Singleton<PlacementManager>
             //    overlapTarget.UpdateMaterial();
             //}
         }
+    }
+
+    public void ConfirmEdit() 
+    {
+        Debug.Log("Start Confirm");
+
+        PlacementState ps = CheckValidity(editCollider);
+        Debug.Log(ps);
+        if (ps != PlacementState.VALID) return;
+
+        Debug.Log("Valid Placement");
+
+        if (!StateManager.Instance.UnlockState(State.EDITING)) return;
+        StateManager.Instance.ChangeState(State.SELECT);
+
+        SelectionManager.Instance.editTarget.data.position = currentPos;
+        SelectionManager.Instance.editTarget.data.yRotation = yRotation;
+
+        editCollider = null;
+    }
+
+    public void CancelEdit() 
+    {
+        if (!StateManager.Instance.UnlockState(State.EDITING)) return;
+        StateManager.Instance.ChangeState(State.SELECT);
+
+        SelectionManager.Instance.editTarget.transform.position = SelectionManager.Instance.editTarget.data.position;
+        SelectionManager.Instance.editTarget.transform.rotation = Quaternion.Euler(0, SelectionManager.Instance.editTarget.data.yRotation, 0);
+
+        editCollider = null;
     }
 
     private GameObject CreateObject()
@@ -198,26 +226,28 @@ public class PlacementManager : Singleton<PlacementManager>
         return obj;
     }
 
-    private PlacementState CheckValidity() 
+    private PlacementState CheckValidity(Collider testCollider) 
     {
-        if (selectedPrefab == null) return PlacementState.NO_MESH;
+        if (selectedPrefab == null && editCollider == null) return PlacementState.NO_MESH;
 
         //Check for overlapping other selectables
         LayerMask mask = 1 << LayerMask.NameToLayer("Selectable");
 
-        Vector3 collCenter = placementCollider.bounds.center;
+        Vector3 collCenter = testCollider.bounds.center;
 
         Collider[] colliders = Physics.OverlapBox(
             collCenter,
-            placementCollider.bounds.size / 2.5f,
+            testCollider.bounds.size / 2.5f,
             Quaternion.identity,
             mask);
 
-        //Debug.DrawLine(collCenter - (placementCollider.bounds.size / 2.5f), collCenter + (placementCollider.bounds.size / 2.5f), Color.red, 1);
+        Debug.DrawLine(collCenter - (testCollider.bounds.size / 2.5f), collCenter + (testCollider.bounds.size / 2.5f), Color.red, 1);
 
-        //if (colliders.Length == 1 && Mathf.Abs(Vector3.Dot(placementCollider.transform.forward, colliders[0].transform.forward)) > 0.1f)
+        //if (colliders.Length == 1 && Mathf.Abs(Vector3.Dot(testCollider.transform.forward, colliders[0].transform.forward)) > 0.1f)
         if (colliders.Length == 1)
         {
+            if (colliders[0] == editCollider) return PlacementState.VALID;
+
             overlapTarget = colliders[0].GetComponent<Selectable>();
 
             if(overlapTarget == null) 
@@ -246,20 +276,6 @@ public class PlacementManager : Singleton<PlacementManager>
         selectable.data = data;
 
         return true;
-    }
-
-    public void BeginEditing(Vector3 startPoint, Selectable target) 
-    {
-        active = true;
-        editing = true;
-        editTarget = target;
-    }
-
-    public void EndEdit() 
-    {
-        active = false;
-        editing = false;
-        ClearPlacement();
     }
 
     internal void RotatePlacement(int change)

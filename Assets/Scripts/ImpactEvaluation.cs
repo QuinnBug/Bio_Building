@@ -24,8 +24,7 @@ public class ImpactEvaluation : MonoBehaviour
 
         Debug.Log("Started Evaluation");
 
-        StateManager.Instance.ChangeState(State.EVALUATE);
-        StateManager.Instance.stateLocked = true;
+        StateManager.Instance.ChangeState(State.EVALUATE, true);
 
         ClimateManager.Instance.ResetLevels();
         levels = new float[] { 0, 0, 0, 0, 0 };
@@ -68,6 +67,9 @@ public class ImpactEvaluation : MonoBehaviour
 
     public void EndEvaluation(bool clearPreviousAttempt)
     {
+        if (!StateManager.Instance.UnlockState(State.EVALUATE)) return;
+        StateManager.Instance.ChangeState(State.SELECT);
+
         Debug.Log("End Evaluation");
 
         ClimateManager.Instance.ResetLevels();
@@ -83,8 +85,6 @@ public class ImpactEvaluation : MonoBehaviour
         evaluationScreen.SetActive(false);
 
         watchForEnd = false;
-        StateManager.Instance.stateLocked = false;
-        StateManager.Instance.ChangeState(State.SELECT);
     }
 
     private void Update()

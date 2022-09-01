@@ -45,6 +45,11 @@ public class SelectionUi : MonoBehaviour
     {
         SelectionManager.Instance.DestroySelected();
     }
+
+    public void EditSelected()
+    {
+        SelectionManager.Instance.EditSelected();
+    }
 }
 
 [System.Serializable]

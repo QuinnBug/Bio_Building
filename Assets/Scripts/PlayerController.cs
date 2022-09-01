@@ -83,19 +83,12 @@ public class PlayerController : Singleton<PlayerController>
                         PlacementManager.Instance.PlacePoint();
                         break;
 
-                    case State.EVALUATE:
-                        PaintingManager.Instance.PaintTargets();
+                    case State.EDITING:
+                        PlacementManager.Instance.ConfirmEdit();
                         break;
 
-                    default:
-                        if (PlacementManager.Instance.editing)
-                        {
-                            PlacementManager.Instance.PlacePoint();
-                        }
-                        else
-                        {
-                            if (!CheckEditNodeHit()) SelectionManager.Instance.SelectHovered();
-                        }
+                    case State.SELECT:
+                        SelectionManager.Instance.SelectHovered();
                         break;
                 }
                 break;
@@ -103,23 +96,11 @@ public class PlayerController : Singleton<PlayerController>
             case Command.MULTI_SELECT:
                 switch (StateManager.Instance.currentState)
                 {
-                    case State.BUILD:
-
-                        break;
-
-                    case State.EVALUATE:
-
+                    case State.SELECT:
+                        SelectionManager.Instance.SelectHovered(false);
                         break;
 
                     default:
-                        if (PlacementManager.Instance.editing)
-                        {
-                            PlacementManager.Instance.PlacePoint();
-                        }
-                        else
-                        {
-                            SelectionManager.Instance.SelectHovered(false);
-                        }
                         break;
                 }
                 break;
@@ -130,11 +111,16 @@ public class PlayerController : Singleton<PlayerController>
                     case State.BUILD:
                         PlacementManager.Instance.ClearPlacement();
                         break;
-                    case State.EVALUATE:
+
+                    case State.EDITING:
+                        PlacementManager.Instance.CancelEdit();
                         break;
+
+                    case State.SELECT:
+                        SelectionManager.Instance.Deselect(true);
+                        break;
+
                     default:
-                        if (PlacementManager.Instance.editing) PlacementManager.Instance.EndEdit();
-                        else SelectionManager.Instance.Deselect(true);
                         break;
                 }
                 break;
@@ -147,15 +133,20 @@ public class PlayerController : Singleton<PlayerController>
                         if (SelectionManager.Instance.hoveredObject != null) SelectionManager.Instance.hoveredObject.DestroySelectable();
                         break;
 
-                    case State.EVALUATE:
+                    case State.EDITING:
+                        //Destroy the edit target
+                        Debug.Log("Quick Edit Delete Not Implemented");
                         break;
 
                     case State.SELECT:
+                        SelectionManager.Instance.DestroySelected();
+                        break;
+
                     default:
-                        
                         break;
                 }
                 break;
+
             default:
                 break;
         }
