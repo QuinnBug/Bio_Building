@@ -17,14 +17,19 @@ public class ImpactEvaluation : MonoBehaviour
         evaluationScreen.SetActive(false);
     }
 
-    public void Evaluate()
+    public void StartEvaluation() 
+    {
+        StartCoroutine(Evaluate());
+    }
+
+    public IEnumerator Evaluate()
     {
         allData = FindObjectsOfType<Metadata_Plus>();
-        if (allData.Length == 0) return;
-
-        Debug.Log("Started Evaluation");
+        if (allData.Length == 0) yield return null;
 
         StateManager.Instance.ChangeState(State.EVALUATE, true);
+
+        //Debug.Log("Started Evaluation");
 
         ClimateManager.Instance.ResetLevels();
         levels = new float[] { 0, 0, 0, 0, 0 };
@@ -40,8 +45,7 @@ public class ImpactEvaluation : MonoBehaviour
                     int value = 0;
 
                     #region Metadata calculation
-                    if (int.TryParse(idString[i].ToString(), out value)) Debug.Log((value -5) * 2);
-                    else Debug.Log("Failed to read id # ");
+                    if (!int.TryParse(idString[i].ToString(), out value)) Debug.Log("Failed to read id # ");
 
                     levels[i] += (value - 5) * 25;
                     #endregion
@@ -60,6 +64,10 @@ public class ImpactEvaluation : MonoBehaviour
             levels[i] += 50;
         }
 
+        CamManager.Instance.StartEvaluationCam();
+
+        yield return new WaitForSeconds(1.25f);
+
         ClimateManager.Instance.StartAnimation(levels);
         watchForEnd = true;
 
@@ -70,7 +78,7 @@ public class ImpactEvaluation : MonoBehaviour
         if (!StateManager.Instance.UnlockState(State.EVALUATE)) return;
         StateManager.Instance.ChangeState(State.SELECT);
 
-        Debug.Log("End Evaluation");
+        //Debug.Log("End Evaluation");
 
         ClimateManager.Instance.ResetLevels();
 

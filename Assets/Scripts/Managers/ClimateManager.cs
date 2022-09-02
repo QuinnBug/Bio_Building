@@ -44,10 +44,10 @@ public class ClimateManager : Singleton<ClimateManager>
     public float animDuration;
     public float postAnimDuration;
     [Space]
-    [SerializeField] private float[] targetValues;
-    [SerializeField] internal bool animating;
-    [SerializeField] private bool postAnimStarted;
-    [SerializeField] private float animTimer;
+    private float[] targetValues;
+    internal bool animating;
+    private bool postAnimStarted;
+    internal float animTimer;
 
     private void Start()
     {
@@ -86,15 +86,15 @@ public class ClimateManager : Singleton<ClimateManager>
 
     internal void EndAnimation()
     {
+        animTimer = 0;
         animating = false;
-        Debug.Log("End Animation");
+        CamManager.Instance.EndEvaluationCam();
     }
 
     private void Update()
     {
         if (animating)
         {
-            Debug.Log("animating");
             animTimer += Time.deltaTime;
 
             if (!postAnimStarted)
@@ -116,16 +116,6 @@ public class ClimateManager : Singleton<ClimateManager>
 
     private void UpdateClimateLevel() 
     {
-        //bool update = false;
-        //for (int i = 0; i < 5; i++)
-        //{
-        //    if (impactLevels[i] == prevImpactLevels[i]) continue;
-        //    update = true;
-        //    prevImpactLevels[i] = impactLevels[i];
-        //}
-
-        //if (!update) return;
-
         UpdatePercents();
 
         #region Trees

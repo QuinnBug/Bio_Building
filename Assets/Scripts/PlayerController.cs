@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 
 public enum Command 
@@ -15,22 +16,17 @@ public enum Command
 }
 public class PlayerController : Singleton<PlayerController>
 {
-    public Camera cam;
+    private CinemachineVirtualCamera cam;
+    private CinemachineTrackedDolly dolly;
     public float speed;
     public float sprintSpeed;
     private bool sprinting;
     [Space]
-    public float rotSpeed;
     public float lookSpeed;
-    [Space]
-    public Vector3 topDownViewPos;
-    public Vector3 standardPos;
+    public float minDiff;
     [Space]
     public Bounds topDownBounds;
     public Bounds standardBounds;
-    //public float camChangeDistance;
-    //public Vector2 nonOrthoOffset;
-    //public float orthoOffset;
 
     Vector3 moveInput;
     public Command latestCommand = Command.NONE;
@@ -38,38 +34,38 @@ public class PlayerController : Singleton<PlayerController>
 
     bool orthographicMode = false;
 
-    Vector3 camLookAtPosition;
-    Vector3 camTargetPosition;
+    float pathPosTarget;
 
     bool transitioning = false;
 
     private void Start()
     {
+        cam = CamManager.Instance.playCam;
+        dolly = cam.GetCinemachineComponent<CinemachineTrackedDolly>();
+
         orthographicMode = true;
         OrthoToggle();
+
     }
 
     void Update()
     {
         if (transitioning) 
         {
-            transform.position = Vector3.MoveTowards(transform.position, camTargetPosition, rotSpeed * Time.deltaTime);
-
-            Quaternion targetRot = Quaternion.LookRotation(camLookAtPosition - camTargetPosition, Vector3.up);
-            cam.transform.rotation = Quaternion.RotateTowards(cam.transform.rotation, targetRot, lookSpeed * Time.deltaTime);
-            //cam.transform.rotation = targetRot;
-
-            if(Quaternion.Angle(cam.transform.rotation, targetRot) < 0.01f  && Vector3.Distance(transform.position, camTargetPosition) < 0.01f)
+            dolly.m_PathPosition = Mathf.Lerp(dolly.m_PathPosition, pathPosTarget, lookSpeed * Time.deltaTime);
+            if (Mathf.Abs(dolly.m_PathPosition - pathPosTarget) <= minDiff)
             {
-                //cam.orthographic = orthographicMode;
+                dolly.m_PathPosition = pathPosTarget;
                 transitioning = false;
             }
-
-            return;
+            else return;
         }
 
-        MovementUpdate();
-        if (processInput) InputProcessing();
+        if (StateManager.Instance.currentState != State.EVALUATE)
+        {
+            MovementUpdate();
+            if (processInput) InputProcessing();
+        }
     }
 
     private void InputProcessing()
@@ -176,12 +172,12 @@ public class PlayerController : Singleton<PlayerController>
     {
         Vector3 movement = moveInput * (sprinting ? sprintSpeed : speed);
 
-        if (cam.orthographic)
-        {
-            cam.orthographicSize += movement.y * Time.deltaTime;
-            cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, 1, 20);
-            movement.y = 0;
-        }
+        //if (cam.orthographic)
+        //{
+        //    cam.orthographicSize += movement.y * Time.deltaTime;
+        //    cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, 1, 20);
+        //    movement.y = 0;
+        //}
 
         Bounds currentBounds = orthographicMode ? topDownBounds : standardBounds;
 
@@ -215,24 +211,8 @@ public class PlayerController : Singleton<PlayerController>
         orthographicMode = !orthographicMode;
         transitioning = true;
 
-        //change to be -> set cam TARGET pos and setup a Cam update that moves it towards it's target local pos & rot
-
-        //camLookAtPosition = cam.transform.position + (cam.transform.forward * camChangeDistance);
-        //camLookAtPosition.y = 0;
-
-        //cam.transform.rotation = orthographicMode ? Quaternion.Euler(90, 0, 0) : Quaternion.Euler(perspCamRot);
-
-        //if (orthographicMode)
-        //{
-        //    camTargetPosition = camLookAtPosition + (Vector3.up * orthoOffset);
-        //}
-        //else
-        //{
-        //    camTargetPosition = camLookAtPosition + (Vector3.up * nonOrthoOffset.y) + (transform.forward * nonOrthoOffset.x);
-        //}
-
-        camTargetPosition = orthographicMode ? topDownViewPos : standardPos;
-        camLookAtPosition = Vector3.zero;
+        dolly.m_PositionUnits = CinemachinePathBase.PositionUnits.Normalized;
+        pathPosTarget = orthographicMode ? 0 : 1;
 
         EventManager.Instance.orthoToggle.Invoke();
     }
@@ -266,6 +246,8 @@ public class PlayerController : Singleton<PlayerController>
 
     public void CamChangeInput(InputAction.CallbackContext context) 
     {
+        if (StateManager.Instance.currentState == State.EVALUATE) return;
+
         if (context.phase == InputActionPhase.Started)
         {
             OrthoToggle();
@@ -310,6 +292,8 @@ public class PlayerController : Singleton<PlayerController>
 
     public void RotationInput(InputAction.CallbackContext context) 
     {
+        if (StateManager.Instance.currentState == State.EVALUATE) return;
+
         if (context.phase == InputActionPhase.Started)
         {
             int change = (int)context.ReadValue<float>();
@@ -319,6 +303,8 @@ public class PlayerController : Singleton<PlayerController>
 
     public void NumberInput(InputAction.CallbackContext context) 
     {
+        if (StateManager.Instance.currentState == State.EVALUATE) return;
+
         if (context.phase == InputActionPhase.Performed) 
         {
             float num = context.ReadValue<float>();
