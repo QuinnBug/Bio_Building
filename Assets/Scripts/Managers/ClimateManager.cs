@@ -37,6 +37,11 @@ public class ClimateManager : Singleton<ClimateManager>
     private float currentWaterPercent;
 
     [Space]
+    public List<ObjectList> bankBuildings;
+    public float[] bankUpgradePoints;
+    public float currentBankPercent;
+
+    [Space]
     [Range(0,100)]
     public float[] impactLevels = new float[5];
     private float[] prevImpactLevels = new float[5];
@@ -192,6 +197,18 @@ public class ClimateManager : Singleton<ClimateManager>
         }
 
         #endregion
+
+        #region Bank
+
+        for (int i = 0; i < bankUpgradePoints.Length; i++)
+        {
+            foreach (GameObject item in bankBuildings[i].objects)
+            {
+                item.SetActive(currentBankPercent >= bankUpgradePoints[i]);
+            }
+        }
+
+        #endregion
     }
 
     public void UpdatePercents() 
@@ -199,6 +216,7 @@ public class ClimateManager : Singleton<ClimateManager>
         currentTreePercent =  Mathf.Clamp((treeChangeRange.NormaliseToRange(impactLevels[0])), 0, 1);
         currentWaterPercent = 1 - Mathf.Clamp((waterChangeRange.NormaliseToRange(impactLevels[1])), 0, 1);
         currentFlamePercent = 1 - Mathf.Clamp((flameChangeRange.NormaliseToRange(impactLevels[2])), 0, 1);
+        currentBankPercent = Mathf.Clamp(impactLevels[3], 0, 100);
     }
 
     public void ResetLevels() 
