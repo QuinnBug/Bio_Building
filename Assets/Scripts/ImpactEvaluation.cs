@@ -42,7 +42,7 @@ public class ImpactEvaluation : MonoBehaviour
 
                 for (int i = 0; i < 5; i++)
                 {
-                    int value = 0;
+                    int value = 5;
 
                     #region Metadata calculation
                     if (!int.TryParse(idString[i].ToString(), out value)) Debug.Log("Failed to read id # ");

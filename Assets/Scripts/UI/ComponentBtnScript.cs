@@ -2,9 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ComponentBtnScript : MonoBehaviour
+public class ComponentBtnScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public AssignType type;
     [Space]
@@ -59,6 +60,20 @@ public class ComponentBtnScript : MonoBehaviour
             PlacementManager.Instance.prefabMesh = childMF.sharedMesh;
             PlacementManager.Instance.prefabMeshOffset = childMF.transform.localPosition;
         }
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (prefab == null) return;
+
+        Debug.Log("Over " + prefab.name);
+        SelectionInfoBox.Instance.SetObject(prefab);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        if (prefab == null) return;
+        SelectionInfoBox.Instance.ClearObject(prefab);
     }
 }
 
