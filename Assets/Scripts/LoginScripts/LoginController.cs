@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using FirebaseWebGL.Scripts.FirebaseBridge;
 using TMPro;
 using UnityEngine.SceneManagement;
@@ -13,10 +14,16 @@ public class LoginController : MonoBehaviour
     [Header("Login Status")]
     [SerializeField] TextMeshProUGUI warningText;
 
+    UnityEvent m_LoginSuccessEvent;
+
     private void Start()
     {
         Instance = this;
         loginCanvasController = LoginCanvasController.Instance;
+        if (m_LoginSuccessEvent == null)
+            m_LoginSuccessEvent = new UnityEvent();
+
+        m_LoginSuccessEvent.AddListener(OnLoginSuccess);
     }
     void OnEnable()
     {
@@ -28,32 +35,113 @@ public class LoginController : MonoBehaviour
     /// </summary>
     public void checkLoginDetails(string _emailAddress, string _password)
     {
-        FirebaseAuth.SignInWithEmailAndPassword(_emailAddress, _password, gameObject.name, callback: "OnLoginSuccess", fallback: "OnLoginFailed");
+        switch (Application.platform)
+        {
+            case RuntimePlatform.WindowsEditor:
+                break;
+            case RuntimePlatform.IPhonePlayer:
+            case RuntimePlatform.Android:
+                Debug.Log("1");
+                StartCoroutine(routine: LoginCoroutine(_emailAddress, _password));
+                //Firebase.Auth.FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(_emailAddress, _password).ContinueWith(task =>
+                //{
+                //    Debug.Log("2");
+                //    if (task.Exception != null)
+                //    {
+                //        Debug.Log("3");
+                //        OnLoginFailed(task.Exception.ToString());
+                //    }
+                //    else
+                //    {
+                //        Debug.Log("4");
+                //        OnLoginSuccess(task.Result.ToString());
+                //    }
+                //});
+
+                break;
+            case RuntimePlatform.WebGLPlayer:
+                FirebaseAuth.SignInWithEmailAndPassword(_emailAddress, _password, gameObject.name, callback: "OnLoginSuccess", fallback: "OnLoginFailed");
+                break;
+            default:
+                break;
+        }
     }
+
+
+
     /// <summary>
     /// Checks the users email and password for if an account is already created and creates one if there isn't already
     /// </summary>
     public void checkSignUpDetails(string _emailAddress, string _password)
     {
-        FirebaseAuth.CreateUserWithEmailAndPassword(_emailAddress, _password, gameObject.name, callback: "OnLoginSuccess", fallback: "OnLoginFailed");
+        switch (Application.platform)
+        {
+            case RuntimePlatform.WindowsEditor:
+                break;
+            case RuntimePlatform.IPhonePlayer:
+            case RuntimePlatform.Android:
+                StartCoroutine(routine: LoginCoroutine(_emailAddress, _password));
+                //Firebase.Auth.FirebaseAuth.DefaultInstance.CreateUserWithEmailAndPasswordAsync(_emailAddress, _password);//.ContinueWith(task =>
+                //{
+                //    if (task.Exception != null)
+                //    {
+                //        OnLoginFailed(task.Exception.ToString());
+                //    }
+                //    else
+                //    {
+                //        OnLoginSuccess();
+                //    }
+                //});
+
+                break;
+            case RuntimePlatform.WebGLPlayer:
+                FirebaseAuth.CreateUserWithEmailAndPassword(_emailAddress, _password, gameObject.name, callback: "OnLoginSuccess", fallback: "OnLoginFailed");
+                break;
+            default:
+                break;
+        }
     }
+
+    private IEnumerator LoginCoroutine(string _email, string _password)
+    {
+        var auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        var loginTask = auth.SignInWithEmailAndPasswordAsync(_email, _password);
+
+        yield return new WaitUntil(predicate: () => loginTask.IsCompleted);
+
+        if(loginTask.Exception != null)
+        {
+            Debug.LogWarning(message: $"Login Failed with {loginTask.Exception}");
+            OnLoginFailed(loginTask.Exception.Message);
+        }
+        else
+        {
+            Debug.Log(message: $"Login Succeeded with {loginTask.Result}");
+            m_LoginSuccessEvent.Invoke();
+        }
+    }
+
     /// <summary>
     /// Allows a user to build without having to login in; however they won't have the ability to save
     /// </summary>
     public void anonymousSignin()
     {
-        if(!Application.isEditor)
-            FirebaseAuth.SignInAnonymously(gameObject.name, callback: "OnLoginSuccess", fallback: "OnLoginFailed");
-        else
+        //if(!Application.isEditor)
+        //    FirebaseAuth.SignInAnonymously(gameObject.name, callback: "OnLoginSuccess", fallback: "OnLoginFailed");
+        //else
             loginCanvasController.SetAnimatorValues(3);
     }
     /// <summary>
     /// Sets the current users data in the FirebaseController if login is successful along with changes the scene
     /// </summary>
-    private void OnLoginSuccess(string _data)
-    {
-        FirebaseController.Instance.SignInOrSignOutUser();
+    void OnLoginSuccess(/*string _data = null*/)
+    {        
+
+        if(Application.platform == RuntimePlatform.WebGLPlayer)
+            FirebaseController.Instance.SignInOrSignOutUser();
+        Debug.Log("5");
         loginCanvasController.SetAnimatorValues(3);
+        Debug.Log("6");
     }
     /// <summary>
     /// Outputs a warning message for if a users login/signup was unsuccessful
@@ -62,6 +150,12 @@ public class LoginController : MonoBehaviour
     {
         ChangeWarningText(_error);
     }
+
+    private void SignOut()
+    {
+
+    }
+
     /// <summary>
     /// Changes the display warning message above the login details
     /// </summary>

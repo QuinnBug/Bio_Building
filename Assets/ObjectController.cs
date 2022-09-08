@@ -20,6 +20,8 @@ public class ObjectController : MonoBehaviour
     public RectTransform frameRect;
 
     bool rotating = false;
+
+
     // Update is called once per frame
     private void Start()
     {
@@ -55,8 +57,14 @@ public class ObjectController : MonoBehaviour
             }
             else if (Input.GetMouseButton(0) && rotating)
             {
-                directionVelocity = (touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition)).normalized;
-                directionVelocity = new Vector3(-directionVelocity.y, directionVelocity.x, directionVelocity.z);
+                directionVelocity = touchStart - Camera.main.ScreenToWorldPoint(Input.mousePosition);
+                //Debug.Log("direction velocity " + directionVelocity);
+                //directionVelocity = new Vector3 directionVelocity / 100f;
+                //Debug.Log("direction velocity / 100 " + directionVelocity);
+                //directionVelocity = directionVelocity.normalized;
+                //Debug.Log("direction velocity normalised " + directionVelocity);
+                float _distance = Vector3.Distance(touchStart, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                directionVelocity = new Vector3(-directionVelocity.y*0.1f, directionVelocity.x * 0.1f, directionVelocity.z * 0.1f).normalized * Mathf.Sqrt(_distance);
             }
             if(!Input.GetMouseButton(0))
             { 
@@ -119,6 +127,8 @@ public class ObjectController : MonoBehaviour
 
     public void ChangeObject(GameObject _nextObject)
     {
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(frameRect, frameRect.anchoredPosition, Camera.main, out Vector3 fp);
+        transform.position = frameRect.transform.position; 
         transition = true;
         nextObject = _nextObject;
         shrink = true;

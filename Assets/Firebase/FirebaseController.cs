@@ -6,6 +6,10 @@ using UnityEngine.UI;
 using FirebaseWebGL.Scripts.FirebaseBridge;
 using FirebaseWebGL.Scripts.Objects;
 using FirebaseWebGL.Examples.Utils;
+using Firebase;
+using Firebase.Database;
+
+
 
 public class FirebaseController : MonoBehaviour
 {
@@ -18,6 +22,7 @@ public class FirebaseController : MonoBehaviour
     public Text text;
    
 
+
     private void Start()
     {
         if(FirebaseController.Instance != null)
@@ -29,8 +34,38 @@ public class FirebaseController : MonoBehaviour
             Instance = this;
         }
         DontDestroyOnLoad(this.gameObject);
-        if(!Application.isEditor)
-            FirebaseDatabase.GetJSON(path: "TestPath", gameObject.name, callback: "OnRequestSuccess", fallback: "OnRequestFailed");
+
+
+
+        switch (Application.platform)
+        {
+            case RuntimePlatform.WindowsEditor:
+                break;
+            case RuntimePlatform.IPhonePlayer:
+            case RuntimePlatform.Android:
+                InitialiseFirebase();        
+
+                break;
+            case RuntimePlatform.WebGLPlayer:
+                FirebaseWebGL.Scripts.FirebaseBridge.FirebaseDatabase.GetJSON(path: "TestPath", gameObject.name, callback: "OnRequestSuccess", fallback: "OnRequestFailed");
+                break;
+            default:
+                break;
+        }
+        //if(!Application.isEditor)
+
+        
+    }
+
+    private void InitialiseFirebase()
+    {
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        {
+            if(task.Exception != null)
+            {
+                Debug.LogError("Cannot Connect");
+            }
+        });
     }
 
     private void OnRequestSuccess(string _data)
