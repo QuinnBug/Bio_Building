@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class MobileViewerController : MonoBehaviour
 {
-
+    public bool AR = false; 
     private List<GameObject> availableObjects = new List<GameObject>();
     public ObjectController objectController;
+    public ObjectController ARObjectController;
     public LoadedObjectDetails objectDetails;
     private int currentlyLoadedObjectIndex;
     // Start is called before the first frame update
@@ -18,8 +19,8 @@ public class MobileViewerController : MonoBehaviour
     public void LoadSpecificObject(int _objectToLoad)
     {
         currentlyLoadedObjectIndex = _objectToLoad;
-        Debug.Log("Loading object " + currentlyLoadedObjectIndex + " which is " + availableObjects[currentlyLoadedObjectIndex].name);
-        objectController.ChangeObject(availableObjects[currentlyLoadedObjectIndex]);
+        if(AR) ARObjectController.ChangeObject(availableObjects[currentlyLoadedObjectIndex]);
+        else objectController.ChangeObject(availableObjects[currentlyLoadedObjectIndex]);
         objectDetails.SetNewObjectData(availableObjects[currentlyLoadedObjectIndex].GetComponent<Metadata_Plus>());
         MetadataEfficencyAnalyser.instance.SetShapeValues(availableObjects[currentlyLoadedObjectIndex].GetComponent<Metadata_Plus>());
     }
@@ -27,9 +28,7 @@ public class MobileViewerController : MonoBehaviour
     public void LoadByIncrementingObject(int _objectToIncrementBy)
     {
         currentlyLoadedObjectIndex = (availableObjects.Count + currentlyLoadedObjectIndex + _objectToIncrementBy) % availableObjects.Count;
-        objectController.ChangeObject(availableObjects[currentlyLoadedObjectIndex]);
-        objectDetails.SetNewObjectData(availableObjects[currentlyLoadedObjectIndex].GetComponent<Metadata_Plus>());
-        MetadataEfficencyAnalyser.instance.SetShapeValues(availableObjects[currentlyLoadedObjectIndex].GetComponent<Metadata_Plus>());
+        LoadSpecificObject(currentlyLoadedObjectIndex);
     }
 
     // Update is called once per frame
@@ -38,4 +37,9 @@ public class MobileViewerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.LeftArrow)) LoadByIncrementingObject(-1);
         if (Input.GetKeyDown(KeyCode.RightArrow)) LoadByIncrementingObject(1);
     }
+
+    public void SetAR(bool _value)
+    {
+        AR = _value;
+    }    
 }

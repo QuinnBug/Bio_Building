@@ -21,7 +21,7 @@ public class ObjectController : MonoBehaviour
 
     bool rotating = false;
 
-
+    public bool AR;
     // Update is called once per frame
     private void Start()
     {
@@ -35,10 +35,17 @@ public class ObjectController : MonoBehaviour
             {
                 RectTransformUtility.ScreenPointToLocalPointInRectangle(frameRect, Input.mousePosition, Camera.main, out Vector2 lp);
 
-                if (rotating = frameRect.rect.Contains(lp))
+                if (AR == true || frameRect.rect.Contains(lp))
                 {
+                    rotating = true;
                     touchStart = Camera.main.ScreenToWorldPoint(Input.mousePosition);
                 }
+                else
+                {
+                    rotating = false;
+                }
+                    
+                
             }
             if (Input.touchCount == 2)
             {
@@ -64,6 +71,7 @@ public class ObjectController : MonoBehaviour
                 //directionVelocity = directionVelocity.normalized;
                 //Debug.Log("direction velocity normalised " + directionVelocity);
                 float _distance = Vector3.Distance(touchStart, Camera.main.ScreenToWorldPoint(Input.mousePosition));
+                if (AR) directionVelocity.y = 0;
                 directionVelocity = new Vector3(-directionVelocity.y*0.1f, directionVelocity.x * 0.1f, directionVelocity.z * 0.1f).normalized * Mathf.Sqrt(_distance);
             }
             if(!Input.GetMouseButton(0))
@@ -100,21 +108,25 @@ public class ObjectController : MonoBehaviour
                 objectHolder.transform.localScale = Vector3.one * 0.01f;
                 Destroy(currentObject);
                 currentObject = Instantiate(nextObject, objectHolder.transform);
-                SetLayerRecursively(currentObject, "LoadedViewerModel");
-                //currentObject.layer = LayerMask.NameToLayer("LoadedViewerModel");
+                if(!AR)
+                {
+                    SetLayerRecursively(currentObject, "LoadedViewerModel");
+                    //currentObject.layer = LayerMask.NameToLayer("LoadedViewerModel");
 
-                currentObject.GetComponentInChildren<MeshCollider>().gameObject.AddComponent<BoxCollider>();
+                    currentObject.GetComponentInChildren<MeshCollider>().gameObject.AddComponent<BoxCollider>();
                 
-                currentObject.transform.localPosition = objectHolder.transform.localPosition - currentObject.GetComponentInChildren<BoxCollider>().center;
-                directionVelocity = new Vector3(Random.Range(-1,1),Random.Range(-1,1), Random.Range(-1,1));
+                    currentObject.transform.localPosition = objectHolder.transform.localPosition - currentObject.GetComponentInChildren<BoxCollider>().center;
+                    directionVelocity = new Vector3(Random.Range(-1,1),Random.Range(-1,1), Random.Range(-1,1));
+                }
+
                 shrink = false;
             }
         }
         else
         {
-            if (objectHolder.transform.localScale.x < 2)
+            if (objectHolder.transform.localScale.x < zoomOutMin)
             {
-                objectHolder.transform.localScale = Vector3.Lerp(objectHolder.transform.localScale, Vector3.one * 2.5f, 3 * Time.deltaTime);
+                objectHolder.transform.localScale = Vector3.Lerp(objectHolder.transform.localScale, Vector3.one * (zoomOutMin + 0.5f), 3 * Time.deltaTime);
 
                 //objectHolder.transform.localScale += Vector3.one * 3 * Time.deltaTime;
             }
@@ -127,8 +139,12 @@ public class ObjectController : MonoBehaviour
 
     public void ChangeObject(GameObject _nextObject)
     {
-        RectTransformUtility.ScreenPointToWorldPointInRectangle(frameRect, frameRect.anchoredPosition, Camera.main, out Vector3 fp);
-        transform.position = frameRect.transform.position; 
+        if(!AR)
+        {
+            RectTransformUtility.ScreenPointToWorldPointInRectangle(frameRect, frameRect.anchoredPosition, Camera.main, out Vector3 fp);
+            transform.position = frameRect.transform.position; 
+        }
+
         transition = true;
         nextObject = _nextObject;
         shrink = true;
@@ -149,5 +165,10 @@ public class ObjectController : MonoBehaviour
         {
             SetLayerRecursively(child.gameObject, newLayer);
         }
+    }
+
+    public void ClearCurrentObject()
+    {
+        Destroy(currentObject);
     }
 }

@@ -8,7 +8,7 @@ public class MetadataEfficencyAnalyser : MonoBehaviour
     [Serializable]
     public class EfficencyCategory
     {
-        string name;
+        public string name;
         public List<MetadataValues> metadataValues = new List<MetadataValues>();
 
         public void CalculateScales()
