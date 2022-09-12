@@ -68,10 +68,10 @@ namespace UnityEngine.XR.ARFoundation.Samples
         {
             objectHolder.GetComponent<ObjectController>().ClearCurrentObject();
             objectHolder.SetActive(false);
-            foreach (var item in m_PlaneManager.trackables)
-            {
-                item.enabled = true;
-            }
+            //foreach (var item in m_PlaneManager.trackables)
+            //{
+            //    item.enabled = true;
+            //}
             m_PlaneManager.requestedDetectionMode = PlaneDetectionMode.Horizontal;
             canvasController.SwitchARState(0);
         }

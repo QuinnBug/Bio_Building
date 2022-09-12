@@ -20,6 +20,7 @@ public class ObjectController : MonoBehaviour
     public RectTransform frameRect;
 
     bool rotating = false;
+    float yOffset;
 
     public bool AR;
     // Update is called once per frame
@@ -27,7 +28,7 @@ public class ObjectController : MonoBehaviour
     {
         instance = this;
     }
-    void Update()
+    void FixedUpdate()
     {
         if(!transition)
         {
@@ -108,16 +109,19 @@ public class ObjectController : MonoBehaviour
                 objectHolder.transform.localScale = Vector3.one * 0.01f;
                 Destroy(currentObject);
                 currentObject = Instantiate(nextObject, objectHolder.transform);
-                if(!AR)
+                if (!AR)
                 {
                     SetLayerRecursively(currentObject, "LoadedViewerModel");
                     //currentObject.layer = LayerMask.NameToLayer("LoadedViewerModel");
 
-                    currentObject.GetComponentInChildren<MeshCollider>().gameObject.AddComponent<BoxCollider>();
-                
-                    currentObject.transform.localPosition = objectHolder.transform.localPosition - currentObject.GetComponentInChildren<BoxCollider>().center;
-                    directionVelocity = new Vector3(Random.Range(-1,1),Random.Range(-1,1), Random.Range(-1,1));
+                    BoxCollider box = currentObject.GetComponentInChildren<MeshCollider>().gameObject.AddComponent<BoxCollider>();
+                    yOffset = box.center.y;
+
+                    currentObject.transform.localPosition = new Vector3(0, -yOffset, 0);
+                    directionVelocity = new Vector3(Random.Range(-1, 1), Random.Range(-1, 1), Random.Range(-1, 1));
                 }
+                else
+                    yOffset = 0;
 
                 shrink = false;
             }
@@ -127,7 +131,7 @@ public class ObjectController : MonoBehaviour
             if (objectHolder.transform.localScale.x < zoomOutMin)
             {
                 objectHolder.transform.localScale = Vector3.Lerp(objectHolder.transform.localScale, Vector3.one * (zoomOutMin + 0.5f), 3 * Time.deltaTime);
-
+                currentObject.transform.localPosition = new Vector3(0, -yOffset, 0);
                 //objectHolder.transform.localScale += Vector3.one * 3 * Time.deltaTime;
             }
             else

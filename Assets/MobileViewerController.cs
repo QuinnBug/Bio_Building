@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MobileViewerController : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class MobileViewerController : MonoBehaviour
     public ObjectController objectController;
     public ObjectController ARObjectController;
     public LoadedObjectDetails objectDetails;
+    public TextMeshProUGUI ARTitle;
     private int currentlyLoadedObjectIndex;
     // Start is called before the first frame update
     void Start()
@@ -19,9 +21,18 @@ public class MobileViewerController : MonoBehaviour
     public void LoadSpecificObject(int _objectToLoad)
     {
         currentlyLoadedObjectIndex = _objectToLoad;
-        if(AR) ARObjectController.ChangeObject(availableObjects[currentlyLoadedObjectIndex]);
-        else objectController.ChangeObject(availableObjects[currentlyLoadedObjectIndex]);
-        objectDetails.SetNewObjectData(availableObjects[currentlyLoadedObjectIndex].GetComponent<Metadata_Plus>());
+        if (AR)
+        {
+            ARObjectController.ChangeObject(availableObjects[currentlyLoadedObjectIndex]);
+            ARTitle.text = availableObjects[currentlyLoadedObjectIndex].GetComponent<Metadata_Plus>().name;
+        }
+
+        else
+        {
+            objectController.ChangeObject(availableObjects[currentlyLoadedObjectIndex]);        
+            objectDetails.SetNewObjectData(availableObjects[currentlyLoadedObjectIndex].GetComponent<Metadata_Plus>());
+        }
+
         MetadataEfficencyAnalyser.instance.SetShapeValues(availableObjects[currentlyLoadedObjectIndex].GetComponent<Metadata_Plus>());
     }
 

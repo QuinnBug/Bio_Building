@@ -15,6 +15,7 @@ public class LoginController : MonoBehaviour
     [SerializeField] TextMeshProUGUI warningText;
 
     UnityEvent m_LoginSuccessEvent;
+    UnityEvent m_SignUpSuccessEvent;
 
     private void Start()
     {
@@ -24,6 +25,11 @@ public class LoginController : MonoBehaviour
             m_LoginSuccessEvent = new UnityEvent();
 
         m_LoginSuccessEvent.AddListener(OnLoginSuccess);
+
+        if (m_SignUpSuccessEvent == null)
+            m_SignUpSuccessEvent = new UnityEvent();
+
+        m_SignUpSuccessEvent.AddListener(OnSignUpSuccess);
     }
     void OnEnable()
     {
@@ -80,7 +86,7 @@ public class LoginController : MonoBehaviour
                 break;
             case RuntimePlatform.IPhonePlayer:
             case RuntimePlatform.Android:
-                StartCoroutine(routine: LoginCoroutine(_emailAddress, _password));
+                StartCoroutine(routine: SignUpCoroutine(_emailAddress, _password));
                 //Firebase.Auth.FirebaseAuth.DefaultInstance.CreateUserWithEmailAndPasswordAsync(_emailAddress, _password);//.ContinueWith(task =>
                 //{
                 //    if (task.Exception != null)
@@ -121,6 +127,25 @@ public class LoginController : MonoBehaviour
         }
     }
 
+    private IEnumerator SignUpCoroutine(string _email, string _password)
+    {
+        var auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
+        var loginTask = auth.CreateUserWithEmailAndPasswordAsync(_email, _password);
+
+        yield return new WaitUntil(predicate: () => loginTask.IsCompleted);
+
+        if (loginTask.Exception != null)
+        {
+            Debug.LogWarning(message: $"Login Failed with {loginTask.Exception}");
+            OnLoginFailed(loginTask.Exception.Message);
+        }
+        else
+        {
+            Debug.Log(message: $"Login Succeeded with {loginTask.Result}");
+            m_SignUpSuccessEvent.Invoke();
+        }
+    }
+
     /// <summary>
     /// Allows a user to build without having to login in; however they won't have the ability to save
     /// </summary>
@@ -139,6 +164,16 @@ public class LoginController : MonoBehaviour
 
         if(Application.platform == RuntimePlatform.WebGLPlayer)
             FirebaseController.Instance.SignInOrSignOutUser();
+        Debug.Log("5");
+        loginCanvasController.SetAnimatorValues(3);
+        Debug.Log("6");
+    }
+
+    private void OnSignUpSuccess()
+    {
+        if(Application.platform == RuntimePlatform.WebGLPlayer)
+            FirebaseController.Instance.SignInOrSignOutUser();
+
         Debug.Log("5");
         loginCanvasController.SetAnimatorValues(3);
         Debug.Log("6");
