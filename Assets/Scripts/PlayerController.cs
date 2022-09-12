@@ -16,51 +16,41 @@ public enum Command
 }
 public class PlayerController : Singleton<PlayerController>
 {
-    private CinemachineVirtualCamera cam;
-    private CinemachineTrackedDolly dolly;
-    public float speed;
-    public float sprintSpeed;
-    private bool sprinting;
+    public CinemachineVirtualCamera cam;
+    public CinemachineSmoothPath basePath;
+    public CinemachineSmoothPath topPath;
     [Space]
-    public float lookSpeed;
-    public float minDiff;
+    public Range heightRange;
+    public Range zoomRange;
+    public Vector2 cursorSpeed;
+    public float moveSpeed;
+    public float scrollSpeed;
+    public float zoomSpeed;
     [Space]
-    public Bounds topDownBounds;
-    public Bounds standardBounds;
-
-    Vector3 moveInput;
     public Command latestCommand = Command.NONE;
+
+    private CinemachineTrackedDolly dolly;
+    [SerializeField] float zoomDistance = 1;
+    [SerializeField] float height = 3;
+    [SerializeField] float normalisedDollyVal;
+    private Vector2 lastClickPos;
     bool processInput;
-
     bool orthographicMode = false;
-
-    float pathPosTarget;
-
-    bool transitioning = false;
 
     private void Start()
     {
+        //cam2 = CamManager.Instance.playCam;
+        //dolly2 = cam2.GetCinemachineComponent<CinemachineTrackedDolly>();
+
+        //orthographicMode = true;
+        //OrthoToggle();
+
         cam = CamManager.Instance.playCam;
         dolly = cam.GetCinemachineComponent<CinemachineTrackedDolly>();
-
-        orthographicMode = true;
-        OrthoToggle();
-
     }
 
     void Update()
     {
-        if (transitioning) 
-        {
-            dolly.m_PathPosition = Mathf.Lerp(dolly.m_PathPosition, pathPosTarget, lookSpeed * Time.deltaTime);
-            if (Mathf.Abs(dolly.m_PathPosition - pathPosTarget) <= minDiff)
-            {
-                dolly.m_PathPosition = pathPosTarget;
-                transitioning = false;
-            }
-            else return;
-        }
-
         if (StateManager.Instance.currentState != State.EVALUATE)
         {
             MovementUpdate();
@@ -150,98 +140,69 @@ public class PlayerController : Singleton<PlayerController>
         latestCommand = Command.NONE;
     }
 
-    private bool CheckEditNodeHit()
-    {
-        if (SelectionManager.Instance.selectedObjects.Count == 0) return false;
-
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-
-        LayerMask layerMask = 1 << LayerMask.NameToLayer("EditNode");
-
-        if (Physics.Raycast(ray, out hit, 25, layerMask) && hit.collider.gameObject.TryGetComponent(out EditNode node))
-        {
-            node.OnClick();
-            return true;
-        }
-
-        return false;
-    }
-
     void MovementUpdate() 
     {
-        Vector3 movement = moveInput * (sprinting ? sprintSpeed : speed);
+        if (Mouse.current.leftButton.ReadValue() > 0)
+        {
+            Vector2 diff = Mouse.current.position.ReadValue() - lastClickPos;
 
-        //if (cam.orthographic)
-        //{
-        //    cam.orthographicSize += movement.y * Time.deltaTime;
-        //    cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, 1, 20);
-        //    movement.y = 0;
-        //}
+            if(!orthographicMode) height -= cursorSpeed.y * diff.y * Time.deltaTime;
+            height = heightRange.Clamp(height);
 
-        Bounds currentBounds = orthographicMode ? topDownBounds : standardBounds;
+            normalisedDollyVal += cursorSpeed.x * diff.x * Time.deltaTime;
+            //if (normalisedDollyVal > 1) normalisedDollyVal -= 1;
+            //if (normalisedDollyVal < 0) normalisedDollyVal += 1;
 
-        movement *= Time.deltaTime;
+            lastClickPos = Mouse.current.position.ReadValue();
+        }
 
-        if (!currentBounds.Contains(transform.position + (movement.x * Vector3.right))) movement.x = 0;
-        if (!currentBounds.Contains(transform.position + (movement.y * Vector3.up))) movement.y = 0;
-        if (!currentBounds.Contains(transform.position + (movement.z * Vector3.forward))) movement.z = 0;
+        if (Mouse.current.scroll.ReadValue().y != 0)
+        {
+            if (!orthographicMode) zoomDistance -= scrollSpeed * Mouse.current.scroll.ReadValue().y * Time.deltaTime;
+            zoomDistance = zoomRange.Clamp(zoomDistance);
+        }
 
-        transform.Translate(movement);
+        dolly.m_PositionUnits = CinemachinePathBase.PositionUnits.Normalized;
+        dolly.m_PathPosition = Mathf.Lerp(dolly.m_PathPosition, normalisedDollyVal, moveSpeed * Time.deltaTime);
 
-        float x = Mathf.Clamp(transform.position.x,
-            (currentBounds.center.x - currentBounds.extents.x) + 0.05f,
-            (currentBounds.center.x + currentBounds.extents.x) - 0.05f);
-
-        float y = Mathf.Clamp(transform.position.y,
-            (currentBounds.center.y - currentBounds.extents.y) + 0.05f,
-            (currentBounds.center.y + currentBounds.extents.y) - 0.05f);
-
-        float z = Mathf.Clamp(transform.position.z,
-            (currentBounds.center.z - currentBounds.extents.z) + 0.05f,
-            (currentBounds.center.z + currentBounds.extents.z) - 0.05f);
-
-        transform.position = new Vector3(x, y, z);
-        
+        basePath.transform.position = Vector3.Lerp(basePath.transform.position, height * Vector3.up, moveSpeed * Time.deltaTime);
+        basePath.transform.localScale = Vector3.Lerp(basePath.transform.localScale, zoomDistance * Vector3.one, zoomSpeed * Time.deltaTime);
     }
 
     void OrthoToggle() 
     {
-        if (transitioning) return;
         orthographicMode = !orthographicMode;
-        transitioning = true;
 
-        dolly.m_PositionUnits = CinemachinePathBase.PositionUnits.Normalized;
-        pathPosTarget = orthographicMode ? 0 : 1;
+        dolly.m_Path = orthographicMode ? topPath : basePath;
 
         EventManager.Instance.orthoToggle.Invoke();
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawCube(topDownBounds.center, topDownBounds.extents * 2);
+        //Gizmos.color = Color.cyan;
+        //Gizmos.DrawCube(topDownBounds.center, topDownBounds.extents * 2);
 
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawCube(standardBounds.center, standardBounds.extents * 2);
+        //Gizmos.color = Color.magenta;
+        //Gizmos.DrawCube(standardBounds.center, standardBounds.extents * 2);
     }
 
     #region Input Functions
     public void MovementInput(InputAction.CallbackContext context) 
     {
         Vector2 input = context.ReadValue<Vector2>();
-        moveInput.x = input.x;
-        moveInput.z = input.y;
+        //moveInput.x = input.x;
+        //moveInput.z = input.y;
     }
 
     public void SprintInput(InputAction.CallbackContext context)
     {
-        sprinting = context.phase != InputActionPhase.Canceled;
+        //sprinting = context.phase != InputActionPhase.Canceled;
     }
 
     public void FlyInput(InputAction.CallbackContext context) 
     {
-        moveInput.y = context.ReadValue<float>();
+        //moveInput.y = context.ReadValue<float>();
     }
 
     public void CamChangeInput(InputAction.CallbackContext context) 
@@ -267,6 +228,8 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (context.phase == InputActionPhase.Started && latestCommand != Command.MULTI_SELECT)
         {
+            lastClickPos = Mouse.current.position.ReadValue();
+
             latestCommand = Command.SELECT;
             processInput = true;
         }

@@ -17,6 +17,11 @@ public struct Range
     {
         return (value - this.min) / (this.max - this.min);
     }
+
+    public float Clamp(float value) 
+    {
+        return Mathf.Clamp(value, min, max);
+    }
 }
 
 public class ClimateManager : Singleton<ClimateManager>
