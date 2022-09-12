@@ -14,6 +14,16 @@ public enum Command
     CANCEL,
     DELETE,
 }
+
+[Serializable]
+public enum Direction
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+}
+
 public class PlayerController : Singleton<PlayerController>
 {
     public CinemachineVirtualCamera cam;
@@ -34,6 +44,8 @@ public class PlayerController : Singleton<PlayerController>
     [SerializeField] float height = 3;
     [SerializeField] float normalisedDollyVal;
     private Vector2 lastClickPos;
+    private Vector2 camMoveInput;
+    private float zoomInput;
     bool processInput;
     bool orthographicMode = false;
 
@@ -142,23 +154,22 @@ public class PlayerController : Singleton<PlayerController>
 
     void MovementUpdate() 
     {
-        if (Mouse.current.leftButton.ReadValue() > 0)
+        if (camMoveInput.magnitude == 0 && Mouse.current.leftButton.ReadValue() > 0) camMoveInput = Mouse.current.position.ReadValue() - lastClickPos;
+        if (zoomInput == 0) zoomInput = Mouse.current.scroll.ReadValue().y;
+
+        if (camMoveInput.magnitude != 0)
         {
-            Vector2 diff = Mouse.current.position.ReadValue() - lastClickPos;
+            if(!orthographicMode) height -= cursorSpeed.y * camMoveInput.y * Time.deltaTime;
 
-            if(!orthographicMode) height -= cursorSpeed.y * diff.y * Time.deltaTime;
             height = heightRange.Clamp(height);
-
-            normalisedDollyVal += cursorSpeed.x * diff.x * Time.deltaTime;
-            //if (normalisedDollyVal > 1) normalisedDollyVal -= 1;
-            //if (normalisedDollyVal < 0) normalisedDollyVal += 1;
+            normalisedDollyVal += cursorSpeed.x * camMoveInput.x * Time.deltaTime;
 
             lastClickPos = Mouse.current.position.ReadValue();
         }
 
-        if (Mouse.current.scroll.ReadValue().y != 0)
+        if (zoomInput != 0)
         {
-            if (!orthographicMode) zoomDistance -= scrollSpeed * Mouse.current.scroll.ReadValue().y * Time.deltaTime;
+            if (!orthographicMode) zoomDistance -= scrollSpeed * zoomInput * Time.deltaTime;
             zoomDistance = zoomRange.Clamp(zoomDistance);
         }
 
@@ -167,9 +178,38 @@ public class PlayerController : Singleton<PlayerController>
 
         basePath.transform.position = Vector3.Lerp(basePath.transform.position, height * Vector3.up, moveSpeed * Time.deltaTime);
         basePath.transform.localScale = Vector3.Lerp(basePath.transform.localScale, zoomDistance * Vector3.one, zoomSpeed * Time.deltaTime);
+
+        camMoveInput = Vector2.zero;
+        zoomInput = 0;
     }
 
-    void OrthoToggle() 
+    public void ButtonMovement(int dir) 
+    {
+        switch ((Direction)dir)
+        {
+            case Direction.UP:
+                camMoveInput = Vector2.up;
+                break;
+            case Direction.DOWN:
+                camMoveInput = Vector2.down;
+                break;
+            case Direction.LEFT:
+                camMoveInput = Vector2.left;
+                break;
+            case Direction.RIGHT:
+                camMoveInput = Vector2.right;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void ButtonScroll(float direction) 
+    {
+        zoomInput = direction;
+    }
+
+    public void OrthoToggle() 
     {
         orthographicMode = !orthographicMode;
 

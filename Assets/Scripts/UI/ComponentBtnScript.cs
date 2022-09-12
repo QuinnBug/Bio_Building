@@ -66,7 +66,7 @@ public class ComponentBtnScript : MonoBehaviour, IPointerEnterHandler, IPointerE
     {
         if (prefab == null) return;
 
-        Debug.Log("Over " + prefab.name);
+        //Debug.Log("Over " + prefab.name);
         SelectionInfoBox.Instance.SetObject(prefab);
     }
 

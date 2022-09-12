@@ -42,7 +42,6 @@ public class SelectionInfoBox : Singleton<SelectionInfoBox>
             metadata.parameters.TryGetValue("id", out string strValue);
             if (int.TryParse(strValue[i].ToString(), out int x)) value = x;
             value = gradientTimeRange.NormaliseToRange(value);
-            Debug.Log(value);
             icon.color = colourGradient.Evaluate(value);
             i++;
         }
