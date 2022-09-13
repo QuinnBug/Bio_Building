@@ -8,6 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class LoginController : MonoBehaviour
 {
+    private string filePath = "/SavedDetails";
     public static LoginController Instance;
     private LoginCanvasController loginCanvasController;
 
@@ -16,6 +17,8 @@ public class LoginController : MonoBehaviour
 
     UnityEvent m_LoginSuccessEvent;
     UnityEvent m_SignUpSuccessEvent;
+
+    SignUpForm signUpForm;
 
     private void Start()
     {
@@ -44,6 +47,7 @@ public class LoginController : MonoBehaviour
         switch (Application.platform)
         {
             case RuntimePlatform.WindowsEditor:
+                OnLoginSuccess();
                 break;
             case RuntimePlatform.IPhonePlayer:
             case RuntimePlatform.Android:
@@ -78,11 +82,13 @@ public class LoginController : MonoBehaviour
     /// <summary>
     /// Checks the users email and password for if an account is already created and creates one if there isn't already
     /// </summary>
-    public void checkSignUpDetails(string _emailAddress, string _password)
+    public void checkSignUpDetails(string _emailAddress, string _password, SignUpForm _signUpForm)
     {
+        signUpForm = _signUpForm;
         switch (Application.platform)
         {
             case RuntimePlatform.WindowsEditor:
+                OnSignUpSuccess();
                 break;
             case RuntimePlatform.IPhonePlayer:
             case RuntimePlatform.Android:
@@ -174,7 +180,28 @@ public class LoginController : MonoBehaviour
         if(Application.platform == RuntimePlatform.WebGLPlayer)
             FirebaseController.Instance.SignInOrSignOutUser();
 
-        Debug.Log("5");
+        string saveStr;
+        if (Application.isEditor)
+        {
+            saveStr = signUpForm.WriteToJSON("TestString");
+            if (System.IO.File.Exists(Application.dataPath + filePath))
+            {
+                //overwriting file
+            }
+            else
+            {
+                //create and close the file, ready to be written to.
+                System.IO.File.Create(Application.dataPath + filePath + ".json").Close();
+            }
+
+            System.IO.File.WriteAllText(Application.dataPath + filePath + ".json", saveStr);
+        }
+        else
+        {
+            saveStr = signUpForm.WriteToJSON(FirebaseController.Instance.userData.displayName);
+            FirebaseController.Instance.UpdateText(saveStr);
+        }
+
         loginCanvasController.SetAnimatorValues(3);
         Debug.Log("6");
     }

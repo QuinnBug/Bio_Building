@@ -7,34 +7,30 @@ using UnityEngine;
 public class SignUpForm : AccountFormBase
 {
     [System.Serializable]
-    public struct SignUpDetails
+    public class SignUpDetails
     {
-        //string CurrentRole;
-        //string NumberOfYearsInRole;
-        //string KeyResponsibilities;
+        [SerializeField]
+        public string UserDataID;
+        [SerializeField]
+        public List<SignUpDetail> details = new List<SignUpDetail>();
+    }
+    [System.Serializable]
+    public struct SignUpDetail
+    {
+        public string key;
+        public string value;
 
-        //string PreviousRoles;
-        //string numberOfYearsInRole;
-        //string PreviousKeyResponsibilities;
-
-        //string HighestQualification;
-        //string Gender;
-        //string Age;
-        //string ClientBase;
-        //string YearsOfExperienceUsingDigitalToolsForBusiness;
-        //string YearsOfExperienceUsingDigitalToolsOtherThanBIM;
-
-        //string ToolsPreviouslyUsed;
-        //string LevelOfExpertise;
-
-        //string NumberOfYearsExperienceUsingBIM;
-        public TextMeshProUGUI key;
-        public TextMeshProUGUI value;
+        public SignUpDetail(string _key, string _value)
+        {
+            key = _key;
+            value = _value=="Select"? "" : _value;
+        }
     }
     public override void Awake()
     {
         base.Awake();
         textMeshProUGUIs.Add(confirmPasswordField);
+        AddDetailHoldersToDetails();
     }
 
     public override void OnEnable()
@@ -45,8 +41,13 @@ public class SignUpForm : AccountFormBase
     public override void ConfirmButtonPress()
     {
         base.ConfirmButtonPress();
-        if (CheckPasswords()) 
-            loginController.checkSignUpDetails(emailAddressField.text, passwordField.text);
+        Debug.LogError("1");
+        if (CheckPasswords())
+        {
+            Debug.LogError("2");
+            loginController.checkSignUpDetails(emailAddressField.text, passwordField.text, this);
+        }
+
         else
             loginController.ChangeWarningText("Passwords don't match.");
 
@@ -63,11 +64,63 @@ public class SignUpForm : AccountFormBase
         loginCanvasController.UpdateActiveScreen(LoginCanvasController.MenuState.STARTSCREEN);
     }
 
-    public void WriteToJSON()
+    public string WriteToJSON(string _userID)
     {
-
+        details.UserDataID = _userID;
+        return JsonUtility.ToJson(details);
     }
 
+
     [SerializeField]
-    public List<SignUpDetails> details = new List<SignUpDetails>();
+    public SignUpDetails details = new SignUpDetails();
+
+    private void AddDetailHoldersToDetails()
+    {
+
+        GameObject[] detailHolders = GameObject.FindGameObjectsWithTag("Detail");
+
+        foreach (var item in detailHolders)
+        {
+            details.details.Add(new SignUpDetail(item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsKey", false).text,
+                item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsValue", false).text));
+        }
+    }
+
+
+}
+
+public static class Helper
+{
+    public static T[] FindComponentsInChildrenWithTag<T>(this GameObject parent, string tag, bool forceActive = false) where T : Component
+    {
+        if (parent == null) { throw new System.ArgumentNullException(); }
+        if (string.IsNullOrEmpty(tag) == true) { throw new System.ArgumentNullException(); }
+        List<T> list = new List<T>(parent.GetComponentsInChildren<T>(forceActive));
+        if (list.Count == 0) { return null; }
+
+        for (int i = list.Count - 1; i >= 0; i--)
+        {
+            if (list[i].CompareTag(tag) == false)
+            {
+                list.RemoveAt(i);
+            }
+        }
+        return list.ToArray();
+    }
+
+    public static T FindComponentInChildWithTag<T>(this GameObject parent, string tag, bool forceActive = false) where T : Component
+    {
+        if (parent == null) { throw new System.ArgumentNullException(); }
+        if (string.IsNullOrEmpty(tag) == true) { throw new System.ArgumentNullException(); }
+
+        T[] list = parent.GetComponentsInChildren<T>(forceActive);
+        foreach (T t in list)
+        {
+            if (t.CompareTag(tag) == true)
+            {
+                return t;
+            }
+        }
+        return null;
+    }
 }

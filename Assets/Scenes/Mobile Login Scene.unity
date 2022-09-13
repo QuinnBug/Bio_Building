@@ -1525,7 +1525,7 @@ GameObject:
   - component: {fileID: 148083697}
   m_Layer: 5
   m_Name: Number of years in previous roles
-  m_TagString: Untagged
+  m_TagString: Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1749,7 +1749,7 @@ GameObject:
   - component: {fileID: 160324676}
   m_Layer: 5
   m_Name: Label
-  m_TagString: Untagged
+  m_TagString: DetailsValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2758,7 +2758,7 @@ GameObject:
   - component: {fileID: 227672981}
   m_Layer: 5
   m_Name: Label
-  m_TagString: Untagged
+  m_TagString: DetailsValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3360,7 +3360,7 @@ GameObject:
   - component: {fileID: 248629533}
   m_Layer: 5
   m_Name: Current Role
-  m_TagString: Untagged
+  m_TagString: Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3419,7 +3419,7 @@ GameObject:
   - component: {fileID: 250254095}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: DetailsKey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3936,7 +3936,7 @@ GameObject:
   - component: {fileID: 279363493}
   m_Layer: 5
   m_Name: Text
-  m_TagString: Untagged
+  m_TagString: DetailsValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4181,7 +4181,7 @@ GameObject:
   - component: {fileID: 291200348}
   m_Layer: 5
   m_Name: Text
-  m_TagString: Untagged
+  m_TagString: DetailsValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4800,7 +4800,7 @@ GameObject:
   - component: {fileID: 373514218}
   m_Layer: 5
   m_Name: Client Base
-  m_TagString: Untagged
+  m_TagString: Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5072,7 +5072,7 @@ GameObject:
   - component: {fileID: 439371144}
   m_Layer: 5
   m_Name: Text
-  m_TagString: Untagged
+  m_TagString: DetailsValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5348,7 +5348,7 @@ GameObject:
   - component: {fileID: 455838092}
   m_Layer: 5
   m_Name: Number of years in role
-  m_TagString: Untagged
+  m_TagString: Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5437,7 +5437,7 @@ GameObject:
   - component: {fileID: 474920236}
   m_Layer: 5
   m_Name: Highest level of qualification or equivalent
-  m_TagString: Untagged
+  m_TagString: Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7537,7 +7537,7 @@ GameObject:
   - component: {fileID: 610916376}
   m_Layer: 5
   m_Name: Text
-  m_TagString: Untagged
+  m_TagString: DetailsValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7670,7 +7670,7 @@ GameObject:
   - component: {fileID: 622758049}
   m_Layer: 5
   m_Name: Level of expertise
-  m_TagString: Untagged
+  m_TagString: Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7729,7 +7729,7 @@ GameObject:
   - component: {fileID: 648676115}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: DetailsKey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7899,7 +7899,7 @@ GameObject:
   - component: {fileID: 669330976}
   m_Layer: 5
   m_Name: Previous key responsibilities
-  m_TagString: Untagged
+  m_TagString: Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -7958,7 +7958,7 @@ GameObject:
   m_Layer: 5
   m_Name: Number of years experince experince using digital tools construction other
     than BIM
-  m_TagString: Untagged
+  m_TagString: Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8150,7 +8150,7 @@ GameObject:
   - component: {fileID: 700125162}
   m_Layer: 5
   m_Name: Age
-  m_TagString: Untagged
+  m_TagString: Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8539,7 +8539,7 @@ GameObject:
   - component: {fileID: 736580973}
   m_Layer: 5
   m_Name: Label
-  m_TagString: Untagged
+  m_TagString: DetailsValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -9490,7 +9490,7 @@ GameObject:
   - component: {fileID: 806078353}
   m_Layer: 5
   m_Name: Previous Roles
-  m_TagString: Untagged
+  m_TagString: Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12215,7 +12215,7 @@ GameObject:
   - component: {fileID: 966907146}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: DetailsKey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12349,7 +12349,7 @@ GameObject:
   - component: {fileID: 971336165}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: DetailsKey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12911,7 +12911,7 @@ GameObject:
   - component: {fileID: 1019320985}
   m_Layer: 5
   m_Name: Label
-  m_TagString: Untagged
+  m_TagString: DetailsValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13045,7 +13045,7 @@ GameObject:
   - component: {fileID: 1042351521}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: DetailsKey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -14884,7 +14884,7 @@ GameObject:
   - component: {fileID: 1153286404}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: DetailsKey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -15606,7 +15606,7 @@ GameObject:
   - component: {fileID: 1211493674}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: DetailsKey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16080,7 +16080,7 @@ GameObject:
   - component: {fileID: 1231285572}
   m_Layer: 5
   m_Name: Tools previously used
-  m_TagString: Untagged
+  m_TagString: Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -16184,8 +16184,8 @@ MonoBehaviour:
   confirmPasswordField: {fileID: 1171832679}
   textMeshProUGUIs: []
   details:
-  - key: {fileID: 0}
-    value: {fileID: 0}
+    UserDataID: 
+    details: []
 --- !u!1 &1255409881
 GameObject:
   m_ObjectHideFlags: 0
@@ -16654,7 +16654,7 @@ GameObject:
   - component: {fileID: 1265121060}
   m_Layer: 5
   m_Name: Label
-  m_TagString: Untagged
+  m_TagString: DetailsValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17755,7 +17755,7 @@ GameObject:
   - component: {fileID: 1300306488}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: DetailsKey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -17889,7 +17889,7 @@ GameObject:
   - component: {fileID: 1309083783}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: DetailsKey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18228,7 +18228,7 @@ GameObject:
   - component: {fileID: 1348717358}
   m_Layer: 5
   m_Name: Label
-  m_TagString: Untagged
+  m_TagString: DetailsValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -18672,7 +18672,7 @@ GameObject:
   - component: {fileID: 1375000948}
   m_Layer: 5
   m_Name: Label
-  m_TagString: Untagged
+  m_TagString: DetailsValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -20822,7 +20822,7 @@ GameObject:
   - component: {fileID: 1482935726}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: DetailsKey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -24760,7 +24760,7 @@ GameObject:
   - component: {fileID: 1699804276}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: DetailsKey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25624,7 +25624,7 @@ GameObject:
   - component: {fileID: 1764367988}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: DetailsKey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -25892,7 +25892,7 @@ GameObject:
   - component: {fileID: 1786522760}
   m_Layer: 5
   m_Name: Label
-  m_TagString: Untagged
+  m_TagString: DetailsValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26025,7 +26025,7 @@ GameObject:
   - component: {fileID: 1790568148}
   m_Layer: 5
   m_Name: Number of years experince using generic digital tools for business
-  m_TagString: Untagged
+  m_TagString: Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -26818,7 +26818,7 @@ GameObject:
   - component: {fileID: 1868609091}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: DetailsKey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27213,7 +27213,7 @@ GameObject:
   - component: {fileID: 1883748826}
   m_Layer: 5
   m_Name: Label
-  m_TagString: Untagged
+  m_TagString: DetailsValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27346,7 +27346,7 @@ GameObject:
   - component: {fileID: 1889628888}
   m_Layer: 5
   m_Name: Number of years experince using BIM and BIM connected digital tools
-  m_TagString: Untagged
+  m_TagString: Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -27910,7 +27910,7 @@ GameObject:
   - component: {fileID: 1915475187}
   m_Layer: 5
   m_Name: Key Responsibilities
-  m_TagString: Untagged
+  m_TagString: Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28759,7 +28759,7 @@ GameObject:
   - component: {fileID: 1961319908}
   m_Layer: 5
   m_Name: Label
-  m_TagString: Untagged
+  m_TagString: DetailsValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29102,7 +29102,7 @@ GameObject:
   - component: {fileID: 1985002358}
   m_Layer: 5
   m_Name: Text
-  m_TagString: Untagged
+  m_TagString: DetailsValue
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29444,7 +29444,7 @@ GameObject:
   - component: {fileID: 1996298248}
   m_Layer: 5
   m_Name: Gender
-  m_TagString: Untagged
+  m_TagString: Detail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29833,7 +29833,7 @@ GameObject:
   - component: {fileID: 2019488708}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: DetailsKey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -30647,7 +30647,7 @@ GameObject:
   - component: {fileID: 2047914652}
   m_Layer: 5
   m_Name: Text (TMP)
-  m_TagString: Untagged
+  m_TagString: DetailsKey
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
