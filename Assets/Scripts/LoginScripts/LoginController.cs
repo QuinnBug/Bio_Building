@@ -189,7 +189,8 @@ public class LoginController : MonoBehaviour
             FirebaseController.Instance.SignInOrSignOutUser();
 
         string saveStr;
-        saveStr = Application.isEditor? signUpForm.WriteToJSON("TestString"): signUpForm.WriteToJSON(FirebaseController.Instance.userData.displayName);
+        // saveStr = Application.isEditor? signUpForm.WriteToJSON("TestString"): signUpForm.WriteToJSON(FirebaseController.Instance.userData.displayName);
+        saveStr = signUpForm.WriteToJSON("TestString");
         if (Application.isEditor)
         {
             if (System.IO.File.Exists(Application.dataPath + filePath + ".json"))
@@ -206,14 +207,14 @@ public class LoginController : MonoBehaviour
         }
         else
         {
-                FirebaseDatabase.PostJSON(FirebaseController.Instance.userData.uid, saveStr,
+                FirebaseDatabase.PushJSON(FirebaseController.Instance.userData.uid, saveStr,
                     gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
         }
         
         //SaveManager.Instance.UpdateJson(saveStr);
 
 
-        loginCanvasController.SetAnimatorValues(3);
+        //loginCanvasController.SetAnimatorValues(3);
         Debug.Log("6");
     }
     /// <summary>
@@ -227,6 +228,18 @@ public class LoginController : MonoBehaviour
     private void SignOut()
     {
 
+    }
+
+    private void OnWriteToJSONSuccess(string _data)
+    {
+        FirebaseController.Instance.UpdateText(_data);
+        //JSON Write Success
+    }
+
+    private void OnWriteToJSONFailed(string _error)
+    {
+        FirebaseController.Instance.UpdateText(_error, Color.red);
+        //JSON Write Failed
     }
 
     /// <summary>

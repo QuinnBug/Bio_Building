@@ -35,7 +35,7 @@ public class SignUpForm : AccountFormBase
         }
     }
     [System.Serializable]
-    public struct SignUpDetail
+    public class SignUpDetail
     {
         public string key;
         public string value;
