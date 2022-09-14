@@ -74,6 +74,37 @@ public class SaveManager : Singleton<SaveManager>
         }
     }
 
+    public void UpdateJson(string _saveData)
+    {
+        if (Application.isEditor)
+        {
+            if (System.IO.File.Exists(Application.dataPath + filePath + ".json"))
+            {
+                //overwriting file
+            }
+            else
+            {
+                //create and close the file, ready to be written to.
+                System.IO.File.Create(Application.dataPath + filePath + ".json").Close();
+            }
+
+            System.IO.File.WriteAllText(Application.dataPath + filePath + ".json", _saveData);
+        }
+        else
+        {
+            if (!firebaseSaveExists)
+            {
+                FirebaseDatabase.PostJSON(FirebaseController.Instance.userData.uid, _saveData,
+                    gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
+            }
+            else
+            {
+                FirebaseDatabase.UpdateJSON(FirebaseController.Instance.userData.uid, _saveData,
+                    gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
+            }
+        }
+    }
+
     private void OnWriteToJSONSuccess(string _data)
     {
         firebaseSaveExists = true;

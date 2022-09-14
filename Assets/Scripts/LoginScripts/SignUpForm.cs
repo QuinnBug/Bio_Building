@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class SignUpForm : AccountFormBase
 {
+    private enum PasswordState { TOOSHORT, DONTMATCH, CORRECT}
     [System.Serializable]
     public class SignUpDetails
     {
@@ -13,6 +14,25 @@ public class SignUpForm : AccountFormBase
         public string UserDataID;
         [SerializeField]
         public List<SignUpDetail> details = new List<SignUpDetail>();
+        private List<SignUpDetail> AddDetailHoldersToDetails()
+        {
+
+            GameObject[] detailHolders = GameObject.FindGameObjectsWithTag("Detail");
+            List<SignUpDetail> loadedDetails = new List<SignUpDetail>();
+
+            foreach (var item in detailHolders)
+            {
+                loadedDetails.Add(new SignUpDetail(item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsKey", false).text,
+                    item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsValue", false).text));
+            }
+
+            return loadedDetails;
+        }
+        public SignUpDetails(string _UserDataID)
+        {
+            UserDataID = _UserDataID;
+            details = AddDetailHoldersToDetails();
+        }
     }
     [System.Serializable]
     public struct SignUpDetail
@@ -30,7 +50,6 @@ public class SignUpForm : AccountFormBase
     {
         base.Awake();
         textMeshProUGUIs.Add(confirmPasswordField);
-        AddDetailHoldersToDetails();
     }
 
     public override void OnEnable()
@@ -41,21 +60,27 @@ public class SignUpForm : AccountFormBase
     public override void ConfirmButtonPress()
     {
         base.ConfirmButtonPress();
-        Debug.LogError("1");
-        if (CheckPasswords())
+        switch (CheckPasswords())
         {
-            Debug.LogError("2");
-            loginController.checkSignUpDetails(emailAddressField.text, passwordField.text, this);
+            case PasswordState.TOOSHORT:
+                loginController.ChangeWarningText("Password is too short, please be 6 or more characters");
+                break;
+            case PasswordState.DONTMATCH:            
+                loginController.ChangeWarningText("Passwords don't match.");
+                break;
+            case PasswordState.CORRECT:
+                loginController.checkSignUpDetails(emailAddressField.text, passwordField.text, this);
+                break;
+            default:
+                break;
         }
-
-        else
-            loginController.ChangeWarningText("Passwords don't match.");
-
     }
 
-    private bool CheckPasswords()
+    private PasswordState CheckPasswords()
     {
-        return passwordField.text == confirmPasswordField.text;
+        if (passwordField.text.Length < 6) return PasswordState.TOOSHORT;
+        if (passwordField.text != confirmPasswordField.text) return PasswordState.DONTMATCH;
+        return PasswordState.CORRECT;
     }
 
     public override void ReturnButtonPress()
@@ -66,27 +91,25 @@ public class SignUpForm : AccountFormBase
 
     public string WriteToJSON(string _userID)
     {
-        details.UserDataID = _userID;
+        SignUpDetails details = new SignUpDetails(_userID);
         return JsonUtility.ToJson(details);
     }
 
 
-    [SerializeField]
-    public SignUpDetails details = new SignUpDetails();
+    //[SerializeField]
+    //public SignUpDetails details = new SignUpDetails();
 
-    private void AddDetailHoldersToDetails()
-    {
+    //private void AddDetailHoldersToDetails()
+    //{
 
-        GameObject[] detailHolders = GameObject.FindGameObjectsWithTag("Detail");
+    //    GameObject[] detailHolders = GameObject.FindGameObjectsWithTag("Detail");
 
-        foreach (var item in detailHolders)
-        {
-            details.details.Add(new SignUpDetail(item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsKey", false).text,
-                item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsValue", false).text));
-        }
-    }
-
-
+    //    foreach (var item in detailHolders)
+    //    {
+    //        details.details.Add(new SignUpDetail(item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsKey", false).text,
+    //            item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsValue", false).text));
+    //    }
+    //}
 }
 
 public static class Helper

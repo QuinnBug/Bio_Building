@@ -107,7 +107,7 @@ public class LoginController : MonoBehaviour
 
                 break;
             case RuntimePlatform.WebGLPlayer:
-                FirebaseAuth.CreateUserWithEmailAndPassword(_emailAddress, _password, gameObject.name, callback: "OnLoginSuccess", fallback: "OnLoginFailed");
+                FirebaseAuth.CreateUserWithEmailAndPassword(_emailAddress, _password, gameObject.name, callback: "OnSignUpSuccess", fallback: "OnLoginFailed");
                 break;
             default:
                 break;
@@ -116,6 +116,7 @@ public class LoginController : MonoBehaviour
 
     private IEnumerator LoginCoroutine(string _email, string _password)
     {
+#if !PLATFORM_WEBGL
         var auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         var loginTask = auth.SignInWithEmailAndPasswordAsync(_email, _password);
 
@@ -131,10 +132,14 @@ public class LoginController : MonoBehaviour
             Debug.Log(message: $"Login Succeeded with {loginTask.Result}");
             m_LoginSuccessEvent.Invoke();
         }
+#else
+        yield return null;
+#endif
     }
 
     private IEnumerator SignUpCoroutine(string _email, string _password)
     {
+#if !PLATFORM_WEBGL
         var auth = Firebase.Auth.FirebaseAuth.DefaultInstance;
         var loginTask = auth.CreateUserWithEmailAndPasswordAsync(_email, _password);
 
@@ -150,6 +155,9 @@ public class LoginController : MonoBehaviour
             Debug.Log(message: $"Login Succeeded with {loginTask.Result}");
             m_SignUpSuccessEvent.Invoke();
         }
+#else
+        yield return null;
+#endif
     }
 
     /// <summary>
@@ -181,10 +189,10 @@ public class LoginController : MonoBehaviour
             FirebaseController.Instance.SignInOrSignOutUser();
 
         string saveStr;
+        saveStr = Application.isEditor? signUpForm.WriteToJSON("TestString"): signUpForm.WriteToJSON(FirebaseController.Instance.userData.displayName);
         if (Application.isEditor)
         {
-            saveStr = signUpForm.WriteToJSON("TestString");
-            if (System.IO.File.Exists(Application.dataPath + filePath))
+            if (System.IO.File.Exists(Application.dataPath + filePath + ".json"))
             {
                 //overwriting file
             }
@@ -198,9 +206,12 @@ public class LoginController : MonoBehaviour
         }
         else
         {
-            saveStr = signUpForm.WriteToJSON(FirebaseController.Instance.userData.displayName);
-            FirebaseController.Instance.UpdateText(saveStr);
+                FirebaseDatabase.PostJSON(FirebaseController.Instance.userData.uid, saveStr,
+                    gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
         }
+        
+        //SaveManager.Instance.UpdateJson(saveStr);
+
 
         loginCanvasController.SetAnimatorValues(3);
         Debug.Log("6");
@@ -234,7 +245,7 @@ public class LoginController : MonoBehaviour
         warningText.gameObject.SetActive(_enabled);
     }
 
-    #region LegacyCode
+#region LegacyCode
     //private void OnSignUpSuccess(string _data)
     //{
     //    firebaseController.SignInOrSignOutUser();
@@ -247,6 +258,6 @@ public class LoginController : MonoBehaviour
     //    warningText.gameObject.SetActive(true);
     //    FirebaseController.Instance.UpdateText(_error, Color.red);
     //}
-    #endregion
+#endregion
 }
 

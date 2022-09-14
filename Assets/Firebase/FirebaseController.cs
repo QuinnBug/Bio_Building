@@ -6,9 +6,11 @@ using UnityEngine.UI;
 using FirebaseWebGL.Scripts.FirebaseBridge;
 using FirebaseWebGL.Scripts.Objects;
 using FirebaseWebGL.Examples.Utils;
+
+#if !PLATFORM_WEBGL
 using Firebase;
 using Firebase.Database;
-
+#endif
 
 
 public class FirebaseController : MonoBehaviour
@@ -59,6 +61,7 @@ public class FirebaseController : MonoBehaviour
 
     private void InitialiseFirebase()
     {
+#if !PLATFORM_WEBGL
         FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
         {
             if(task.Exception != null)
@@ -66,6 +69,7 @@ public class FirebaseController : MonoBehaviour
                 Debug.LogError("Cannot Connect");
             }
         });
+#endif
     }
 
     private void OnRequestSuccess(string _data)
