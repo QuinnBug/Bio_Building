@@ -68,7 +68,6 @@ public class ImpactEvaluation : MonoBehaviour
         }
 
         CamManager.Instance.StartEvaluationCam();
-
         yield return new WaitForSeconds(camSwitchDelay);
 
         //this means that the environment should always appear just before the animation starts
