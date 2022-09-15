@@ -58,7 +58,7 @@ namespace QuinnMeshes
     {
         public List<Triangle> triangles = new List<Triangle>();
 
-        public Mesh ConvertToMesh() 
+        public Mesh ConvertToMesh(Mesh mesh) 
         {
             List<Vector3> vertices = new List<Vector3>();
             List<Vector2> uvs = new List<Vector2>();
@@ -83,11 +83,15 @@ namespace QuinnMeshes
                 }
             }
 
-            Mesh mesh = new Mesh();
             mesh.vertices = vertices.ToArray();
             mesh.uv = uvs.ToArray();
             mesh.triangles = tris.ToArray();
             return mesh;
+        }
+
+        public Mesh ConvertToMesh() 
+        {
+            return ConvertToMesh(new Mesh());
         }
 
         public static List<Triangle> MakeTrianglesFromVertices(Vertex[] vertices, bool linkedTris = true) 

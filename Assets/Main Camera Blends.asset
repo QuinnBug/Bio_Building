@@ -16,7 +16,7 @@ MonoBehaviour:
   - m_From: CM_Play
     m_To: CM_Cinematic
     m_Blend:
-      m_Style: 6
+      m_Style: 0
       m_Time: 1
       m_CustomCurve:
         serializedVersion: 2
@@ -28,7 +28,7 @@ MonoBehaviour:
     m_To: CM_Play
     m_Blend:
       m_Style: 1
-      m_Time: 3
+      m_Time: 2
       m_CustomCurve:
         serializedVersion: 2
         m_Curve: []
