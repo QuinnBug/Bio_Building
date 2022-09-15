@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,8 @@ public enum State
     NULL = -1,
     SELECT = 0,
     BUILD = 1,
-    EVALUATE = 2
+    EVALUATE = 2,
+    EDITING = 3
 }
 
 public class StateManager : Singleton<StateManager>
@@ -17,13 +19,19 @@ public class StateManager : Singleton<StateManager>
     [Space]
     public State currentState = State.NULL;
 
-    public bool stateLocked = false;
+    public State stateLocked = State.NULL;
 
     private void Start()
     {
         EventManager.Instance.stateChanged.AddListener(UpdateUI);
         ChangeState(State.SELECT);
-        stateLocked = false;
+        stateLocked = State.NULL;
+    }
+
+    public void Update()
+    {
+        //Build and select are only changed here Editing and evaluation are set elsewhere
+        if(currentState == State.BUILD || currentState == State.SELECT) ChangeState(PlacementManager.Instance.selectedPrefab != null ? State.BUILD : State.SELECT);
     }
 
     public void UpdateUI(State newState)
@@ -43,18 +51,30 @@ public class StateManager : Singleton<StateManager>
         }
     }
 
-    public void ChangeState(State newState) 
+    public void ChangeState(State newState, bool lockState = false) 
     {
-        if (currentState == newState) return;
-        Debug.Log("Statelocked " + stateLocked + " -- " + newState);
-        if (stateLocked) return;
+        //Don't change to the same state, && Don't change if the state lock is locked
+        if (currentState == newState || stateLocked != State.NULL) return;
+
+        if (lockState) stateLocked = newState;
 
         currentState = newState;
 
-        PlacementManager.Instance.active = currentState == State.BUILD;
-        //PaintingManager.Instance.active = currentState == State.DECORATE;
-        SelectionManager.Instance.active = currentState == State.SELECT;
+        PlacementManager.Instance.active = currentState == State.BUILD || currentState == State.EDITING;
+        SelectionManager.Instance.active = currentState == State.SELECT || currentState == State.EDITING;
 
         EventManager.Instance.stateChanged.Invoke(newState);
+    }
+
+    /// <summary>
+    /// Mostly used as a failsafe to avoid changing state during a delicate operation.
+    /// </summary>
+    /// <param name="keyState">Which state we're expecting to unlock from.</param>
+    /// <returns>If the state ends up unlocked.</returns>
+    internal bool UnlockState(State keyState)
+    {
+        if (keyState == stateLocked) stateLocked = State.NULL;
+
+        return stateLocked == State.NULL;
     }
 }

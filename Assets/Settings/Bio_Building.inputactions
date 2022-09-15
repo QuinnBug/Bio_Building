@@ -362,7 +362,7 @@
                 {
                     "name": "negative",
                     "id": "19882db6-af39-464d-bb22-701208289bc7",
-                    "path": "<Keyboard>/ctrl",
+                    "path": "<Keyboard>/leftShift",
                     "interactions": "",
                     "processors": "",
                     "groups": "",
@@ -417,7 +417,7 @@
                 {
                     "name": "modifier",
                     "id": "1e8364ea-065d-4575-a279-6b32553a9a73",
-                    "path": "<Keyboard>/g",
+                    "path": "<Keyboard>/ctrl",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -494,7 +494,7 @@
                 {
                     "name": "",
                     "id": "bd438b34-be35-4317-95a7-95d261b994ef",
-                    "path": "<Keyboard>/shift",
+                    "path": "<Keyboard>/g",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",

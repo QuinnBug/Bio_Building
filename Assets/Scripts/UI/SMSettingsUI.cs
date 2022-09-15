@@ -9,7 +9,7 @@ public class SMSettingsUI : MonoBehaviour
 
     private void Start() 
     {
-        EventManager.Instance.stateChanged.AddListener(UpdateToggleFromState);
+        //EventManager.Instance.stateChanged.AddListener(UpdateToggleFromState);
     }
 
     private void UpdateToggleFromState(State newState)
@@ -23,16 +23,16 @@ public class SMSettingsUI : MonoBehaviour
 
     public void UpdateStateFromToggle() 
     {
-        int activeToggle = -1;
-        for (int i = 0; i < toggles.Length; i++)
-        {
-            if (toggles[i].isOn)
-            {
-                activeToggle = i;
-                break;
-            }
-        }
+        //int activeToggle = -1;
+        //for (int i = 0; i < toggles.Length; i++)
+        //{
+        //    if (toggles[i].isOn)
+        //    {
+        //        activeToggle = i;
+        //        break;
+        //    }
+        //}
 
-        StateManager.Instance.ChangeState((State)activeToggle);
+        //StateManager.Instance.ChangeState((State)activeToggle);
     }
 }

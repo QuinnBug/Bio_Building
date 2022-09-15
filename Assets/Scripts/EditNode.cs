@@ -8,13 +8,13 @@ public class EditNode : MonoBehaviour
 
     public void OnClick()
     {
-        if (moveNode)
-        {
-            SelectionManager.Instance.MoveSelectable();
-        }
-        else
-        {
-            SelectionManager.Instance.EditSelectable(transform.position);
-        }
+        //if (moveNode)
+        //{
+        //    SelectionManager.Instance.MoveSelectable();
+        //}
+        //else
+        //{
+        //    SelectionManager.Instance.EditSelectable(transform.position);
+        //}
     }
 }

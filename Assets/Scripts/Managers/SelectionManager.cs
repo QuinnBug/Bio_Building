@@ -20,6 +20,9 @@ public class SelectionManager : Singleton<SelectionManager>
     [Space]
     public bool ignoreWalls = false;
     public bool ignoreFurniture = false;
+
+    internal Selectable editTarget;
+
     internal SelectedType SelectedType
     {
         get
@@ -73,6 +76,22 @@ public class SelectionManager : Singleton<SelectionManager>
         Deselect(true);
     }
 
+    internal void EditSelected()
+    {
+        if (selectedObjects.Count != 1) return;
+
+        editTarget = selectedObjects[0];
+        MeshCollider coll = editTarget.GetComponentInChildren<MeshCollider>();
+        if (coll == null) Debug.Log("No Collider");
+
+        //some inital edit adjustments
+        PlacementManager.Instance.editCollider = coll;
+        PlacementManager.Instance.yRotation = editTarget.data.yRotation;
+
+        //this will clear your selection, so make sure to do it at the end
+        StateManager.Instance.ChangeState(State.EDITING, true);
+    }
+
     public void SelectHovered(bool clearSelection = true) 
     {
 
@@ -93,7 +112,6 @@ public class SelectionManager : Singleton<SelectionManager>
         }
         else return;
 
-        UpdateEditNodes();
         UpdateSelectDisplay();
     }
 
@@ -175,30 +193,6 @@ public class SelectionManager : Singleton<SelectionManager>
         }
     }
 
-    private void UpdateEditNodes()
-    {
-        foreach (EditNode node in editNodes)
-        {
-            node.gameObject.SetActive(false);
-        }
-
-        if (selectedObjects.Count != 1) return;
-
-        switch (SelectedType)
-        {
-
-            case SelectedType.WALL:
-            case SelectedType.COLUMN:
-                //just need the move node in the center of the object
-                editNodes[0].gameObject.SetActive(true);
-                editNodes[0].transform.position = selectedObjects[0].transform.position;
-                break;
-
-            default:
-                return;
-        }
-    }
-
     internal void Deselect(bool all = false, Selectable item = null)
     {
         if (all)
@@ -212,7 +206,6 @@ public class SelectionManager : Singleton<SelectionManager>
             selectedObjects.Remove(item);
         }
 
-        UpdateEditNodes();
         UpdateSelectDisplay();
     }
 
@@ -241,31 +234,6 @@ public class SelectionManager : Singleton<SelectionManager>
             hoveredObject = newHoveredObj;
         }
 
-    }
-
-    internal void MoveSelectable()
-    {
-        switch (SelectedType)
-        {
-            case SelectedType.WALL:
-            case SelectedType.COLUMN:
-                break;
-            default:
-                break;
-        }
-    }
-
-    internal void EditSelectable(Vector3 position)
-    {
-        switch (SelectedType)
-        {
-            case SelectedType.WALL:
-                //used to be able to change length, in the new system not sure if this function matters anymore
-                break;
-
-            default:
-                return;
-        }
     }
 
     public void OnDrawGizmos()

@@ -18,3 +18,6 @@ public class EventManager : Singleton<EventManager>
 
 [System.Serializable]
 public class StateEvent : UnityEvent<State> { }
+
+[System.Serializable]
+public class IntEvent : UnityEvent<int> { }

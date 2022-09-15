@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 
 public enum Command 
@@ -13,63 +14,60 @@ public enum Command
     CANCEL,
     DELETE,
 }
+
+[Serializable]
+public enum Direction
+{
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT
+}
+
 public class PlayerController : Singleton<PlayerController>
 {
-    public Camera cam;
-    public float speed;
-    public float sprintSpeed;
-    private bool sprinting;
+    public CinemachineVirtualCamera cam;
+    public CinemachineSmoothPath basePath;
+    public CinemachineSmoothPath topPath;
     [Space]
-    public float rotSpeed;
-    public float lookSpeed;
+    public Range heightRange;
+    public Range zoomRange;
+    public Vector2 cursorSpeed;
+    public float moveSpeed;
+    public float scrollSpeed;
+    public float zoomSpeed;
     [Space]
-    public Vector3 topDownViewPos;
-    public Vector3 standardPos;
-    [Space]
-    public Bounds topDownBounds;
-    public Bounds standardBounds;
-    //public float camChangeDistance;
-    //public Vector2 nonOrthoOffset;
-    //public float orthoOffset;
-
-    Vector3 moveInput;
     public Command latestCommand = Command.NONE;
+
+    private CinemachineTrackedDolly dolly;
+    [SerializeField] float zoomDistance = 1;
+    [SerializeField] float height = 3;
+    [SerializeField] float normalisedDollyVal;
+    private Vector2 lastClickPos;
+    private Vector2 camMoveInput;
+    private float zoomInput;
     bool processInput;
-
     bool orthographicMode = false;
-
-    Vector3 camLookAtPosition;
-    Vector3 camTargetPosition;
-
-    bool transitioning = false;
 
     private void Start()
     {
-        orthographicMode = true;
-        OrthoToggle();
+        //cam2 = CamManager.Instance.playCam;
+        //dolly2 = cam2.GetCinemachineComponent<CinemachineTrackedDolly>();
+
+        //orthographicMode = true;
+        //OrthoToggle();
+
+        cam = CamManager.Instance.playCam;
+        dolly = cam.GetCinemachineComponent<CinemachineTrackedDolly>();
     }
 
     void Update()
     {
-        if (transitioning) 
+        if (StateManager.Instance.currentState != State.EVALUATE)
         {
-            transform.position = Vector3.MoveTowards(transform.position, camTargetPosition, rotSpeed * Time.deltaTime);
-
-            Quaternion targetRot = Quaternion.LookRotation(camLookAtPosition - camTargetPosition, Vector3.up);
-            cam.transform.rotation = Quaternion.RotateTowards(cam.transform.rotation, targetRot, lookSpeed * Time.deltaTime);
-            //cam.transform.rotation = targetRot;
-
-            if(Quaternion.Angle(cam.transform.rotation, targetRot) < 0.01f  && Vector3.Distance(transform.position, camTargetPosition) < 0.01f)
-            {
-                //cam.orthographic = orthographicMode;
-                transitioning = false;
-            }
-
-            return;
+            MovementUpdate();
+            if (processInput) InputProcessing();
         }
-
-        MovementUpdate();
-        if (processInput) InputProcessing();
     }
 
     private void InputProcessing()
@@ -83,19 +81,12 @@ public class PlayerController : Singleton<PlayerController>
                         PlacementManager.Instance.PlacePoint();
                         break;
 
-                    case State.EVALUATE:
-                        PaintingManager.Instance.PaintTargets();
+                    case State.EDITING:
+                        PlacementManager.Instance.ConfirmEdit();
                         break;
 
-                    default:
-                        if (PlacementManager.Instance.editing)
-                        {
-                            PlacementManager.Instance.PlacePoint();
-                        }
-                        else
-                        {
-                            if (!CheckEditNodeHit()) SelectionManager.Instance.SelectHovered();
-                        }
+                    case State.SELECT:
+                        SelectionManager.Instance.SelectHovered();
                         break;
                 }
                 break;
@@ -103,23 +94,11 @@ public class PlayerController : Singleton<PlayerController>
             case Command.MULTI_SELECT:
                 switch (StateManager.Instance.currentState)
                 {
-                    case State.BUILD:
-
-                        break;
-
-                    case State.EVALUATE:
-
+                    case State.SELECT:
+                        SelectionManager.Instance.SelectHovered(false);
                         break;
 
                     default:
-                        if (PlacementManager.Instance.editing)
-                        {
-                            PlacementManager.Instance.PlacePoint();
-                        }
-                        else
-                        {
-                            SelectionManager.Instance.SelectHovered(false);
-                        }
                         break;
                 }
                 break;
@@ -130,11 +109,16 @@ public class PlayerController : Singleton<PlayerController>
                     case State.BUILD:
                         PlacementManager.Instance.ClearPlacement();
                         break;
-                    case State.EVALUATE:
+
+                    case State.EDITING:
+                        PlacementManager.Instance.CancelEdit();
                         break;
+
+                    case State.SELECT:
+                        SelectionManager.Instance.Deselect(true);
+                        break;
+
                     default:
-                        if (PlacementManager.Instance.editing) PlacementManager.Instance.EndEdit();
-                        else SelectionManager.Instance.Deselect(true);
                         break;
                 }
                 break;
@@ -147,15 +131,20 @@ public class PlayerController : Singleton<PlayerController>
                         if (SelectionManager.Instance.hoveredObject != null) SelectionManager.Instance.hoveredObject.DestroySelectable();
                         break;
 
-                    case State.EVALUATE:
+                    case State.EDITING:
+                        //Destroy the edit target
+                        Debug.Log("Quick Edit Delete Not Implemented");
                         break;
 
                     case State.SELECT:
+                        SelectionManager.Instance.DestroySelected();
+                        break;
+
                     default:
-                        
                         break;
                 }
                 break;
+
             default:
                 break;
         }
@@ -163,118 +152,103 @@ public class PlayerController : Singleton<PlayerController>
         latestCommand = Command.NONE;
     }
 
-    private bool CheckEditNodeHit()
-    {
-        if (SelectionManager.Instance.selectedObjects.Count == 0) return false;
-
-        RaycastHit hit;
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-
-        LayerMask layerMask = 1 << LayerMask.NameToLayer("EditNode");
-
-        if (Physics.Raycast(ray, out hit, 25, layerMask) && hit.collider.gameObject.TryGetComponent(out EditNode node))
-        {
-            node.OnClick();
-            return true;
-        }
-
-        return false;
-    }
-
     void MovementUpdate() 
     {
-        Vector3 movement = moveInput * (sprinting ? sprintSpeed : speed);
+        if (camMoveInput.magnitude == 0 && Mouse.current.leftButton.ReadValue() > 0) camMoveInput = Mouse.current.position.ReadValue() - lastClickPos;
+        if (zoomInput == 0) zoomInput = Mouse.current.scroll.ReadValue().y;
 
-        if (cam.orthographic)
+        if (camMoveInput.magnitude != 0)
         {
-            cam.orthographicSize += movement.y * Time.deltaTime;
-            cam.orthographicSize = Mathf.Clamp(cam.orthographicSize, 1, 20);
-            movement.y = 0;
+            if(!orthographicMode) height -= cursorSpeed.y * camMoveInput.y * Time.deltaTime;
+
+            height = heightRange.Clamp(height);
+            normalisedDollyVal += cursorSpeed.x * camMoveInput.x * Time.deltaTime;
+
+            lastClickPos = Mouse.current.position.ReadValue();
         }
 
-        Bounds currentBounds = orthographicMode ? topDownBounds : standardBounds;
+        if (zoomInput != 0)
+        {
+            if (!orthographicMode) zoomDistance -= scrollSpeed * zoomInput * Time.deltaTime;
+            zoomDistance = zoomRange.Clamp(zoomDistance);
+        }
 
-        movement *= Time.deltaTime;
+        dolly.m_PositionUnits = CinemachinePathBase.PositionUnits.Normalized;
+        dolly.m_PathPosition = Mathf.Lerp(dolly.m_PathPosition, normalisedDollyVal, moveSpeed * Time.deltaTime);
 
-        if (!currentBounds.Contains(transform.position + (movement.x * Vector3.right))) movement.x = 0;
-        if (!currentBounds.Contains(transform.position + (movement.y * Vector3.up))) movement.y = 0;
-        if (!currentBounds.Contains(transform.position + (movement.z * Vector3.forward))) movement.z = 0;
+        basePath.transform.position = Vector3.Lerp(basePath.transform.position, height * Vector3.up, moveSpeed * Time.deltaTime);
+        basePath.transform.localScale = Vector3.Lerp(basePath.transform.localScale, zoomDistance * Vector3.one, zoomSpeed * Time.deltaTime);
 
-        transform.Translate(movement);
-
-        float x = Mathf.Clamp(transform.position.x,
-            (currentBounds.center.x - currentBounds.extents.x) + 0.05f,
-            (currentBounds.center.x + currentBounds.extents.x) - 0.05f);
-
-        float y = Mathf.Clamp(transform.position.y,
-            (currentBounds.center.y - currentBounds.extents.y) + 0.05f,
-            (currentBounds.center.y + currentBounds.extents.y) - 0.05f);
-
-        float z = Mathf.Clamp(transform.position.z,
-            (currentBounds.center.z - currentBounds.extents.z) + 0.05f,
-            (currentBounds.center.z + currentBounds.extents.z) - 0.05f);
-
-        transform.position = new Vector3(x, y, z);
-        
+        camMoveInput = Vector2.zero;
+        zoomInput = 0;
     }
 
-    void OrthoToggle() 
+    public void ButtonMovement(int dir) 
     {
-        if (transitioning) return;
+        switch ((Direction)dir)
+        {
+            case Direction.UP:
+                camMoveInput = Vector2.up;
+                break;
+            case Direction.DOWN:
+                camMoveInput = Vector2.down;
+                break;
+            case Direction.LEFT:
+                camMoveInput = Vector2.left;
+                break;
+            case Direction.RIGHT:
+                camMoveInput = Vector2.right;
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void ButtonScroll(float direction) 
+    {
+        zoomInput = direction;
+    }
+
+    public void OrthoToggle() 
+    {
         orthographicMode = !orthographicMode;
-        transitioning = true;
 
-        //change to be -> set cam TARGET pos and setup a Cam update that moves it towards it's target local pos & rot
-
-        //camLookAtPosition = cam.transform.position + (cam.transform.forward * camChangeDistance);
-        //camLookAtPosition.y = 0;
-
-        //cam.transform.rotation = orthographicMode ? Quaternion.Euler(90, 0, 0) : Quaternion.Euler(perspCamRot);
-
-        //if (orthographicMode)
-        //{
-        //    camTargetPosition = camLookAtPosition + (Vector3.up * orthoOffset);
-        //}
-        //else
-        //{
-        //    camTargetPosition = camLookAtPosition + (Vector3.up * nonOrthoOffset.y) + (transform.forward * nonOrthoOffset.x);
-        //}
-
-        camTargetPosition = orthographicMode ? topDownViewPos : standardPos;
-        camLookAtPosition = Vector3.zero;
+        dolly.m_Path = orthographicMode ? topPath : basePath;
 
         EventManager.Instance.orthoToggle.Invoke();
     }
 
     private void OnDrawGizmosSelected()
     {
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawCube(topDownBounds.center, topDownBounds.extents * 2);
+        //Gizmos.color = Color.cyan;
+        //Gizmos.DrawCube(topDownBounds.center, topDownBounds.extents * 2);
 
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawCube(standardBounds.center, standardBounds.extents * 2);
+        //Gizmos.color = Color.magenta;
+        //Gizmos.DrawCube(standardBounds.center, standardBounds.extents * 2);
     }
 
     #region Input Functions
     public void MovementInput(InputAction.CallbackContext context) 
     {
         Vector2 input = context.ReadValue<Vector2>();
-        moveInput.x = input.x;
-        moveInput.z = input.y;
+        //moveInput.x = input.x;
+        //moveInput.z = input.y;
     }
 
     public void SprintInput(InputAction.CallbackContext context)
     {
-        sprinting = context.phase != InputActionPhase.Canceled;
+        //sprinting = context.phase != InputActionPhase.Canceled;
     }
 
     public void FlyInput(InputAction.CallbackContext context) 
     {
-        moveInput.y = context.ReadValue<float>();
+        //moveInput.y = context.ReadValue<float>();
     }
 
     public void CamChangeInput(InputAction.CallbackContext context) 
     {
+        if (StateManager.Instance.currentState == State.EVALUATE) return;
+
         if (context.phase == InputActionPhase.Started)
         {
             OrthoToggle();
@@ -294,6 +268,8 @@ public class PlayerController : Singleton<PlayerController>
     {
         if (context.phase == InputActionPhase.Started && latestCommand != Command.MULTI_SELECT)
         {
+            lastClickPos = Mouse.current.position.ReadValue();
+
             latestCommand = Command.SELECT;
             processInput = true;
         }
@@ -319,6 +295,8 @@ public class PlayerController : Singleton<PlayerController>
 
     public void RotationInput(InputAction.CallbackContext context) 
     {
+        if (StateManager.Instance.currentState == State.EVALUATE) return;
+
         if (context.phase == InputActionPhase.Started)
         {
             int change = (int)context.ReadValue<float>();
@@ -328,12 +306,16 @@ public class PlayerController : Singleton<PlayerController>
 
     public void NumberInput(InputAction.CallbackContext context) 
     {
+        if (StateManager.Instance.currentState == State.EVALUATE) return;
+
         if (context.phase == InputActionPhase.Performed) 
         {
             float num = context.ReadValue<float>();
             int flatNum = (int)num;
-            State newState = (State)flatNum - 1;
-            if (newState == State.SELECT || newState == State.BUILD) StateManager.Instance.ChangeState(newState);
+            //probably use this to select actions for selected objects.
+
+            //State newState = (State)flatNum - 1;
+            //if (newState == State.SELECT || newState == State.BUILD) StateManager.Instance.ChangeState(newState);
         }
     }
     #endregion
