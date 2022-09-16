@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using FirebaseWebGL.Scripts.FirebaseBridge;
 using FirebaseWebGL.Scripts.Objects;
 using FirebaseWebGL.Examples.Utils;
+using UnityEngine.Events;
 
 #if !PLATFORM_WEBGL
 using Firebase;
@@ -22,8 +23,8 @@ public class FirebaseController : MonoBehaviour
     //public static extern void GetJSON(string path, string objectName, string callback, string fallback);
 
     public Text text;
-   
 
+    UnityEvent m_SignUpSuccessEvent;
 
     private void Start()
     {
@@ -93,6 +94,22 @@ public class FirebaseController : MonoBehaviour
     }
 
     private void UserSignedOut(string _error)
+    {
+        UpdateText(_error, Color.red);
+    }
+
+    public void SignUpUser()
+    {
+        FirebaseAuth.OnAuthStateChanged(gameObject.name, onUserSignedIn: "UserSignUp", onUserSignedOut: "FailedUserSignUp");
+    }
+
+    private void UserSignUp(string _data)
+    {
+        userData = StringSerializationAPI.Deserialize(typeof(FirebaseUser), _data) as FirebaseUser;
+        LoginController.Instance.FinishSignUp();
+    }
+
+    private void FailedUserSignUp(string _error)
     {
         UpdateText(_error, Color.red);
     }

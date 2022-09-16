@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Runtime.Serialization;
 using TMPro;
 using UnityEngine;
+using Newtonsoft.Json;
+using System.Reflection;
+using System.Linq;
+using Newtonsoft.Json.Linq;
 
 public class SignUpForm : AccountFormBase
 {
@@ -11,41 +15,58 @@ public class SignUpForm : AccountFormBase
     public class SignUpDetails
     {
         [SerializeField]
-        public string UserDataID;
-        [SerializeField]
-        public List<SignUpDetail> details = new List<SignUpDetail>();
-        private List<SignUpDetail> AddDetailHoldersToDetails()
+        //public Dictionary<string, string> QuestionaireAnswers = new Dictionary<string, string>();
+        public List <Dictionary<string, string>> QuestionaireAnswers;
+        public object[] objects;
+        public string jsonString;
+        //public List<SignUpDetail> details = new List<SignUpDetail>();
+        public SignUpDetails()
         {
-
+            Dictionary<string, string> TempAnswers = new Dictionary<string, string>();
             GameObject[] detailHolders = GameObject.FindGameObjectsWithTag("Detail");
-            List<SignUpDetail> loadedDetails = new List<SignUpDetail>();
+            //Dictionary<string, string> loadedDetails = new Dictionary<string, string>();
 
             foreach (var item in detailHolders)
             {
-                loadedDetails.Add(new SignUpDetail(item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsKey", false).text,
-                    item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsValue", false).text));
+                TempAnswers[AdjustKey(item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsKey", false).text)] = 
+                    CheckValue(item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsValue", false).text);
+                //QuestionaireAnswers.Add( AdjustKey(item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsKey", false).text),
+                //     CheckValue(item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsValue", false).text));
+               
             }
+            var list = TempAnswers.Select(p => new Dictionary<string, string>() { { p.Key, p.Value } });
 
-            return loadedDetails;
+            jsonString = JsonConvert.SerializeObject(list);
+
+            jsonString = jsonString.Replace("},{", ",");
+            jsonString = jsonString.Replace("[","");
+            jsonString = jsonString.Replace("]","");
         }
-        public SignUpDetails(string _UserDataID)
+
+        private string AdjustKey(string _invalue)
         {
-            UserDataID = _UserDataID;
-            details = AddDetailHoldersToDetails();
+            string _outValue = _invalue.Trim(new Char[] { ':' });
+            return _outValue;
+        }
+
+        private string CheckValue(string _invalue)
+        {
+            string _outValue = (_invalue == "Select" || _invalue == "\u200B") ? "-" : _invalue;
+            return _outValue;
         }
     }
-    [System.Serializable]
-    public class SignUpDetail
-    {
-        public string key;
-        public string value;
+    //[System.Serializable]
+    //public class SignUpDetail
+    //{
+    //    public string key;
+    //    public string value;
 
-        public SignUpDetail(string _key, string _value)
-        {
-            key = _key;
-            value = _value=="Select"? "" : _value;
-        }
-    }
+    //    public SignUpDetail(string _key, string _value)
+    //    {
+    //        key = _key;
+    //        value = _value=="Select"? "" : _value;
+    //    }
+    //}
     public override void Awake()
     {
         base.Awake();
@@ -91,25 +112,10 @@ public class SignUpForm : AccountFormBase
 
     public string WriteToJSON(string _userID)
     {
-        SignUpDetails details = new SignUpDetails(_userID);
-        return JsonUtility.ToJson(details);
+        SignUpDetails details = new SignUpDetails();
+        return details.jsonString;
     }
 
-
-    //[SerializeField]
-    //public SignUpDetails details = new SignUpDetails();
-
-    //private void AddDetailHoldersToDetails()
-    //{
-
-    //    GameObject[] detailHolders = GameObject.FindGameObjectsWithTag("Detail");
-
-    //    foreach (var item in detailHolders)
-    //    {
-    //        details.details.Add(new SignUpDetail(item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsKey", false).text,
-    //            item.FindComponentInChildWithTag<TextMeshProUGUI>("DetailsValue", false).text));
-    //    }
-    //}
 }
 
 public static class Helper

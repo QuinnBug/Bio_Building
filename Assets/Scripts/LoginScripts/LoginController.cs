@@ -186,11 +186,18 @@ public class LoginController : MonoBehaviour
     private void OnSignUpSuccess()
     {
         if(Application.platform == RuntimePlatform.WebGLPlayer)
-            FirebaseController.Instance.SignInOrSignOutUser();
+            FirebaseController.Instance.SignUpUser();
+        else
+        FinishSignUp();
+    }
+
+    public void FinishSignUp()
+    {
+        //Dictionary<string, object> QuestionnaireAnswers = signUpForm.GetQuestionnaireAnswers();
 
         string saveStr;
-        // saveStr = Application.isEditor? signUpForm.WriteToJSON("TestString"): signUpForm.WriteToJSON(FirebaseController.Instance.userData.displayName);
-        saveStr = signUpForm.WriteToJSON("TestString");
+        saveStr = Application.isEditor? signUpForm.WriteToJSON("TestUser"): signUpForm.WriteToJSON(FirebaseController.Instance.userData.uid);
+        //saveStr = signUpForm.WriteToJSON("TestString");
         if (Application.isEditor)
         {
             if (System.IO.File.Exists(Application.dataPath + filePath + ".json"))
@@ -203,19 +210,27 @@ public class LoginController : MonoBehaviour
                 System.IO.File.Create(Application.dataPath + filePath + ".json").Close();
             }
 
-            System.IO.File.WriteAllText(Application.dataPath + filePath + ".json", saveStr);
+            System.IO.File.WriteAllText(Application.dataPath + filePath + ".json", saveStr);        
+            loginCanvasController.SetAnimatorValues(3);
+            Debug.Log("6");
         }
         else
         {
-                FirebaseDatabase.PushJSON(FirebaseController.Instance.userData.uid, saveStr,
-                    gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
+            string _path = FirebaseController.Instance.userData.uid + "/QuestionnaireDetails";
+            FirebaseDatabase.PostJSON(path: _path, saveStr,
+                gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
+
+            //foreach (var item in QuestionnaireAnswers)
+            //{
+            //    FirebaseDatabase.PostJSON(path: _path + "/" + item.Key, saveStr,
+            //        gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
+            //}
         }
-        
+
         //SaveManager.Instance.UpdateJson(saveStr);
 
 
-        //loginCanvasController.SetAnimatorValues(3);
-        Debug.Log("6");
+
     }
     /// <summary>
     /// Outputs a warning message for if a users login/signup was unsuccessful
@@ -233,11 +248,14 @@ public class LoginController : MonoBehaviour
     private void OnWriteToJSONSuccess(string _data)
     {
         FirebaseController.Instance.UpdateText(_data);
+        loginCanvasController.SetAnimatorValues(3);
+        Debug.Log("6");
         //JSON Write Success
     }
 
     private void OnWriteToJSONFailed(string _error)
     {
+        Debug.Log(_error);
         FirebaseController.Instance.UpdateText(_error, Color.red);
         //JSON Write Failed
     }
