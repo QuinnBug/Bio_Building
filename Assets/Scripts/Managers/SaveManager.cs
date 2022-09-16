@@ -62,49 +62,17 @@ public class SaveManager : Singleton<SaveManager>
         else
         {
             if (!firebaseSaveExists)
-            { 
-                FirebaseDatabase.PostJSON(FirebaseController.Instance.userData.uid, saveStr,
+            {
+                FirebaseDatabase.PostJSON(FirebaseController.Instance.userData.uid + "/BuildingSaves", saveStr,
                     gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
             }
             else
             {
-                FirebaseDatabase.UpdateJSON(FirebaseController.Instance.userData.uid, saveStr,
+                FirebaseDatabase.UpdateJSON(FirebaseController.Instance.userData.uid + "/BuildingSaves", saveStr,
                     gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
             }
         }
     }
-
-    public void UpdateJson(string _saveData)
-    {
-        if (Application.isEditor)
-        {
-            if (System.IO.File.Exists(Application.dataPath + filePath + ".json"))
-            {
-                //overwriting file
-            }
-            else
-            {
-                //create and close the file, ready to be written to.
-                System.IO.File.Create(Application.dataPath + filePath + ".json").Close();
-            }
-
-            System.IO.File.WriteAllText(Application.dataPath + filePath + ".json", _saveData);
-        }
-        else
-        {
-            if (!firebaseSaveExists)
-            {
-                FirebaseDatabase.PostJSON(FirebaseController.Instance.userData.uid, _saveData,
-                    gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
-            }
-            else
-            {
-                FirebaseDatabase.UpdateJSON(FirebaseController.Instance.userData.uid, _saveData,
-                    gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
-            }
-        }
-    }
-
     private void OnWriteToJSONSuccess(string _data)
     {
         firebaseSaveExists = true;
@@ -156,7 +124,7 @@ public class SaveManager : Singleton<SaveManager>
 
     public void LoadJSONFromFirebase()
     {
-        FirebaseDatabase.GetJSON(FirebaseController.Instance.userData.uid, 
+        FirebaseDatabase.GetJSON(FirebaseController.Instance.userData.uid + "/BuildingSaves", 
             gameObject.name, callback: "OnGetJSONSuccess", fallback: "OnGetJSONFailed");
     }
 
