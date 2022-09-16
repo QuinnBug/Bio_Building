@@ -51,19 +51,7 @@ public class TutorialHandler : MonoBehaviour
 
     public void ProgressTutorial() 
     {
-        switch (stage)
-        {
-            case TutorialStage.START:
-                ChangeStage(TutorialStage.START + 1);
-                break;
-
-            case TutorialStage.END:
-                ChangeStage(TutorialStage.COMPLETE_FLAG);
-                break;
-
-            default:
-                return;
-        }
+        ChangeStage(stage + 1);
     }
 
     public void ChangeStage(TutorialStage newStage) 
@@ -116,11 +104,11 @@ public class TutorialHandler : MonoBehaviour
         switch (stage)
         {
             case TutorialStage.MOVEMENT:
-                EventManager.Instance.orthoToggle.AddListener(ChangeStage);
+                //EventManager.Instance.orthoToggle.AddListener(ChangeStage);
                 break;
 
             case TutorialStage.BUILD_STATE:
-                EventManager.Instance.orthoToggle.RemoveListener(ChangeStage);
+                //EventManager.Instance.orthoToggle.RemoveListener(ChangeStage);
                 EventManager.Instance.stateChanged.AddListener(ChangeStage);
                 targetState = State.BUILD;
                 break;
