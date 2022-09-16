@@ -27,6 +27,7 @@ public class AdjustableShape : MonoBehaviour
         qMesh = new QMesh();
         meshRenderer = GetComponent<MeshRenderer>();
         meshFilter = GetComponent<MeshFilter>();
+        meshFilter.sharedMesh = new Mesh();
     }
 
     // Update is called once per frame
