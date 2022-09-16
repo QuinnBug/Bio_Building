@@ -1,0 +1,1 @@
+npx http-server %~dp0\Builds -c-1 -a localhost -o

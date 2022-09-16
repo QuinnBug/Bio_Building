@@ -3,20 +3,25 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Trees
+  - Flames
+  - Detail
+  - DetailsKey
+  - DetailsValue
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Floor
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Wall
+  - Furniture
+  - EditNode
+  - Thumbnail
+  - Selectable
+  - LoadedViewerModel
   - 
   - 
   - 
