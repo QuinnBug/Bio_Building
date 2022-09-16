@@ -163,9 +163,9 @@ public class ClimateManager : Singleton<ClimateManager>
         #endregion
 
         #region Water
-        Vector3 targetPosition = water.position;
+        Vector3 targetPosition = water.localPosition;
         targetPosition.y = Mathf.Lerp(waterLevels.min, waterLevels.max, currentWaterPercent);
-        water.position = targetPosition;
+        water.localPosition = targetPosition;
 
         #endregion
 

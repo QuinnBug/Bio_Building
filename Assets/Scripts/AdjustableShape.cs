@@ -36,13 +36,19 @@ public class AdjustableShape : MonoBehaviour
 
         int pointCount = currentPoints.Count;
 
+        bool redraw = false;
+
         for (int i = 0; i < pointCount; i++)
         {
             float value = Mathf.Clamp(values[i], minimumValue, 1);
             Vector3 targetPoint = Vector3.Lerp(center, endPoints[i], value);
 
+            if (Vector3.Distance(targetPoint, currentPoints[i]) > 0.05f) redraw = true;
+
             currentPoints[i] = Vector3.Lerp(currentPoints[i], targetPoint, lerpSpeed * Time.deltaTime);
         }
+
+        if (!redraw) return;
 
         List<Triangle> triangles = new List<Triangle>();
 
@@ -59,7 +65,7 @@ public class AdjustableShape : MonoBehaviour
         }
 
         qMesh.triangles = triangles;
-        meshFilter.sharedMesh = qMesh.ConvertToMesh();
+        meshFilter.sharedMesh = qMesh.ConvertToMesh(meshFilter.sharedMesh);
     }
 
     private void OnDrawGizmosSelected()

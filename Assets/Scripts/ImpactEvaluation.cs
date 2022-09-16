@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class ImpactEvaluation : MonoBehaviour
 {
+    public float camSwitchDelay = 2;
+    public float animStartDelay = 2;
+    public EnvSummoning environment;
     public GameObject evaluationScreen;
     public AdjustableShape currentShape;
     [Space]
@@ -65,8 +68,13 @@ public class ImpactEvaluation : MonoBehaviour
         }
 
         CamManager.Instance.StartEvaluationCam();
+        yield return new WaitForSeconds(camSwitchDelay);
 
-        yield return new WaitForSeconds(1.25f);
+        //this means that the environment should always appear just before the animation starts
+        environment.UpdateSpeed(animStartDelay * 0.5f);
+        environment.active = true;
+
+        yield return new WaitForSeconds(animStartDelay);
 
         ClimateManager.Instance.StartAnimation(levels);
         watchForEnd = true;
@@ -90,6 +98,7 @@ public class ImpactEvaluation : MonoBehaviour
             }
         }
 
+        environment.active = false;
         evaluationScreen.SetActive(false);
 
         watchForEnd = false;
