@@ -6,6 +6,13 @@ using UnityEngine.UI;
 using FirebaseWebGL.Scripts.FirebaseBridge;
 using FirebaseWebGL.Scripts.Objects;
 using FirebaseWebGL.Examples.Utils;
+using UnityEngine.Events;
+
+#if !PLATFORM_WEBGL
+using Firebase;
+using Firebase.Database;
+#endif
+
 
 public class FirebaseController : MonoBehaviour
 {
@@ -16,7 +23,8 @@ public class FirebaseController : MonoBehaviour
     //public static extern void GetJSON(string path, string objectName, string callback, string fallback);
 
     public Text text;
-   
+
+    UnityEvent m_SignUpSuccessEvent;
 
     private void Start()
     {
@@ -29,8 +37,40 @@ public class FirebaseController : MonoBehaviour
             Instance = this;
         }
         DontDestroyOnLoad(this.gameObject);
-        if(!Application.isEditor)
-            FirebaseDatabase.GetJSON(path: "TestPath", gameObject.name, callback: "OnRequestSuccess", fallback: "OnRequestFailed");
+
+
+
+        switch (Application.platform)
+        {
+            case RuntimePlatform.WindowsEditor:
+                break;
+            case RuntimePlatform.IPhonePlayer:
+            case RuntimePlatform.Android:
+                InitialiseFirebase();        
+
+                break;
+            case RuntimePlatform.WebGLPlayer:
+                FirebaseWebGL.Scripts.FirebaseBridge.FirebaseDatabase.GetJSON(path: "TestPath", gameObject.name, callback: "OnRequestSuccess", fallback: "OnRequestFailed");
+                break;
+            default:
+                break;
+        }
+        //if(!Application.isEditor)
+
+        
+    }
+
+    private void InitialiseFirebase()
+    {
+#if !PLATFORM_WEBGL
+        FirebaseApp.CheckAndFixDependenciesAsync().ContinueWith(task =>
+        {
+            if(task.Exception != null)
+            {
+                Debug.LogError("Cannot Connect");
+            }
+        });
+#endif
     }
 
     private void OnRequestSuccess(string _data)
@@ -58,9 +98,30 @@ public class FirebaseController : MonoBehaviour
         UpdateText(_error, Color.red);
     }
 
+    public void SignUpUser()
+    {
+        FirebaseAuth.OnAuthStateChanged(gameObject.name, onUserSignedIn: "UserSignUp", onUserSignedOut: "FailedUserSignUp");
+    }
+
+    private void UserSignUp(string _data)
+    {
+        userData = StringSerializationAPI.Deserialize(typeof(FirebaseUser), _data) as FirebaseUser;
+        LoginController.Instance.FinishSignUp();
+    }
+
+    private void FailedUserSignUp(string _error)
+    {
+        UpdateText(_error, Color.red);
+    }
+
     public void UpdateText(string _text, Color? textColour = null)
     {
         text.color = textColour ?? Color.black;
         text.text = _text;
     }
+
+    //public void postJSON(string )
+    //{
+
+    //}
 }

@@ -62,18 +62,17 @@ public class SaveManager : Singleton<SaveManager>
         else
         {
             if (!firebaseSaveExists)
-            { 
-                FirebaseDatabase.PostJSON(FirebaseController.Instance.userData.uid, saveStr,
+            {
+                FirebaseDatabase.PostJSON(FirebaseController.Instance.userData.uid + "/BuildingSaves", saveStr,
                     gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
             }
             else
             {
-                FirebaseDatabase.UpdateJSON(FirebaseController.Instance.userData.uid, saveStr,
+                FirebaseDatabase.UpdateJSON(FirebaseController.Instance.userData.uid + "/BuildingSaves", saveStr,
                     gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
             }
         }
     }
-
     private void OnWriteToJSONSuccess(string _data)
     {
         firebaseSaveExists = true;
@@ -125,7 +124,7 @@ public class SaveManager : Singleton<SaveManager>
 
     public void LoadJSONFromFirebase()
     {
-        FirebaseDatabase.GetJSON(FirebaseController.Instance.userData.uid, 
+        FirebaseDatabase.GetJSON(FirebaseController.Instance.userData.uid + "/BuildingSaves", 
             gameObject.name, callback: "OnGetJSONSuccess", fallback: "OnGetJSONFailed");
     }
 

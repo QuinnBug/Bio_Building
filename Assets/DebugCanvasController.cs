@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 public class DebugCanvasController : MonoBehaviour
@@ -18,5 +19,4 @@ public class DebugCanvasController : MonoBehaviour
         }
         DontDestroyOnLoad(this.gameObject);
     }
-
 }
