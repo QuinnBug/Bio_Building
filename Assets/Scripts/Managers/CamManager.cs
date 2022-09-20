@@ -36,7 +36,6 @@ public class CamManager : Singleton<CamManager>
 
     public void StartEvaluationCam() 
     {
-        //cinematicFocus.position = playCam.transform.position + (playCam.transform.forward * 10);
         cinematicFocus.position = focusPath.EvaluatePositionAtUnit(0, CinemachinePathBase.PositionUnits.Normalized);
         cinematicDolly.m_PathPosition = 0;
         cinematicCam.transform.position = cinematicDolly.m_Path.EvaluatePositionAtUnit(0, CinemachinePathBase.PositionUnits.Normalized);

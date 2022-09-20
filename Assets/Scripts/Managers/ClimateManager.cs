@@ -13,6 +13,11 @@ public struct Range
         max = _max;
     }
 
+    public float RandomVal() 
+    {
+        return Random.Range(min, max);
+    }
+
     public float NormaliseToRange(float value)
     {
         return (value - this.min) / (this.max - this.min);
@@ -45,6 +50,9 @@ public class ClimateManager : Singleton<ClimateManager>
     public List<ObjectList> bankBuildings;
     public float[] bankUpgradePoints;
     public float currentBankPercent;
+    [Space]
+    public MeepleSpawner meeples;
+    public float currentMeeplePercent;
 
     [Space]
     [Range(0,100)]
@@ -218,10 +226,16 @@ public class ClimateManager : Singleton<ClimateManager>
 
     public void UpdatePercents() 
     {
+        //Environmental
         currentTreePercent =  Mathf.Clamp((treeChangeRange.NormaliseToRange(impactLevels[0])), 0, 1);
-        currentWaterPercent = 1 - Mathf.Clamp((waterChangeRange.NormaliseToRange(impactLevels[1])), 0, 1);
-        currentFlamePercent = 1 - Mathf.Clamp((flameChangeRange.NormaliseToRange(impactLevels[2])), 0, 1);
-        currentBankPercent = Mathf.Clamp(impactLevels[3], 0, 100);
+        currentWaterPercent = 1 - Mathf.Clamp((waterChangeRange.NormaliseToRange(impactLevels[0])), 0, 1);
+        currentFlamePercent = 1 - Mathf.Clamp((flameChangeRange.NormaliseToRange(impactLevels[0])), 0, 1);
+
+        //Financial
+        currentBankPercent = Mathf.Clamp(impactLevels[1], 0, 100);
+
+        //Human
+        currentMeeplePercent = Mathf.Clamp(impactLevels[2], 0, 100)/100;
     }
 
     public void ResetLevels() 

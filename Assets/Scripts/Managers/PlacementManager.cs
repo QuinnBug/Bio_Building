@@ -266,7 +266,12 @@ public class PlacementManager : Singleton<PlacementManager>
     internal bool RecreateObject(SelectableData data)
     {
         GameObject obj = Instantiate(ResourceManager.Instance.GetPrefab(data.prefabName), selectableParent);
+
         obj.layer = LayerMask.NameToLayer("Selectable");
+        foreach (Transform item in obj.GetComponentInChildren<Transform>())
+        {
+            item.gameObject.layer = obj.layer;
+        }
 
         obj.name = data.prefabName + "_" + data.id.ToString();
         obj.transform.position = data.position;
