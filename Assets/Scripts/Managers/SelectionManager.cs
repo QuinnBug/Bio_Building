@@ -10,8 +10,9 @@ public class SelectionManager : Singleton<SelectionManager>
     public bool active;
     [Space]
     public List<Selectable> selectedObjects;
-    [Space]
     public Selectable hoveredObject;
+    [Space]
+    public GameObject selctionControlUi;
     [Space]
     public Material selectedMat;
     public MeshFilter selectionDisplayMesh;
@@ -51,6 +52,8 @@ public class SelectionManager : Singleton<SelectionManager>
             selectedObjects.Clear();
             return;
         }
+
+        selctionControlUi.SetActive(active && selectedObjects.Count == 1);
 
         HoverUpdate();
     }

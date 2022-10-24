@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class MeepleSpawner : MonoBehaviour
 {
+    public int meepleCount = 50;
     public GameObject[] meeplePrefabs;
     public Transform holder;
     public CinemachineSmoothPath[] paths;
@@ -16,11 +17,12 @@ public class MeepleSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        for (int i = 0; i < meeplePool.Length; i++)
+        meeplePool = new Meeple[meepleCount];
+        for (int i = 0; i < meepleCount; i++)
         {
             meeplePool[i] = Instantiate(meeplePrefabs[Random.Range(0, meeplePrefabs.Length)], holder).GetComponent<Meeple>();
             meeplePool[i].pathIndex = i < meeplesActive ? Random.Range(0, paths.Length) : -1;
-            meeplePool[i].pos = 0;
+            meeplePool[i].pos = Random.Range(0.0f, 0.8f);
             meeplePool[i].speed = speeds.RandomVal();
         }
     }
@@ -28,10 +30,13 @@ public class MeepleSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        meeplesActive = ClimateManager.Instance.currentMeeplePercent * meeplePool.Length;
+        //meeple count can't be changed at run time
+        meepleCount = meeplePool.Length;
+
+        meeplesActive = ClimateManager.Instance.currentMeeplePercent * meepleCount;
 
         bool active = false;
-        for (int i = 0; i < meeplePool.Length; i++)
+        for (int i = 0; i < meepleCount; i++)
         {
             active = i < meeplesActive;
 
@@ -44,7 +49,7 @@ public class MeepleSpawner : MonoBehaviour
                 meeplePool[i].pos = 0;
                 meeplePool[i].pathIndex = Random.Range(0, paths.Length);
                 meeplePool[i].speed = speeds.RandomVal();
-                Debug.Log("Reached End " + paths[meeplePool[i].pathIndex].PathLength + " " + meeplePool[i].pos);
+                //Debug.Log("Reached End " + paths[meeplePool[i].pathIndex].PathLength + " " + meeplePool[i].pos);
             }
 
             meeplePool[i].pos += meeplePool[i].speed * Time.deltaTime;

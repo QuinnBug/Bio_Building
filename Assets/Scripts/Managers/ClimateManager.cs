@@ -51,6 +51,10 @@ public class ClimateManager : Singleton<ClimateManager>
     public float[] bankUpgradePoints;
     public float currentBankPercent;
     [Space]
+    public List<ObjectList> factoryBuildings;
+    public float[] factoryUpgradePoints;
+    public float currentFactoryPercent;
+    [Space]
     public MeepleSpawner meeples;
     public float currentMeeplePercent;
 
@@ -222,6 +226,18 @@ public class ClimateManager : Singleton<ClimateManager>
         }
 
         #endregion
+
+        #region Factory
+
+        for (int i = 0; i < factoryUpgradePoints.Length; i++)
+        {
+            foreach (GameObject item in factoryBuildings[i].objects)
+            {
+                item.SetActive(currentFactoryPercent >= factoryUpgradePoints[i]);
+            }
+        }
+
+        #endregion
     }
 
     public void UpdatePercents() 
@@ -234,8 +250,11 @@ public class ClimateManager : Singleton<ClimateManager>
         //Financial
         currentBankPercent = Mathf.Clamp(impactLevels[1], 0, 100);
 
-        //Human
-        currentMeeplePercent = Mathf.Clamp(impactLevels[2], 0, 100)/100;
+        //Manufacturing
+        currentFactoryPercent = Mathf.Clamp(impactLevels[2], 0, 100);
+
+        //Human & Social
+        currentMeeplePercent = ((Mathf.Clamp(impactLevels[3], 0, 100)/100) + (Mathf.Clamp(impactLevels[4], 0, 100) / 100)) * 0.5f;
     }
 
     public void ResetLevels() 

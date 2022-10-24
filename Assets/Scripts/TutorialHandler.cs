@@ -11,7 +11,7 @@ public enum TutorialStage
     BUILD_STATE,
     PLACE_WALLS,
     MESH_CHANGE,
-    QUICK_DELETE,
+    ROTATE,
     SELECT_STATE,
     DELETE_GROUP,
     END,
@@ -96,6 +96,7 @@ public class TutorialHandler : MonoBehaviour
     {
         stepsToAdvance = 0;
         ChangeStage(TutorialStage.COMPLETE_FLAG);
+        if (SaveManager.Instance.dataLoaded) SaveManager.Instance.currentUserData.tutorialCompleted = true;
     }
 
     public void UpdateVariables() 
@@ -125,9 +126,10 @@ public class TutorialHandler : MonoBehaviour
                 EventManager.Instance.modelChanged.AddListener(ChangeStage);
                 break;
 
-            case TutorialStage.QUICK_DELETE:
+            case TutorialStage.ROTATE:
                 EventManager.Instance.modelChanged.RemoveListener(ChangeStage);
                 EventManager.Instance.objectDestroyed.AddListener(ChangeStage);
+                stepsToAdvance = 3;
                 break;
 
             case TutorialStage.SELECT_STATE:

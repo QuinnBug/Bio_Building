@@ -5,6 +5,8 @@ using UnityEngine;
 
 public class ImpactEvaluation : MonoBehaviour
 {
+    public float impactMultiplier = 10;
+    [Space]
     public float camSwitchDelay = 2;
     public float animStartDelay = 2;
     public EnvSummoning environment;
@@ -42,7 +44,6 @@ public class ImpactEvaluation : MonoBehaviour
             //Debug.Log(data.gameObject.name);
             if (data.parameters.TryGetValue("id", out string idString))
             {
-
                 for (int i = 0; i < 5; i++)
                 {
                     int value = 5;
@@ -50,7 +51,7 @@ public class ImpactEvaluation : MonoBehaviour
                     #region Metadata calculation
                     if (!int.TryParse(idString[i].ToString(), out value)) Debug.Log("Failed to read id # ");
 
-                    levels[i] += (value - 5) * 25;
+                    levels[i] += (value - 5) * impactMultiplier;
                     #endregion
                 }
             }
@@ -62,9 +63,11 @@ public class ImpactEvaluation : MonoBehaviour
 
         for (int i = 0; i < levels.Length; i++)
         {
+            float prelevel = levels[i];
             levels[i] /= allData.Length;
             levels[i] = Mathf.Clamp(levels[i], -50, 50);
             levels[i] += 50;
+            Debug.Log(i + " -> " + prelevel + " to " + levels[i]);
         }
 
         CamManager.Instance.StartEvaluationCam();
