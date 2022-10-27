@@ -37,8 +37,9 @@ public class ImpactEvaluation : MonoBehaviour
         //Debug.Log("Started Evaluation");
 
         ClimateManager.Instance.ResetLevels();
-        levels = new float[] { 0, 0, 0, 0, 0 };
+        levels = MetadataEfficencyAnalyser.Instance.GetItemGroupLevels(allData);
 
+        /*
         foreach (Metadata_Plus data in allData)
         {
             //Debug.Log(data.gameObject.name);
@@ -60,13 +61,14 @@ public class ImpactEvaluation : MonoBehaviour
                 Debug.Log("No id key");
             }
         }
+        */
 
         for (int i = 0; i < levels.Length; i++)
         {
             float prelevel = levels[i];
             levels[i] /= allData.Length;
-            levels[i] = Mathf.Clamp(levels[i], -50, 50);
-            levels[i] += 50;
+            //levels[i] = Mathf.Clamp(levels[i], -50, 50);
+            //levels[i] += 50;
             Debug.Log(i + " -> " + prelevel + " to " + levels[i]);
         }
 

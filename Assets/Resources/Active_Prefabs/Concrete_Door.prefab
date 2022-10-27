@@ -49,9 +49,17 @@ MonoBehaviour:
   createParameterFromInspector: 0
   parameters:
     m_Keys:
-    - id
+    - Carbon
+    - Cost
+    - Resources
+    - Healthy
+    - Social
     m_Values:
-    - 19522
+    - 75
+    - 175
+    - 5000
+    - 0
+    - 25
 --- !u!1 &4143435063675461234
 GameObject:
   m_ObjectHideFlags: 0

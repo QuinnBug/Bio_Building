@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3497514563650378435}
-  - component: {fileID: 128548146318118579}
+  - component: {fileID: 3744347932664288162}
   m_Layer: 0
   m_Name: Log_Wall
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &128548146318118579
+--- !u!114 &3744347932664288162
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -49,9 +49,17 @@ MonoBehaviour:
   createParameterFromInspector: 0
   parameters:
     m_Keys:
-    - id
+    - Carbon
+    - Cost
+    - Resources
+    - Healthy
+    - Social
     m_Values:
-    - 91355
+    - 25
+    - 400
+    - 2500
+    - 1
+    - 50
 --- !u!1 &7507677331576786382
 GameObject:
   m_ObjectHideFlags: 0
