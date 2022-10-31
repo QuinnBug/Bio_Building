@@ -28,6 +28,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
     internal bool setupComplete = false;
 
+    public bool skipThumbnails = false;
     public void Start()
     {
         if (setupComplete) return;
@@ -36,6 +37,11 @@ public class ResourceManager : Singleton<ResourceManager>
         //meshes = Resources.LoadAll<Mesh>("Q_Meshes/");
         prefabs = Resources.LoadAll<GameObject>("Active_Prefabs/");
 
+        if (skipThumbnails)
+        {
+            setupComplete = true;
+            return;
+        }
         CreateThumbnails();
         thumbCam.enabled = false;
         setupComplete = true;

@@ -5,13 +5,13 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Login Scene.unity
     guid: 4d9f509b8c694594ea814581f3bc0638
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Quinn_Test_Scene.unity
     guid: 5ccbbeefaebbff745a12cfea27d07de8
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Mobile Login Scene.unity
     guid: 6c2a23e53fb7a8848a8041998b68a9ff
   m_configObjects:

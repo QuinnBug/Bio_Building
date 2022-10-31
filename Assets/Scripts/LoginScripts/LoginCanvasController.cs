@@ -21,6 +21,7 @@ public class LoginCanvasController : MonoBehaviour
 
     public MobileViewerController viewerController;
 
+    bool buildingViewer = false;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -48,6 +49,7 @@ public class LoginCanvasController : MonoBehaviour
 
     public void UpdateActiveScreen(int _stateNumber)
     {
+        buildingViewer = (_stateNumber == 5);
         UpdateActiveScreen((MenuState)_stateNumber);
 
     }
@@ -69,6 +71,7 @@ public class LoginCanvasController : MonoBehaviour
 
     public void SpawnObject()
     {
-        viewerController.LoadSpecificObject(0);
+        
+        viewerController.InitLoad(buildingViewer);
     }
 }
