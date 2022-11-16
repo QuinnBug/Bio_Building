@@ -80,7 +80,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
         bool needReload = false;
         
-        thumbnails = LoadThumbnails(); //"Q_Thumbnails"
+        thumbnails = LoadThumbnails();
 
         List<string> thumbNames = new List<string>();
         foreach (Sprite thumbnail in thumbnails) {thumbNames.Add(thumbnail.name); }
@@ -102,7 +102,7 @@ public class ResourceManager : Singleton<ResourceManager>
     {
         List<Sprite> sprites = new List<Sprite>();
 
-        foreach (Texture2D thumbnail in Resources.LoadAll<Texture2D>("Q_Thumbnails"))
+        foreach (Texture2D thumbnail in Resources.LoadAll<Texture2D>("Thumbnails"))
         {
             //Debug.Log(thumbnail.name);
             //sprites.Add(LoadNewSprite(thumbnail.name));
@@ -175,7 +175,7 @@ public class ResourceManager : Singleton<ResourceManager>
         #if UNITY_EDITOR
 
         GameObject obj = Instantiate(prefab, exampleObject.transform);
-        foreach (Transform item in obj.GetComponentInChildren<Transform>())
+        foreach (Transform item in obj.GetComponentsInChildren<Transform>())
         {
             item.gameObject.layer = LayerMask.NameToLayer("Thumbnail");
         }
@@ -206,7 +206,7 @@ public class ResourceManager : Singleton<ResourceManager>
         f.Close();
         Debug.Log(string.Format("Wrote screenshot {0} of size {1}", filename, fileData.Length));
 
-        foreach (Transform item in obj.GetComponentInChildren<Transform>())
+        foreach (Transform item in obj.GetComponentsInChildren<Transform>())
         {
             item.gameObject.layer = 0;
         }
@@ -217,7 +217,7 @@ public class ResourceManager : Singleton<ResourceManager>
 
     public Sprite LoadNewSprite(string fileName, float PixelsPerUnit = 100.0f)
     {
-        Texture2D SpriteTexture = LoadTexture(Application.dataPath + "/Resources/Q_Thumbnails/" + fileName + ".png");
+        Texture2D SpriteTexture = LoadTexture(Application.dataPath + "/Resources/Thumbnails/" + fileName + ".png");
         Sprite NewSprite = Sprite.Create(SpriteTexture, new Rect(0, 0, SpriteTexture.width, SpriteTexture.height), new Vector2(0, 0), PixelsPerUnit);
         NewSprite.name = fileName;
 
