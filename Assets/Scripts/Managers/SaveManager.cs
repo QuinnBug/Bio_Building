@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FirebaseWebGL.Scripts.FirebaseBridge;
+using UnityEngine.Events;
+using System.Threading.Tasks;
+using Firebase.Database;
 
 public class SaveManager : Singleton<SaveManager>
 {
@@ -12,10 +15,16 @@ public class SaveManager : Singleton<SaveManager>
     private bool firebaseSaveExists = false;
 
     public bool dataLoaded;
+    UnityEvent m_JSONReadSuccessEvent;
+    private Firebase.Database.FirebaseDatabase database;
 
     public void Start()
     {
-        if (dataLoaded) return;
+        if (m_JSONReadSuccessEvent == null)
+            m_JSONReadSuccessEvent = new UnityEvent();
+
+        m_JSONReadSuccessEvent.AddListener(OnMobileJSONReadSuccess);
+        if (dataLoaded || Application.platform == RuntimePlatform.Android) return;
 
         if (!Application.isEditor)
             LoadJSONFromFirebase();
@@ -63,12 +72,12 @@ public class SaveManager : Singleton<SaveManager>
         {
             if (!firebaseSaveExists)
             {
-                FirebaseDatabase.PostJSON(FirebaseController.Instance.userData.uid + "/BuildingSaves", saveStr,
+                FirebaseWebGL.Scripts.FirebaseBridge.FirebaseDatabase.PostJSON(FirebaseController.Instance.userData.uid + "/BuildingSaves", saveStr,
                     gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
             }
             else
             {
-                FirebaseDatabase.UpdateJSON(FirebaseController.Instance.userData.uid + "/BuildingSaves", saveStr,
+                FirebaseWebGL.Scripts.FirebaseBridge.FirebaseDatabase.UpdateJSON(FirebaseController.Instance.userData.uid + "/BuildingSaves", saveStr,
                     gameObject.name, callback: "OnWriteToJSONSuccess", fallback: "OnWriteToJSONFailed");
             }
         }
@@ -124,9 +133,77 @@ public class SaveManager : Singleton<SaveManager>
 
     public void LoadJSONFromFirebase()
     {
-        FirebaseDatabase.GetJSON(FirebaseController.Instance.userData.uid + "/BuildingSaves", 
-            gameObject.name, callback: "OnGetJSONSuccess", fallback: "OnGetJSONFailed");
+        Debug.Log("7");
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            Debug.Log("8");
+            //database = Firebase.Database.FirebaseDatabase.DefaultInstance;
+            Debug.Log("8.01");
+            GetJSONOnMobile();
+            Debug.Log("9");
+        }
+
+        else
+        {
+            FirebaseWebGL.Scripts.FirebaseBridge.FirebaseDatabase.GetJSON(FirebaseController.Instance.userData.uid + "/BuildingSaves", 
+                gameObject.name, callback: "OnGetJSONSuccess", fallback: "OnGetJSONFailed");
+        }
     }
+    private void GetJSONOnMobile()
+    {
+        Debug.Log("Uid is " + FirebaseController.Instance.userData.uid);
+        Firebase.Database.FirebaseDatabase.GetInstance("https://bio-construction-default-rtdb.europe-west1.firebasedatabase.app/").GetReference(Firebase.Auth.FirebaseAuth.DefaultInstance.CurrentUser.UserId + "/BuildingSaves").GetValueAsync().ContinueWith(task =>
+        {
+            Debug.Log("8.2");
+            DataSnapshot snapshot = task.Result;
+            Debug.Log("8.3");
+            string _data = snapshot.GetRawJsonValue();
+            Debug.Log("8.4");
+            firebaseSaveExists = true;
+            currentUserData = JsonUtility.FromJson<SaveFileData>(_data);
+            Debug.Log("8.5");
+            allRoomData = currentUserData.rooms;
+            FirebaseController.Instance.UpdateText(_data);
+            Debug.Log("8.6");
+            dataLoaded = true;
+            Debug.Log("8.7");
+            Debug.Log(_data);
+
+            //OnGetJSONSuccess(snapshot.GetRawJsonValue());
+        });
+    }
+    //private IEnumerator GetJSONOnMobile()
+    //{
+    //    var loadDataTask = LoadData();
+    //    yield return new WaitUntil(predicate: () => loadDataTask.IsCompleted);
+    //    if(loadDataTask.Result)
+    //    {        
+    //        //firebaseSaveExists = true;
+    //        //currentUserData = JsonUtility.FromJson<SaveFileData>(dataSnapshot.GetRawJsonValue());
+
+    //        //allRoomData = currentUserData.rooms;
+    //        //FirebaseController.Instance.UpdateText(dataSnapshot.GetRawJsonValue());
+
+    //        //dataLoaded = true;
+    //        OnGetJSONSuccess(loadDataTask.Result);
+    //    }
+    //    else
+    //    {
+    //        OnGetJSONFailed("No data found");
+    //    }
+    //}
+
+    //public async Task<SaveFileData> LoadData()
+    //{
+    //    var dataSnapshot = await database.GetReference(
+    //        FirebaseController.Instance.userData.uid).GetValueAsync();
+    //    if (!dataSnapshot.Exists)
+    //    {
+    //        return null;
+    //    }
+
+    //    return JsonUtility.FromJson < SaveFileData > (dataSnapshot.GetRawJsonValue());
+    //}
 
     private void OnGetJSONSuccess(string _data)
     {
@@ -137,7 +214,22 @@ public class SaveManager : Singleton<SaveManager>
         FirebaseController.Instance.UpdateText(_data);
 
         dataLoaded = true;
+
+        Debug.Log(_data);
     }
+    private void OnGetJSONSuccess(SaveFileData _data)
+    {
+        firebaseSaveExists = true;
+        currentUserData = _data;
+
+        allRoomData = currentUserData.rooms;
+        FirebaseController.Instance.UpdateText(_data.ToString());
+
+        dataLoaded = true;
+
+        Debug.Log(_data);
+    }
+
 
     private void OnGetJSONFailed(string _error)
     {
@@ -145,6 +237,12 @@ public class SaveManager : Singleton<SaveManager>
         FirebaseController.Instance.UpdateText(_error, Color.red);
         //No Data found
     }
+
+    private void OnMobileJSONReadSuccess()
+    {
+
+    }
+
 }
 
 [Serializable]

@@ -5,6 +5,8 @@ using UnityEngine.Events;
 using FirebaseWebGL.Scripts.FirebaseBridge;
 using TMPro;
 using UnityEngine.SceneManagement;
+using Firebase;
+using Firebase.Extensions;
 
 public class LoginController : MonoBehaviour
 {
@@ -51,7 +53,6 @@ public class LoginController : MonoBehaviour
                 break;
             case RuntimePlatform.IPhonePlayer:
             case RuntimePlatform.Android:
-                Debug.Log("1");
                 StartCoroutine(routine: LoginCoroutine(_emailAddress, _password));
                 //Firebase.Auth.FirebaseAuth.DefaultInstance.SignInWithEmailAndPasswordAsync(_emailAddress, _password).ContinueWith(task =>
                 //{
@@ -154,6 +155,7 @@ public class LoginController : MonoBehaviour
         {
             Debug.Log(message: $"Login Succeeded with {loginTask.Result}");
             m_SignUpSuccessEvent.Invoke();
+
         }
 #else
         yield return null;
@@ -177,9 +179,13 @@ public class LoginController : MonoBehaviour
     {        
 
         if(Application.platform == RuntimePlatform.WebGLPlayer)
+        {
             FirebaseController.Instance.SignInOrSignOutUser();
-        Debug.Log("5");
+        }
+        Debug.Log("5");        
+        SaveManager.Instance.LoadJSONFromFirebase();
         loginCanvasController.SetAnimatorValues(3);
+
         Debug.Log("6");
     }
 

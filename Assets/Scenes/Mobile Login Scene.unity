@@ -2745,6 +2745,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 207087465}
   m_CullTransparentMesh: 1
+--- !u!1 &212812734
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 212812735}
+  m_Layer: 0
+  m_Name: LoadedBuildinsHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &212812735
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 212812734}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -100}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &227672979
 GameObject:
   m_ObjectHideFlags: 0
@@ -11875,6 +11905,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 924692068}
   m_CullTransparentMesh: 1
+--- !u!1 &933808602
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 933808603}
+  m_Layer: 0
+  m_Name: Environment
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &933808603
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 933808602}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &935429891
 GameObject:
   m_ObjectHideFlags: 0
@@ -16183,9 +16243,6 @@ MonoBehaviour:
   passwordField: {fileID: 559166527}
   confirmPasswordField: {fileID: 1171832679}
   textMeshProUGUIs: []
-  details:
-    UserDataID: 
-    details: []
 --- !u!1 &1255409881
 GameObject:
   m_ObjectHideFlags: 0
@@ -22650,6 +22707,8 @@ GameObject:
   - component: {fileID: 1595179107}
   - component: {fileID: 1595179108}
   - component: {fileID: 1595179109}
+  - component: {fileID: 1595179110}
+  - component: {fileID: 1595179111}
   m_Layer: 5
   m_Name: LoginCanvas
   m_TagString: Untagged
@@ -22794,6 +22853,45 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1595179110
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595179102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09ffd02c8d435ab408cf0d84b645245a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  filePath: /SavedRooms
+  currentUserData:
+    tutorialCompleted: 0
+    rooms: []
+  allRoomData: []
+  dataLoaded: 0
+--- !u!114 &1595179111
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1595179102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c6a8e709ee161224ab0a19fd383550e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  environment: {fileID: 933808602}
+  thumbnailFilepath: 
+  thumbnailFileExtension: 
+  thumbCam: {fileID: 0}
+  thumbnailSize: {x: 0, y: 0}
+  prefabs: []
+  thumbnails: []
+  exampleObject: {fileID: 0}
+  skipThumbnails: 1
 --- !u!1 &1602972698
 GameObject:
   m_ObjectHideFlags: 0
@@ -29012,7 +29110,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: BioConstruction
+  m_text: SmartBioC
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: fe192dcfff3acf645aba1f4f0ca7bdf8, type: 2}
   m_sharedMaterial: {fileID: -7619115709311684643, guid: fe192dcfff3acf645aba1f4f0ca7bdf8, type: 2}
@@ -29039,7 +29137,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50.55
+  m_fontSize: 76.75
   m_fontSizeBase: 160.35
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -29806,6 +29904,8 @@ MonoBehaviour:
   ARObjectController: {fileID: 1419707506}
   objectDetails: {fileID: 1895961895}
   ARTitle: {fileID: 1139681289}
+  saveManager: {fileID: 1595179110}
+  buildingHolder: {fileID: 212812735}
 --- !u!4 &2011215182
 Transform:
   m_ObjectHideFlags: 0

@@ -69,6 +69,7 @@ public class FirebaseController : MonoBehaviour
             {
                 Debug.LogError("Cannot Connect");
             }
+            Firebase.Database.FirebaseDatabase.GetInstance("https://bio-construction-default-rtdb.europe-west1.firebasedatabase.app/");
         });
 #endif
     }
