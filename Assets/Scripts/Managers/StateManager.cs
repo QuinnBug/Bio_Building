@@ -24,8 +24,8 @@ public class StateManager : Singleton<StateManager>
     private void Start()
     {
         EventManager.Instance.stateChanged.AddListener(UpdateUI);
-        ChangeState(State.SELECT);
         stateLocked = State.NULL;
+        ChangeState(State.SELECT);
     }
 
     public void Update()

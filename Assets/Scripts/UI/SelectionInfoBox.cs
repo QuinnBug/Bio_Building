@@ -29,20 +29,23 @@ public class SelectionInfoBox : Singleton<SelectionInfoBox>
 
         title.text = focusedName = newObject.name;
         metadata = newObject.GetComponentInChildren<Metadata_Plus>();
-        //metadata.tryGetValue("description", out description.text);
+        if(metadata.parameters.TryGetValue("description", out string desc)) description.text = desc;
 
         thumbnail.sprite = ResourceManager.Instance.GetThumbnail(focusedName);
+
+        float[] levels = MetadataEfficencyAnalyser.Instance.GetItemLevels(metadata);
 
         int i = 0;
         foreach (Image icon in indicatorIcons)
         {
             //Need to set the value from the metadata evaluator
 
-            float value = 5;
-            metadata.parameters.TryGetValue("id", out string strValue);
-            if (int.TryParse(strValue[i].ToString(), out int x)) value = x;
+            float value = levels[i];
+            //metadata.parameters.TryGetValue("id", out string strValue);
+            //if (int.TryParse(strValue[i].ToString(), out int x)) value = x;
             value = gradientTimeRange.NormaliseToRange(value);
             icon.color = colourGradient.Evaluate(value);
+            Debug.Log(levels[i] + " to " + value);
             i++;
         }
     }

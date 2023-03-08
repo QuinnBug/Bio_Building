@@ -105,7 +105,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3281307336398389592}
-  - component: {fileID: 176719057799306070}
+  - component: {fileID: 1347179121306013744}
   m_Layer: 0
   m_Name: Concrete_Window
   m_TagString: Untagged
@@ -128,7 +128,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &176719057799306070
+--- !u!114 &1347179121306013744
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -145,6 +145,14 @@ MonoBehaviour:
   createParameterFromInspector: 0
   parameters:
     m_Keys:
-    - id
+    - Carbon
+    - Cost
+    - Resources
+    - Healthy
+    - Social
     m_Values:
-    - 19522
+    - 75
+    - 175
+    - 5000
+    - 0
+    - 25
