@@ -138,12 +138,18 @@ public class ObjectController : MonoBehaviour
 
     public void ChangeObject(GameObject _nextObject, bool _buildingMode)
     {
-        zoomOutMin = _buildingMode ? 0.5f : 1.5f;
-        zoomOutMax = _buildingMode ? 2f : 4f;
+
         if(!AR)
-        {
+        {        
+            zoomOutMin = _buildingMode ? 0.5f : 1.5f;
+            zoomOutMax = _buildingMode ? 2f : 4f;
             RectTransformUtility.ScreenPointToWorldPointInRectangle(frameRect, frameRect.anchoredPosition, Camera.main, out Vector3 fp);
             transform.position = frameRect.transform.position; 
+        }
+        else
+        {
+            zoomOutMin = _buildingMode ? 0.2f : 1f;
+            zoomOutMax = _buildingMode ? 2f : 4f;
         }
 
         transition = true;
