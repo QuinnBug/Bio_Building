@@ -108,7 +108,7 @@ public class ResourceManager : Singleton<ResourceManager>
     {
         List<Sprite> sprites = new List<Sprite>();
 
-        foreach (Texture2D thumbnail in Resources.LoadAll<Texture2D>("Thumbnails"))
+        foreach (Texture2D thumbnail in Resources.LoadAll<Texture2D>("Q_Thumbnails"))
         {
             //Debug.Log(thumbnail.name);
             //sprites.Add(LoadNewSprite(thumbnail.name));
