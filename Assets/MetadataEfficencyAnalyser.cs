@@ -86,6 +86,11 @@ public class MetadataEfficencyAnalyser : Singleton<MetadataEfficencyAnalyser>
             i++;
         }
 
+        for (int j  = 0; j < levels.Length; j++)
+        {
+            levels[j] *= 10;
+        }
+
         return levels;
     }
 

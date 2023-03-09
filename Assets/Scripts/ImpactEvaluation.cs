@@ -66,10 +66,13 @@ public class ImpactEvaluation : MonoBehaviour
         for (int i = 0; i < levels.Length; i++)
         {
             float prelevel = levels[i];
-            levels[i] /= allData.Length;
+            //levels[i] /= allData.Length;
+            levels[i] *= 10;
             //levels[i] = Mathf.Clamp(levels[i], -50, 50);
             //levels[i] += 50;
+            //levels[i] = 250;
             Debug.Log(i + " -> " + prelevel + " to " + levels[i]);
+
         }
 
         CamManager.Instance.StartEvaluationCam();
